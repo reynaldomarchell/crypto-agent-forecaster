@@ -794,15 +794,19 @@ class ThesisAnalyzer:
             # 2. Win Rate by Method
             win_rates = []
             method_names = []
+            method_colors = []
+            color_map = {'full_agentic': '#2E86C1', 'image_only': '#E74C3C', 'sentiment_only': '#F39C12'}
+            
             for method in methods:
                 if trading_data[method]:
                     wins = len([t for t in trading_data[method] if t['pnl_pct'] > 0])
                     total = len(trading_data[method])
                     win_rates.append(wins / total if total > 0 else 0)
                     method_names.append(method.replace('_', ' ').title())
+                    method_colors.append(color_map[method])
             
             if win_rates:
-                bars = axes[0, 1].bar(method_names, win_rates, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
+                bars = axes[0, 1].bar(method_names, win_rates, alpha=0.8, color=method_colors)
                 axes[0, 1].set_title('Win Rate by Method', fontweight='bold')
                 axes[0, 1].set_ylabel('Win Rate')
                 axes[0, 1].set_ylim(0, 1)
@@ -813,22 +817,23 @@ class ThesisAnalyzer:
             
             # 3. Average Return by Method
             avg_returns = []
+            avg_return_colors = []
             for method in methods:
                 if trading_data[method]:
                     avg_return = sum(t['pnl_pct'] for t in trading_data[method]) / len(trading_data[method])
                     avg_returns.append(avg_return)
-                else:
-                    avg_returns.append(0)
+                    avg_return_colors.append(color_map[method])
             
-            bars = axes[0, 2].bar(method_names, avg_returns, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
-            axes[0, 2].set_title('Average Return per Trade', fontweight='bold')
-            axes[0, 2].set_ylabel('Average Return (%)')
-            axes[0, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
-            
-            for bar, ret in zip(bars, avg_returns):
-                axes[0, 2].text(bar.get_x() + bar.get_width()/2, 
-                               bar.get_height() + (0.1 if ret >= 0 else -0.3),
-                               f'{ret:.2f}%', ha='center', va='bottom' if ret >= 0 else 'top', fontweight='bold')
+            if avg_returns and method_names:
+                bars = axes[0, 2].bar(method_names, avg_returns, alpha=0.8, color=avg_return_colors)
+                axes[0, 2].set_title('Average Return per Trade', fontweight='bold')
+                axes[0, 2].set_ylabel('Average Return (%)')
+                axes[0, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
+                
+                for bar, ret in zip(bars, avg_returns):
+                    axes[0, 2].text(bar.get_x() + bar.get_width()/2, 
+                                   bar.get_height() + (0.1 if ret >= 0 else -0.3),
+                                   f'{ret:.2f}%', ha='center', va='bottom' if ret >= 0 else 'top', fontweight='bold')
             
             # 4. Confidence vs Performance
             for method in methods:
@@ -887,6 +892,7 @@ class ThesisAnalyzer:
             
             # 6. Risk-Adjusted Returns (Sharpe-like ratio)
             risk_adjusted = []
+            risk_colors = []
             for method in methods:
                 if trading_data[method] and len(trading_data[method]) > 1:
                     pnl_values = [t['pnl_pct'] for t in trading_data[method]]
@@ -894,18 +900,18 @@ class ThesisAnalyzer:
                     volatility = (sum((x - avg_return) ** 2 for x in pnl_values) / len(pnl_values)) ** 0.5
                     sharpe = avg_return / volatility if volatility > 0 else 0
                     risk_adjusted.append(sharpe)
-                else:
-                    risk_adjusted.append(0)
+                    risk_colors.append(color_map[method])
             
-            bars = axes[1, 2].bar(method_names, risk_adjusted, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
-            axes[1, 2].set_title('Risk-Adjusted Returns (Sharpe-like)', fontweight='bold')
-            axes[1, 2].set_ylabel('Risk-Adjusted Return')
-            axes[1, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
-            
-            for bar, ratio in zip(bars, risk_adjusted):
-                axes[1, 2].text(bar.get_x() + bar.get_width()/2, 
-                               bar.get_height() + (0.01 if ratio >= 0 else -0.02),
-                               f'{ratio:.3f}', ha='center', va='bottom' if ratio >= 0 else 'top', fontweight='bold')
+            if risk_adjusted and method_names:
+                bars = axes[1, 2].bar(method_names, risk_adjusted, alpha=0.8, color=risk_colors)
+                axes[1, 2].set_title('Risk-Adjusted Returns (Sharpe-like)', fontweight='bold')
+                axes[1, 2].set_ylabel('Risk-Adjusted Return')
+                axes[1, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
+                
+                for bar, ratio in zip(bars, risk_adjusted):
+                    axes[1, 2].text(bar.get_x() + bar.get_width()/2, 
+                                   bar.get_height() + (0.01 if ratio >= 0 else -0.02),
+                                   f'{ratio:.3f}', ha='center', va='bottom' if ratio >= 0 else 'top', fontweight='bold')
             
             plt.tight_layout()
             
@@ -1066,8 +1072,9 @@ class ThesisAnalyzer:
                     risk_return_data.append((volatility, avg_return, method))
             
             if risk_return_data:
+                color_map = {'full_agentic': '#2E86C1', 'image_only': '#E74C3C', 'sentiment_only': '#F39C12'}
                 for i, (risk, ret, method) in enumerate(risk_return_data):
-                    axes[1, 1].scatter(risk, ret, s=100, color=colors[i], 
+                    axes[1, 1].scatter(risk, ret, s=100, color=color_map[method], 
                                      label=method.replace('_', ' ').title())
                     axes[1, 1].annotate(method.replace('_', ' ').title(), 
                                       (risk, ret), xytext=(5, 5), textcoords='offset points')

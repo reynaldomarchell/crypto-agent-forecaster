@@ -306,5 +306,71 @@
       "data_source": "coingecko_historical_api"
     },
     "timestamp": 1752274164.822228
+  },
+  "bitcoin_2025-03-01": {
+    "data": {
+      "date": "2025-03-01",
+      "cryptocurrency": "bitcoin",
+      "current_price": 84441.9012237131,
+      "next_day_price": 86005.25629681018,
+      "actual_movement_24h": 1.8513972926252227,
+      "market_cap": 1674754437110.342,
+      "volume_24h": 80695237175.07367,
+      "ohlcv": {
+        "timestamp": "2025-03-01T00:00:00",
+        "open": 84441.9012237131,
+        "high": 84441.9012237131,
+        "low": 84441.9012237131,
+        "close": 84441.9012237131,
+        "volume": 80695237175.07367
+      },
+      "historical_mode": true,
+      "data_source": "coingecko_historical_api"
+    },
+    "timestamp": 1752274656.451421
+  },
+  "bitcoin_2025-03-02": {
+    "data": {
+      "date": "2025-03-02",
+      "cryptocurrency": "bitcoin",
+      "current_price": 86005.25629681018,
+      "next_day_price": 94261.53286538439,
+      "actual_movement_24h": 9.599734858159383,
+      "market_cap": 1705564098300.8237,
+      "volume_24h": 30634474722.6359,
+      "ohlcv": {
+        "timestamp": "2025-03-02T00:00:00",
+        "open": 86005.25629681018,
+        "high": 86005.25629681018,
+        "low": 86005.25629681018,
+        "close": 86005.25629681018,
+        "volume": 30634474722.6359
+      },
+      "historical_mode": true,
+      "data_source": "coingecko_historical_api"
+    },
+    "timestamp": 1752274709.4695868
+  },
+  "bitcoin_2025-03-03": {
+    "data": {
+      "date": "2025-03-03",
+      "cryptocurrency": "bitcoin",
+      "current_price": 94261.53286538439,
+      "next_day_price": 86124.71418722175,
+      "actual_movement_24h": -8.632173094175007,
+      "market_cap": 1868321705444.4878,
+      "volume_24h": 61859112550.80991,
+      "ohlcv": {
+        "timestamp": "2025-03-03T00:00:00",
+        "open": 94261.53286538439,
+        "high": 94261.53286538439,
+        "low": 94261.53286538439,
+        "close": 94261.53286538439,
+        "volume": 61859112550.80991
+      },
+      "historical_mode": true,
+      "data_source": "coingecko_historical_api"
+    },
+    "timestamp": 1752274758.5291362
   }
 }

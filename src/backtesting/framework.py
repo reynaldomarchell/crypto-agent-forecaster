@@ -244,7 +244,7 @@ class BacktestingFramework:
 
     
     def _get_historical_sentiment_data(self, date: str) -> Optional[Dict[str, Any]]:
-        """Get historical sentiment data from Warosu archive."""
+        """Get historical sentiment data from Warosu archive using proper tool calling."""
         try:
             # Get sentiment data from the date and previous day
             current_date = datetime.strptime(date, '%Y-%m-%d')
@@ -256,7 +256,14 @@ class BacktestingFramework:
             # Search for relevant keywords
             keywords = ['btc', 'bitcoin'] if self.crypto_symbol == 'bitcoin' else [self.crypto_symbol]
             
-            result = warosu_archive_tool.func(keywords, date_from, date_to, max_posts=30)
+            # Use proper tool calling with historical_date parameter for backtesting
+            result = warosu_archive_tool.func(
+                keywords=keywords, 
+                date_from=date_from, 
+                date_to=date_to, 
+                max_posts=30, 
+                historical_date=date
+            )
             
             if isinstance(result, str):
                 data = json.loads(result)
@@ -264,14 +271,17 @@ class BacktestingFramework:
                 data = result
             
             if "error" in data:
+                logger.warning(f"Warosu archive error for {date}: {data['error']}")
                 return {"date": date, "posts": [], "sentiment_available": False, "error": data["error"]}
             
+            logger.info(f"Successfully retrieved {data.get('total_posts', 0)} historical posts for {date}")
             return {
                 "date": date,
                 "posts": data.get("posts", []),
                 "total_posts": data.get("total_posts", 0),
                 "sentiment_available": True,
-                "keywords": keywords
+                "keywords": keywords,
+                "search_metadata": data.get("metadata", {})
             }
         
         except Exception as e:
