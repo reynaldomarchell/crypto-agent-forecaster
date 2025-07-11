@@ -142,7 +142,7 @@ class CryptoForecastingCrew:
                 forecast_horizon=forecast_horizon
             ),
             agent=self.forecasting_agent,
-            expected_output="Final forecast with direction (UP/DOWN/NEUTRAL), confidence score, and detailed explanation",
+            expected_output="Final forecast with direction (UP or DOWN), confidence score, and detailed explanation",
             context=[sentiment_task, technical_task]  # Depends on both analyses
         )
         tasks.append(forecasting_task)
@@ -695,11 +695,11 @@ Run the forecast again to get fresh data and consistent analysis.
         
         # First try to find explicit direction declarations with highest priority
         direction_patterns = [
-            r'\*\*Direction\*\*:\s*(UP|DOWN|NEUTRAL)',
-            r'\*\*Direction:\*\*\s*(UP|DOWN|NEUTRAL)',
-            r'Direction:\s*(UP|DOWN|NEUTRAL)',
-            r'\*\s*\*\*Direction\*\*\s*(UP|DOWN|NEUTRAL)',
-            r'Direction\s*[:\-]\s*(UP|DOWN|NEUTRAL)',
+            r'\*\*Direction\*\*:\s*(UP|DOWN)',
+            r'\*\*Direction:\*\*\s*(UP|DOWN)',
+            r'Direction:\s*(UP|DOWN)',
+            r'\*\s*\*\*Direction\*\*\s*(UP|DOWN)',
+            r'Direction\s*[:\-]\s*(UP|DOWN)',
         ]
         
         for pattern in direction_patterns:
@@ -711,9 +711,9 @@ Run the forecast again to get fresh data and consistent analysis.
         
         # Secondary patterns for less explicit mentions
         fallback_patterns = [
-            r'forecast["\s:]*["\']?(UP|DOWN|NEUTRAL)',
-            r'direction["\s:]*["\']?(UP|DOWN|NEUTRAL)',
-            r'overall\s+(?:direction|forecast)["\s:]*["\']?(UP|DOWN|NEUTRAL)',
+            r'forecast["\s:]*["\']?(UP|DOWN)',
+            r'direction["\s:]*["\']?(UP|DOWN)',
+            r'overall\s+(?:direction|forecast)["\s:]*["\']?(UP|DOWN)',
         ]
         
         for pattern in fallback_patterns:
@@ -741,9 +741,8 @@ Run the forecast again to get fresh data and consistent analysis.
             text_upper.count("STRONG NEGATIVE")
         )
         
-        # Count neutral indicators
-        neutral_indicators = (
-            text_upper.count("NEUTRAL") +
+        # Count mixed/uncertain indicators (for context but not for direction)
+        mixed_indicators = (
             text_upper.count("MIXED SIGNALS") +
             text_upper.count("CONSOLIDATION") +
             text_upper.count("UNCERTAIN") +
@@ -753,26 +752,22 @@ Run the forecast again to get fresh data and consistent analysis.
         # Check for explicit forecasts
         forecast_up = len(re.findall(r'forecast.*?(?:up|bullish|positive)', text_upper))
         forecast_down = len(re.findall(r'forecast.*?(?:down|bearish|negative)', text_upper))
-        forecast_neutral = len(re.findall(r'forecast.*?(?:neutral|mixed|uncertain)', text_upper))
         
         # Calculate totals
         total_bullish = strong_bullish + forecast_up
         total_bearish = strong_bearish + forecast_down  
-        total_neutral = neutral_indicators + forecast_neutral
         
-        # Make decision with preference for explicit neutral signals
-        if total_neutral > max(total_bullish, total_bearish):
-            print(f"ℹ️ Direction extracted from neutral signals: NEUTRAL (neutral: {total_neutral}, bullish: {total_bullish}, bearish: {total_bearish})")
-            return "NEUTRAL"
-        elif total_bullish > total_bearish:
-            print(f"ℹ️ Direction extracted from sentiment analysis: UP (bullish: {total_bullish}, bearish: {total_bearish}, neutral: {total_neutral})")
+        # Make binary decision - when signals are close, default to DOWN (more conservative)
+        if total_bullish > total_bearish:
+            print(f"ℹ️ Direction extracted from sentiment analysis: UP (bullish: {total_bullish}, bearish: {total_bearish}, mixed: {mixed_indicators})")
             return "UP"
         elif total_bearish > total_bullish:
-            print(f"ℹ️ Direction extracted from sentiment analysis: DOWN (bearish: {total_bearish}, bullish: {total_bullish}, neutral: {total_neutral})")
+            print(f"ℹ️ Direction extracted from sentiment analysis: DOWN (bearish: {total_bearish}, bullish: {total_bullish}, mixed: {mixed_indicators})")
             return "DOWN"
         else:
-            print(f"ℹ️ Direction defaulting to NEUTRAL due to balanced signals (bullish: {total_bullish}, bearish: {total_bearish}, neutral: {total_neutral})")
-            return "NEUTRAL"
+            # When tied, default to DOWN (conservative approach in uncertain conditions)
+            print(f"ℹ️ Direction defaulting to DOWN due to balanced signals (bullish: {total_bullish}, bearish: {total_bearish}, mixed: {mixed_indicators}) - using conservative approach")
+            return "DOWN"
     
     def _extract_confidence(self, forecast_text: str) -> str:
         """Extract confidence from forecast text."""
@@ -1148,4 +1143,4 @@ Run the forecast again to get fresh data and consistent analysis.
         elif direction == "DOWN":
             return "🔴 DOWN (Bearish)"
         else:
-            return "🟡 NEUTRAL" 
+            return f"❓ {direction} (Invalid direction)" 

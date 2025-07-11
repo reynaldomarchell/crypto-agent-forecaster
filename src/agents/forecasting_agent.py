@@ -28,7 +28,7 @@ def create_crypto_forecasting_agent() -> Agent:
     return Agent(
         role="Lead Multimodal Crypto Forecaster and Trading Strategist",
         goal="To integrate the outputs from sentiment analysis and technical analysis, "
-             "generate a final directional forecast (UP/DOWN/NEUTRAL) for a given "
+             "generate a final directional forecast (UP or DOWN) for a given "
              "cryptocurrency, assign a confidence score, provide detailed trading "
              "recommendations including target prices, stop losses, take profits, "
              "risk assessment, and actionable trading insights.",
@@ -49,10 +49,13 @@ def create_crypto_forecasting_agent() -> Agent:
         - Stop loss and take profit level determination
         - Market volatility assessment and position sizing
         - Clear, actionable trading recommendations
+        - Binary decision making (UP or DOWN) when signals are mixed
         
         You always provide concrete, measurable targets and risk parameters rather than 
         vague directional calls. Your forecasts include specific price levels, 
-        probability assessments, and risk management guidelines.""",
+        probability assessments, and risk management guidelines. When faced with 
+        conflicting signals, you make decisive binary choices based on the most 
+        reliable indicators and data sources.""",
         verbose=False,
         allow_delegation=False,
         tools=[],  # Uses other agents' outputs rather than direct tools

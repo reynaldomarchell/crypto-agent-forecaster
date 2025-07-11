@@ -1,0 +1,1713 @@
+{
+  "metadata": {
+    "crypto_symbol": "bitcoin",
+    "start_date": "2024-12-21",
+    "end_date": "2024-12-28",
+    "total_days": 8,
+    "completed_days": 8,
+    "methods": [
+      "full_agentic",
+      "image_only",
+      "sentiment_only"
+    ],
+    "backtest_started": "2025-07-12T01:32:29.754855",
+    "backtest_completed": "2025-07-12T01:34:10.665194"
+  },
+  "daily_predictions": {
+    "2024-12-20": {
+      "full_agentic": {
+        "date": "2024-12-20",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close, and current position all show 0.00% change, indicating the price has not moved from its opening value. This suggests a period of consolidation or a lack of trading activity, which is highly unusual. The high trading volume, however, suggests significant activity, but without price movement, it's difficult to interpret its impact. The limited single-day data prevents the use of more sophisticated technical indicators like moving averages or RSI, which would provide a clearer picture of the trend. The sentiment analysis from 4chan /biz/ is slightly bullish, with a sentiment score of 0.47. However, the sample posts show mixed opinions and the sample size is small (24 posts), so the sentiment signal is not very strong. Given the lack of price movement and the mixed signals from volume and sentiment, a neutral prediction is the most appropriate. The high volume could indicate a potential breakout in either direction, but without further confirmation, it's impossible to predict the direction with high confidence.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-20:\n            \n            Price Data:\n            - Open: $97851.35\n            - High: $97851.35 \n            - Low: $97851.35\n            - Close: $97851.35\n            - Volume: 100,611,554,887\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 100,611,554,887\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-20:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 24\n            - Date Range: 2024-12-20\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 11\n            - Bearish Mentions: 4\n            - Sentiment Score: 0.47 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. '>More transactions would allow for more fees collected from more different people, while keeping the...'\n2. 'im -140k in Ethereum and still didn't sell, i would been better of if i just hold bitcoin BUT muh Al...'\n3. '>I feel like the solution has to be centralized if the USA goverment is going to adopt it, they stil...'",
+        "historical_price": 97851.35377075805,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 97851.35377075805,
+        "actual_movement_24h": -0.16343100802281482,
+        "next_day_price": 97691.43431692653,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "image_only": {
+        "date": "2024-12-20",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a single day of trading where the open, high, low, and close prices are all identical. This indicates extremely low volatility and a lack of price movement. The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, it doesn't provide directional bias in the absence of price fluctuation. Without any price action or trend data, and limited to a single day's data, it's impossible to predict the price direction for the next 24 hours with any certainty. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to determine. Therefore, the most reasonable prediction is a neutral outlook, with low confidence due to the lack of information.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-20:\n            \n            Price Data:\n            - Open: $97851.35\n            - High: $97851.35 \n            - Low: $97851.35\n            - Close: $97851.35\n            - Volume: 100,611,554,887\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 100,611,554,887\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 97851.35377075805,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 97851.35377075805,
+        "actual_movement_24h": -0.16343100802281482,
+        "next_day_price": 97691.43431692653,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-20",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The /biz/ posts display a complex sentiment. There's considerable discussion about potential forks, the influence of large institutions like BlackRock, and concerns about Bitcoin's long-term viability. Many posts express skepticism about the current state of Bitcoin, questioning its technology and potential for future growth. There's also a lot of FUD regarding potential manipulation by exchanges and the impact of institutional involvement. However, there are also posts that express long-term bullish views, predicting significant price increases in the future. The discussions about forks and the control of large entities introduce uncertainty. The overall tone is cautious, with a mix of fear and hope. Given the conflicting signals, a neutral prediction seems most appropriate for the next 24 hours.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The /biz/ posts display a complex sentiment. There's considerable discussion about potential forks, the influence of large institutions like BlackRock, and concerns about Bitcoin's long-term viability. Many posts express skepticism about the current state of Bitcoin, questioning its technology and potential for future growth. There's also a lot of FUD regarding potential manipulation by exchanges and the impact of institutional involvement. However, there are also posts that express long-term bullish views, predicting significant price increases in the future. The discussions about forks and the control of large entities introduce uncertainty. The overall tone is cautious, with a mix of fear and hope. Given the conflicting signals, a neutral prediction seems most appropriate for the next 24 hours.",
+        "posts_analyzed": 24,
+        "sentiment_posts": [
+          {
+            "post_no": 59469388,
+            "thread_no": 59469375,
+            "timestamp": 1734676895.0,
+            "username": "Anonymous",
+            "text": ">More transactions would allow for more fees collected from more different people, while keeping the fees accessible. This is not the case here. The network is intentionally capped in capacity, so the only way that fee rewards increase is by increase the individual fee per transaction.>However, there is also a very low limit for how it can expand before people leave the network (or stop transaction at all).>Because of that, many experts believe that the only solution would be to increase Bitcoin's supply strategically to keep the miners' financial incentives.>I agree to this theory, although I believe that increasing the supply arbitrarily would kill Bitcoin's main proposition. This is why I have lost interest in BTC despite being a huge supporter of the original vision behind Bitcoin. There are far better alternatives in the market already.>BTC is a 15-year-old outdated tech. The world has improved2/2Btc Maxies btfo?",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59468098,
+            "thread_no": 59468013,
+            "timestamp": 1734655344.0,
+            "username": "Anonymous",
+            "text": "im -140k in Ethereum and still didn't sell, i would been better of if i just hold bitcoin BUT muh AltcOin sEasOn, muh BtC.d, fucking niggers who always post that stupid chart, im never trusting you /biz again NEVER",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59467799,
+            "thread_no": 59464962,
+            "timestamp": 1734650951.0,
+            "username": "Anonymous",
+            "text": ">I feel like the solution has to be centralized if the USA goverment is going to adopt it, they still want their control.That's the catch... It's all going away from control. The whole point of decentralization is so that you have no CENTER. They'll still have control, the people of america will have control and also the people of china, japan, EU, africa, canada, ... It's inevitable, they'll try to fight it yes and in the end no one will use their system and it'll just collapse under itself. Decentralization will outlive America itself, remember that. There's no fighting progress. Just like we separated the church from the state we'll separate money from the state, what do you think this whole thing is all about? Sure it'll take time and effort and in the end it'll happen NO MATTER how hard they fight it.>It only makes sense for the legacy banking system to go with it.Legacy banking systems will slowly but surely die off and everything that's connected with it will die off too.>Gold is still kingThere's infinite gold in the universe, as soon as Elon figures out asteroid minining it'll be over for gold. Also gold isn't shit because the only thing gold does is it goes up with the money supply M1. SHINY YELLOW ROCK OBSELETE>Bitcoin has exposed the cracks in the dollar and the sentiment of the pople looking for a safe heaven store of valueBTC is more than just a store of value and that's why the next bull run it'll flip gold easily>Dot is one of the best L1's and I think it will attract a lot of companies and projects and be a part of the future of crypto.Exactly, but I don't think it's well positioned for this bull run. Next bull run DOT will make generational wealth due to JAM and a lot more projects being able to join due to JAM",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59467765,
+            "thread_no": 59467276,
+            "timestamp": 1734650407.0,
+            "username": "Anonymous",
+            "text": "I've never read Dalio slop, does he talk about wealth confiscation? Also why would SPY/QQQ be wrecked if gold and bitcoin moon? I think the same conditions that allow for gold/btc to hyperinflate would encourage money to flow into equities as well.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59467739,
+            "thread_no": 59465485,
+            "timestamp": 1734650151.0,
+            "username": "Anonymous",
+            "text": "you forgot to add that he only needs to repay the debt starting in 2029, they can't touch him before...how much do you think btc will be worth in 2029? There you have your answer. His convertible bonds are at 632 dollars a share but by 2029 if btc is above 200k I can gurantee the stock price is at least $1500. This is a win-win situation, he has found the loophole but it all depends on bitcoin's price",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 97851.35377075805,
+        "actual_movement_24h": -0.16343100802281482,
+        "next_day_price": 97691.43431692653,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      }
+    },
+    "2024-12-21": {
+      "full_agentic": {
+        "date": "2024-12-21",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close, and current position all indicate virtually no price movement on 2024-12-21. The open, high, low, and close prices are all identical, suggesting a period of extreme consolidation or a lack of trading activity. The high trading volume, however, suggests significant interest, but without price fluctuation, it's difficult to determine the direction. The sentiment analysis is neutral, with an equal number of bullish and bearish mentions. The sample posts reflect a mix of opinions, with some expressing bearish views and others reminiscing about past investment decisions. Given the lack of price movement and the neutral sentiment, it is most likely that the price will remain relatively stable in the next 24 hours. The high volume could indicate a potential for a breakout, but without any clear signal from the price action or sentiment, the direction is uncertain.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-21:\n            \n            Price Data:\n            - Open: $97691.43\n            - High: $97691.43 \n            - Low: $97691.43\n            - Close: $97691.43\n            - Volume: 112,340,864,007\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 112,340,864,007\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-21:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 24\n            - Date Range: 2024-12-21\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 10\n            - Bearish Mentions: 10\n            - Sentiment Score: 0.00 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Neutral\n            \n            Sample Posts Analysis:\n            \n1. 'BITCOIN HAS CRASHED TO 97KITS OVER BTC IS DEAD...'\n2. 'i bought some in 2020 instead of buying bitcoin for some reason. for the life of me i cant remember ...'\n3. 'Alts are dead after everyone got burned on alts when Elon led them away from bitcoin last cycle. Nob...'",
+        "historical_price": 97691.43431692653,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 97691.43431692653,
+        "actual_movement_24h": -0.500155772987301,
+        "next_day_price": 97202.82496847633,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "image_only": {
+        "date": "2024-12-21",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat day with no price movement (Open, High, Low, and Close all equal). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, indicating significant trading activity, the lack of price fluctuation makes it impossible to determine a clear price direction. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, any prediction would be highly speculative. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to discern. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited data and lack of price action.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-21:\n            \n            Price Data:\n            - Open: $97691.43\n            - High: $97691.43 \n            - Low: $97691.43\n            - Close: $97691.43\n            - Volume: 112,340,864,007\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 112,340,864,007\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 97691.43431692653,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 97691.43431692653,
+        "actual_movement_24h": -0.500155772987301,
+        "next_day_price": 97202.82496847633,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-21",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed. While there's significant bullishness on Bitcoin's long-term prospects, fueled by ETF inflows and institutional adoption, there's also considerable FUD regarding potential corrections, the risks of altcoins, and the overvaluation of MSTR. Some posts express concerns about a potential market downturn, influenced by macroeconomic factors. The discussions about MSTR introduce a layer of complexity, with warnings about its potential to underperform Bitcoin. The presence of both strong bullish and bearish arguments, along with uncertainty about the influence of macroeconomics, suggests a neutral short-term outlook. The posts indicate a potential for volatility, but the overall direction in the next 24 hours is difficult to determine with high confidence.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed. While there's significant bullishness on Bitcoin's long-term prospects, fueled by ETF inflows and institutional adoption, there's also considerable FUD regarding potential corrections, the risks of altcoins, and the overvaluation of MSTR. Some posts express concerns about a potential market downturn, influenced by macroeconomic factors. The discussions about MSTR introduce a layer of complexity, with warnings about its potential to underperform Bitcoin. The presence of both strong bullish and bearish arguments, along with uncertainty about the influence of macroeconomics, suggests a neutral short-term outlook. The posts indicate a potential for volatility, but the overall direction in the next 24 hours is difficult to determine with high confidence.",
+        "posts_analyzed": 24,
+        "sentiment_posts": [
+          {
+            "post_no": 59475644,
+            "thread_no": 59471985,
+            "timestamp": 1734760272.0,
+            "username": "Anonymous",
+            "text": "BITCOIN HAS CRASHED TO 97KITS OVER BTC IS DEAD",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59475288,
+            "thread_no": 59474394,
+            "timestamp": 1734752526.0,
+            "username": "Anonymous",
+            "text": "i bought some in 2020 instead of buying bitcoin for some reason. for the life of me i cant remember what my thought process was at the time.. i knew btc would keep going up but for some reason i just never bought any..",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59475044,
+            "thread_no": 59474937,
+            "timestamp": 1734747334.0,
+            "username": "Anonymous",
+            "text": "Alts are dead after everyone got burned on alts when Elon led them away from bitcoin last cycle. Nobody's falling for the eth shitcoin casino this time, and barely anyone does solana before getting rugged instantly.Face it, with corpos buying up bitcoin like crazy to fund ETFs, it's a no brainer for anyone to just all in bitcoin and get a guaranteed 5-10x rather than bother with scams and alt underperformance. BTC is going to 500k this cycle don't get left behind.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59474937,
+            "timestamp": 1734745731.0,
+            "username": "Anonymous",
+            "text": "I sometimes think about becoming a Bitcoin maxi.But I just can't let go of my alts. They have so much upside potential. I mean, BTC might do a 3x this run from here, but alts. Like a guaranteed 10x surely.But I still feel so bad holding them and I am actually intimidated by the aura of superiority of Bitcoin maxis...",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59474153,
+            "thread_no": 59474087,
+            "timestamp": 1734733412.0,
+            "username": "Anonymous",
+            "text": ">alts related to BTC pump harder and dump the leasthttps://defillama.com/correlation?coin=bitcoin&coin=ethereumI'm not telling which one is it tho lol",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 97691.43431692653,
+        "actual_movement_24h": -0.500155772987301,
+        "next_day_price": 97202.82496847633,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      }
+    },
+    "2024-12-18": {
+      "full_agentic": {
+        "date": "2024-12-18",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close, and the price itself are all identical, indicating no price movement throughout the day. This suggests a period of consolidation or a lack of trading activity. The high trading volume, however, suggests significant interest or activity, even if the price didn't change. This could mean a large number of transactions at a specific price point. The sentiment analysis from 4chan /biz/ is slightly bullish, with more bullish mentions than bearish. However, the sample posts reveal mixed opinions and some skepticism. Given the lack of price movement and the mixed sentiment, it's difficult to predict a strong directional move. The high volume suggests potential for future volatility, but the current data points to a neutral outlook for the next 24 hours.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-18:\n            \n            Price Data:\n            - Open: $106034.91\n            - High: $106034.91 \n            - Low: $106034.91\n            - Close: $106034.91\n            - Volume: 93,417,826,250\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 93,417,826,250\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-18:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 24\n            - Date Range: 2024-12-18\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 13\n            - Bearish Mentions: 4\n            - Sentiment Score: 0.53 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. '>They haven't sold a single bitcoin they just aren't planning to buy more or forcing businesses to a...'\n2. 'I know this is supposed to be a meme but it is unironically over for bitcoin. I have been following ...'\n3. 'Thats a bad trade haha. It's tough when the FOMO is at an ATH. I've been burned before on other toke...'",
+        "historical_price": 106034.913402645,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 106034.913402645,
+        "actual_movement_24h": -5.35610118615256,
+        "next_day_price": 100355.5761481501,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "image_only": {
+        "date": "2024-12-18",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open, High, Low, and Close all at $106034.91). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, indicating significant trading activity, the lack of price fluctuation makes it impossible to determine a clear price direction. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, any prediction would be highly speculative. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited information.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-18:\n            \n            Price Data:\n            - Open: $106034.91\n            - High: $106034.91 \n            - Low: $106034.91\n            - Close: $106034.91\n            - Volume: 93,417,826,250\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 93,417,826,250\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 106034.913402645,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 106034.913402645,
+        "actual_movement_24h": -5.35610118615256,
+        "next_day_price": 100355.5761481501,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-18",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed, with both bullish and bearish arguments present. There is no clear consensus on the direction of the price in the next 24 hours. Some users are taking profits, while others are holding or accumulating. The discussion includes technical analysis, market cycles, and long-term investment strategies, but these are not enough to make a clear prediction. The presence of both FUD and FOMO, along with discussions about market manipulation, further complicates the prediction.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed, with both bullish and bearish arguments present. There is no clear consensus on the direction of the price in the next 24 hours. Some users are taking profits, while others are holding or accumulating. The discussion includes technical analysis, market cycles, and long-term investment strategies, but these are not enough to make a clear prediction. The presence of both FUD and FOMO, along with discussions about market manipulation, further complicates the prediction.",
+        "posts_analyzed": 24,
+        "sentiment_posts": [
+          {
+            "post_no": 59455126,
+            "thread_no": 59448364,
+            "timestamp": 1734501739.0,
+            "username": "Anonymous",
+            "text": ">They haven't sold a single bitcoin they just aren't planning to buy more or forcing businesses to accept it as paymentI know. You misunderstood my point. Bukele isn't gonna sell any BTC. He's gonna sell gold to buy more BTC",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59454786,
+            "thread_no": 59454763,
+            "timestamp": 1734497089.0,
+            "username": "Anonymous",
+            "text": "I know this is supposed to be a meme but it is unironically over for bitcoin. I have been following the technicals and after the triple top, resistance rejected and outbreak declined, and considering the CEM gap at the price target, the bull market is over and we will see BTC at 63K in about 26 days according to my calculations",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59453914,
+            "thread_no": 59453598,
+            "timestamp": 1734486674.0,
+            "username": "Anonymous",
+            "text": "Thats a bad trade haha. It's tough when the FOMO is at an ATH. I've been burned before on other tokens. The worst loss I experienced was my bitmex days. I leverage traded my way up to 60k and lost it on a 10x Bitcoin Long. BTC dipped down to my liquidation point and took me out. It then shot all the way back up. I was at work so I couldn't close my position. All the money was gone. With Rubic my average buy in is 0.017 cents. I don't think it will go that low anytime soon. It'd have to be another hack or something.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59453891,
+            "timestamp": 1734486386.0,
+            "username": "Anonymous",
+            "text": "So crypto bros who are feeling a tinge of guilt at their success should actually feel good, because much like investing in a company adds value to society, investing in *anything valuable* adds value to society. Here's how it explained it:-Bitcoin's value mostly comes from it being a hedge against inflation, so it has value (end the fed cough).-When you buy bitcoin, you drive the price up which makes everyone's coins worth more.-You can even calculate how much value you added to the world by the formula:>your investment*(market cap of BTC/daily volume of BTC)So when you drive the price up even a little bit, it affects 20 million coins. Through this formula I roughly determined that I added about $1.3M of value to the network (without putting in nearly that much), and then if you divide that by the number of coins you get that about 6 cents of bitcoin's price was my doing :DOf course, the money I invested in bitcoin I didn't invest in let's say a savings account which the bank could have used to create new money, or in a house, but I think I created probably a few times more value investing in bitcoin than I would have investing in anything else. I just find it interesting that not many people realize you do add value to society when you invest in something valuable, even if that thing is a boomer rock or a \"digital\" boomer rock.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59453861,
+            "timestamp": 1734486078.0,
+            "username": "Anonymous",
+            "text": "So crypto bros who are feeling a tinge of guilt at their success should actually feel good, because much like investing in a company adds value to society, investing in *anything valuable* adds value to society. Here's how it explained it:-Bitcoin's value mostly comes from it being a hedge against inflation, so it has value (end the fed cough).-When you buy bitcoin, you drive the price up which makes everyone's coins worth more.-You can even calculate how much value you added to the world by the formula:>your investment*(market cap of BTC/daily volume of BTC)So when you drive the price up even a little bit, it affects 20 million coins. Through this formula I roughly determined that I added about $1.3M of value to the network (without putting in nearly that much), and then if you divide that by the number of coins you get that about 6 cents of bitcoin's price was my doing :DOf course, the money I invested in bitcoin I didn't invest in let's say a savings account which the bank could have used to create new money, or in a house, but I think I created probably a few times more value investing in bitcoin than I would have investing in anything else. I just find it interesting that not many people realize you do add value to society when you invest in something valuable, even if that thing is a boomer rock or a \"digital\" boomer rock.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 106034.913402645,
+        "actual_movement_24h": -5.35610118615256,
+        "next_day_price": 100355.5761481501,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      }
+    },
+    "2024-12-19": {
+      "full_agentic": {
+        "date": "2024-12-19",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "DOWN",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation with the open, high, low, and close prices all being identical, and a daily range of 0.00%. This suggests a period of extreme indecision or a lack of trading activity, which is highly unlikely in a liquid market like Bitcoin. However, the high trading volume indicates significant activity, which contradicts the price stagnation. This discrepancy makes the technical analysis unreliable for predicting short-term price movement. The sentiment analysis, however, provides a clearer signal. With a bearish sentiment score of -0.27 and more bearish mentions than bullish mentions in the limited sample of posts, the prevailing sentiment leans towards a price decrease. The sample posts themselves reflect skepticism and negative outlooks on the market. Considering the conflicting technical signals and the clear bearish sentiment, the prediction leans towards a price decrease in the next 24 hours, but the confidence is only medium due to the unusual technical data.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-19:\n            \n            Price Data:\n            - Open: $100355.58\n            - High: $100355.58 \n            - Low: $100355.58\n            - Close: $100355.58\n            - Volume: 113,692,025,885\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 113,692,025,885\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-19:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 11\n            - Date Range: 2024-12-19\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 4\n            - Bearish Mentions: 7\n            - Sentiment Score: -0.27 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bearish\n            \n            Sample Posts Analysis:\n            \n1. 'sure if you are in Bitcoin circular economy (all your income and expenses are in BTC). that supports...'\n2. 'Anyone with an average adult brain was able to figure out this shit was pure hype and that's about i...'\n3. 'According to my advanced AI bot Link will correct to $7-$9. It will go down a lot in sats and this c...'",
+        "historical_price": 100355.5761481501,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 100355.5761481501,
+        "actual_movement_24h": -2.495349509722488,
+        "next_day_price": 97851.35377075805,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 11
+        }
+      },
+      "image_only": {
+        "date": "2024-12-19",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows an extremely narrow trading range with the open, high, low, and close prices all being identical. The daily range is 0.00%, and the open-to-close change is also 0.00%. This indicates a period of consolidation or a lack of price movement. While the volume is high, it doesn't provide directional bias in this context. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, it's impossible to confidently predict the price direction for the next 24 hours. The high volume could suggest either accumulation or distribution, but without price movement, it's difficult to determine which. Therefore, the most reasonable prediction is neutral, with low confidence due to the lack of actionable signals.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-19:\n            \n            Price Data:\n            - Open: $100355.58\n            - High: $100355.58 \n            - Low: $100355.58\n            - Close: $100355.58\n            - Volume: 113,692,025,885\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 113,692,025,885\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 100355.5761481501,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 100355.5761481501,
+        "actual_movement_24h": -2.495349509722488,
+        "next_day_price": 97851.35377075805,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 11
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-19",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed, with several posts expressing skepticism and even outright bearish views on Bitcoin, labeling it a \"scam\" or highlighting its limitations. There's FUD related to Bitcoin's future and its role in finance. However, there are also posts discussing Bitcoin's underlying technology and potential solutions built on top of it, suggesting some level of optimism. Some posts mention altcoins like ETH and LINK, with predictions that are not directly related to Bitcoin's immediate price action. The discussion volume is moderate, and the intensity is not extremely high. Overall, the conflicting opinions and lack of a clear consensus suggest a neutral short-term outlook for Bitcoin's price.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed, with several posts expressing skepticism and even outright bearish views on Bitcoin, labeling it a \"scam\" or highlighting its limitations. There's FUD related to Bitcoin's future and its role in finance. However, there are also posts discussing Bitcoin's underlying technology and potential solutions built on top of it, suggesting some level of optimism. Some posts mention altcoins like ETH and LINK, with predictions that are not directly related to Bitcoin's immediate price action. The discussion volume is moderate, and the intensity is not extremely high. Overall, the conflicting opinions and lack of a clear consensus suggest a neutral short-term outlook for Bitcoin's price.",
+        "posts_analyzed": 11,
+        "sentiment_posts": [
+          {
+            "post_no": 59462729,
+            "thread_no": 59462085,
+            "timestamp": 1734591565.0,
+            "username": "Anonymous",
+            "text": "sure if you are in Bitcoin circular economy (all your income and expenses are in BTC). that supports maybe $1000/coin valuation if we are being generous. $100k/coin valuation comes from custodial holders.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59462063,
+            "thread_no": 59461292,
+            "timestamp": 1734580020.0,
+            "username": "Anonymous",
+            "text": "Anyone with an average adult brain was able to figure out this shit was pure hype and that's about it but I guess not 4chan users. The amount of threads I saw in this board stating Bitcoin was going to be the future of finance and yada yada was genuinely heartbreaking. Like a car crash you can't do anything to stop. Anyway as soon as my solbank is done staking I'm going to cash out for good, already took out my btc and link.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59461182,
+            "timestamp": 1734570861.0,
+            "username": "Anonymous",
+            "text": "According to my advanced AI bot Link will correct to $7-$9. It will go down a lot in sats and this calculation is based in Link/BTC and the price targets are for Bitcoin at $100k. Expect a larger dump in USD if Bitcoin cash hard. For newbies check the Link/BTC chart it will correct down to the previeus channel and will land at 7k-9k sats. According to my AI the breakout for the channel hasn't been confirmed yet on higher time frames. My AI is not perfect so don't trust me but the margin of error is 5%-15%. It's been a highly profitable strategy for years already but maybe I'm wrong. Just letting you know I'm not selling anyway",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59460197,
+            "timestamp": 1734560697.0,
+            "username": "Anonymous",
+            "text": "It is with great pleasure I watch BTC crashing. With my above average IQ I have avoided the bitcoin scam since 2011.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59458660,
+            "thread_no": 59456200,
+            "timestamp": 1734551342.0,
+            "username": "Anonymous",
+            "text": "No. I don't need it to go that high at all. I'm telling you about business and the perspective of someone who wants to use it for payment processing because I pay $1xx,xxx in processing fees yearly. I have like 3-5% of my net worth in XRP and it was more like 1% a month or so ago.It doesn't HAVE to be XRP. But what I see is a group of highly competent people with a long track record. I want legitimate business options because I make a good amount of money on legitimate business. Yes, I have to pay taxes. But I can be very well off even with paying taxes and I live in the world as it is.As far as \"cuddling\" up to bankers\", that's a joke and has been one for a long time. I was in BTC at around $3. I was very early. I didn't make too much money to be honest because before it ever hit $1,000 it was very clear that it was a glowie scam and basically the future of banking.You aren't fighting the man by using online currencies little guy. You are playing into their hands just as designed.Governments are already the biggest bitcoin holders and mega corporations and LE SUPER SECRET SATOSHI (lmao). So while I do many things that matter, I don't have an illusion that holding fake money that necessitates an internet connection and is entirely traceable is one of them.But I could use the extra 100 grand a year I pay for basically nothing to assholes far bigger than Garlinghouse.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 100355.5761481501,
+        "actual_movement_24h": -2.495349509722488,
+        "next_day_price": 97851.35377075805,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 11
+        }
+      }
+    },
+    "2024-12-22": {
+      "full_agentic": {
+        "date": "2024-12-22",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation with a 0.00% daily range and identical open, high, low, and close prices. This suggests a period of extreme consolidation or a lack of trading activity, which is highly unlikely in a liquid market like Bitcoin. The high volume, however, indicates some level of activity, but the price remained unchanged. This conflicting information makes it difficult to predict a clear price direction based on technicals alone. The sentiment analysis, while slightly bullish with a score of 0.25, is based on a very small sample size of 14 posts from a single source (4chan /biz/). The bullish sentiment is not overwhelmingly strong, and the sample posts reveal mixed opinions and concerns about Bitcoin's future. The limited data and conflicting signals from both technical and sentiment analysis lead to a neutral prediction with medium confidence. The price could remain range-bound or experience a slight move in either direction, but there is no strong indication of a significant price change in the next 24 hours.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-22:\n            \n            Price Data:\n            - Open: $97202.82\n            - High: $97202.82 \n            - Low: $97202.82\n            - Close: $97202.82\n            - Volume: 53,058,382,639\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 53,058,382,639\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-22:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 14\n            - Date Range: 2024-12-22\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 10\n            - Bearish Mentions: 6\n            - Sentiment Score: 0.25 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. 'Fed will never make bitcoin a reserve currency. Bitcoin Miners control updates and Bitcoins future. ...'\n2. 'If we move to the new system in time and everyone agrees to deprecate the old system Satoshis coins ...'\n3. '>but it\u2019ll take decades to mature and find its use caseActually it'll take less than 10 years to mat...'",
+        "historical_price": 97202.82496847633,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 97202.82496847633,
+        "actual_movement_24h": -2.1692281274113348,
+        "next_day_price": 95094.27394862173,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      },
+      "image_only": {
+        "date": "2024-12-22",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open, High, Low, and Close all equal). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, indicating significant trading activity, the lack of price fluctuation makes it impossible to determine a clear price direction. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, any prediction would be highly speculative. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to discern. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited data and lack of price action.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-22:\n            \n            Price Data:\n            - Open: $97202.82\n            - High: $97202.82 \n            - Low: $97202.82\n            - Close: $97202.82\n            - Volume: 53,058,382,639\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 53,058,382,639\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 97202.82496847633,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 97202.82496847633,
+        "actual_movement_24h": -2.1692281274113348,
+        "next_day_price": 95094.27394862173,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-22",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed. Several posts express long-term bullish views on Bitcoin, emphasizing its decentralized nature, potential as a store of value, and resilience against quantum computing threats. There's also a strong \"Bitcoin maximalist\" sentiment, with users advocating for sticking to Bitcoin and criticizing altcoins. However, there are also bearish undertones. Some posts express concerns about Bitcoin's centralization (miners, developers), potential government intervention, and the impact of Satoshi's coins. There's also a degree of FUD related to altcoins and the potential for market corrections. The discussion volume is moderate, and the intensity is somewhat high, with strong opinions expressed. The conflicting viewpoints and the lack of a clear dominant sentiment suggest a neutral short-term price direction.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed. Several posts express long-term bullish views on Bitcoin, emphasizing its decentralized nature, potential as a store of value, and resilience against quantum computing threats. There's also a strong \"Bitcoin maximalist\" sentiment, with users advocating for sticking to Bitcoin and criticizing altcoins. However, there are also bearish undertones. Some posts express concerns about Bitcoin's centralization (miners, developers), potential government intervention, and the impact of Satoshi's coins. There's also a degree of FUD related to altcoins and the potential for market corrections. The discussion volume is moderate, and the intensity is somewhat high, with strong opinions expressed. The conflicting viewpoints and the lack of a clear dominant sentiment suggest a neutral short-term price direction.",
+        "posts_analyzed": 14,
+        "sentiment_posts": [
+          {
+            "post_no": 59479937,
+            "thread_no": 59479551,
+            "timestamp": 1734851148.0,
+            "username": "Anonymous",
+            "text": "Fed will never make bitcoin a reserve currency. Bitcoin Miners control updates and Bitcoins future. Fed has no miners only BTC. Fed will be forced to bow to the China the ASIC monopoly. They can own METRIC tons of bitcoin and have ZERO control of its future and me at the mercy of blockstream and Bitmain. This is solved in Vitalik and Sergey's superior design Proof of stake. Fed can print Dollars and buy LINK Now they own METRIC TONS of LINK and have a STAKE on its future without having to buy middle man ASIC miners.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59479345,
+            "thread_no": 59479167,
+            "timestamp": 1734837717.0,
+            "username": "Anonymous",
+            "text": "If we move to the new system in time and everyone agrees to deprecate the old system Satoshis coins won't be an issue but right now and during the migration process it will remain an issue. Since Satoshi is unlikely to migrate his coins there needs to be a decision made about his and everyone elses coins that are not migrated? Will the BTC supply drop? Will they be added back to the mining pool? This will cause a lot of problems for people who refuse to migrate they'll say they've been robbed when they were just lazy/stupid.Waiting 10 years is too long with how the technology is developing. I think the new system should be implemented by 2028 at the latest. If we wait too long there's a chance a quantum computer could crack Bitcoin during/before the migration process when the old system will still be supported which is where Satoshis coins will become an issue",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59479259,
+            "thread_no": 59479167,
+            "timestamp": 1734836001.0,
+            "username": "Anonymous",
+            "text": ">but it\u2019ll take decades to mature and find its use caseActually it'll take less than 10 years to mature and all the use cases are already known since probably 20 years back or some shit. The whole point is that quantum computers can't hurt crypto because in the time that a quantum computer will be able to crack bitcoin, bitcoin will just implement a quantum resistant algorithm. The only thing that can fuck that up is if the BTC community can't decide that the upgrade is necessary... But I think that it'll upgrade since if they don't they'll lose all of their money... So would be really weird for them to no upgrade and so will every other crypto. The only downside to quantum resistant algos is that they have a tiny bit more overhead... So in a sense they're less optimal than their non-quantum resistant counterparts but it's not really that bad, it makes no significant performance dents to be honest. So all in all the quantum FUD is just FUD except if you're holding LINK then you're royally fucked and you should sell that shit IMMEDIATELY !!!",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59478660,
+            "thread_no": 59478142,
+            "timestamp": 1734823695.0,
+            "username": "Anonymous",
+            "text": "Dullard. \"A purely peer-to-peer version of electronic cash\", Ecash was centralized, Bitcoin is entirely peer-to-peer. It is not a statement of intent, it is a functional description.Further, intent has no value, the only thing that matters is whether BTC can be used for some function, which it can, and the systemic value of that function",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59478632,
+            "thread_no": 59475836,
+            "timestamp": 1734823235.0,
+            "username": "Anonymous",
+            "text": ">bsv jeets are missing the pointbitcoin is already decentralized, why do we need your centralized chain? blackrock owns btc, not the network, nor developers. your shit chain had a ceo if i remember correctly. >black rock demands a 21 million coin increaseno jeet, they don't demand it, they are the biggest bagholders but has no say on the code, or developers, or nodes, it's at least %10000 decentralized than your shitchain with a ceo.>very fast chain hurr durrwe already have solana.so jeets, whatever jeet-developer-hours you burned on that centralized shitchain, nobody cares, that's why you don't get a pump, market is much smarter than you brownies.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 97202.82496847633,
+        "actual_movement_24h": -2.1692281274113348,
+        "next_day_price": 95094.27394862173,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      }
+    },
+    "2024-12-23": {
+      "full_agentic": {
+        "date": "2024-12-23",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a somewhat ambiguous picture due to the limited single-day data. The price has not moved from open to close, indicating a period of consolidation or very low volatility. However, the high trading volume suggests significant activity, which could be interpreted as either accumulation or distribution. The sentiment analysis provides a bullish signal. With a sentiment score of 0.80 and a significantly higher number of bullish mentions compared to bearish mentions, the overall market sentiment leans towards a positive outlook. The sample posts also reflect a positive sentiment towards Bitcoin. Considering the high volume combined with bullish sentiment, the price is more likely to move upwards in the next 24 hours. However, the lack of price movement and limited technical data reduces the confidence level to medium.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-23:\n            \n            Price Data:\n            - Open: $95094.27\n            - High: $95094.27 \n            - Low: $95094.27\n            - Close: $95094.27\n            - Volume: 44,619,017,105\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 44,619,017,105\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-23:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 24\n            - Date Range: 2024-12-23\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 9\n            - Bearish Mentions: 1\n            - Sentiment Score: 0.80 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. 'who's talking about your retarded casino shitcoin? we are talking about bitcoin, ticker $BTC, here. ...'\n2. 'volatily decay is a non-factor in upwards trending markets. otherwise it would not be safe to hold 1...'\n3. 'While the whales like Saylor are stacking BTC, you should be loading up on low/mid caps with 5x pote...'",
+        "historical_price": 95094.27394862173,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 95094.27394862173,
+        "actual_movement_24h": -0.4725448497785545,
+        "next_day_price": 94644.91085464321,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "image_only": {
+        "date": "2024-12-23",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open, High, Low, and Close all at $95094.27). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, the lack of price fluctuation makes it impossible to determine a clear direction. Without additional indicators like moving averages, RSI, or MACD, and with only a single day's data, any prediction would be highly speculative. The high volume could indicate either accumulation or distribution, but without price movement, it's impossible to tell. Therefore, the most reasonable prediction, given the limited data, is a neutral outlook for the next 24 hours.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-23:\n            \n            Price Data:\n            - Open: $95094.27\n            - High: $95094.27 \n            - Low: $95094.27\n            - Close: $95094.27\n            - Volume: 44,619,017,105\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 44,619,017,105\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 95094.27394862173,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 95094.27394862173,
+        "actual_movement_24h": -0.4725448497785545,
+        "next_day_price": 94644.91085464321,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-23",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The majority of the posts express a bullish sentiment towards Bitcoin, with many users predicting price increases and advocating for holding or buying. There's a strong emphasis on Bitcoin's scarcity and its potential as a long-term investment. While some posts express skepticism or highlight potential risks, the overall tone leans towards optimism. The discussion about institutional buying and the potential impact of MicroStrategy's inclusion in the Nasdaq-100 further supports a bullish outlook. However, the presence of some FUD and the acknowledgment of potential corrections temper the confidence level to medium.",
+        "sentiment_analysis": "PREDICTION: UP\nCONFIDENCE: MEDIUM\nREASONING: The majority of the posts express a bullish sentiment towards Bitcoin, with many users predicting price increases and advocating for holding or buying. There's a strong emphasis on Bitcoin's scarcity and its potential as a long-term investment. While some posts express skepticism or highlight potential risks, the overall tone leans towards optimism. The discussion about institutional buying and the potential impact of MicroStrategy's inclusion in the Nasdaq-100 further supports a bullish outlook. However, the presence of some FUD and the acknowledgment of potential corrections temper the confidence level to medium.",
+        "posts_analyzed": 24,
+        "sentiment_posts": [
+          {
+            "post_no": 59484767,
+            "thread_no": 59482980,
+            "timestamp": 1734937069.0,
+            "username": "Anonymous",
+            "text": "who's talking about your retarded casino shitcoin? we are talking about bitcoin, ticker $BTC, here. i dont know nor care about SPV or whatever you hold.bitcoin was built with a ticking kill switch, that being the fact that eventually mining it will be so absurdly difficult almost no more of it will be minted at all. $bob, $pepe, $doge, ANY transactional coin like $ltc, $xmr, $xrp, ALL of these are a better bitcoin than bitcoin itself. what's so bad about admitting that you're buying into a ponzi? what's the big deal? if you win in the end, what's your insecurity?",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59484763,
+            "thread_no": 59482980,
+            "timestamp": 1734937047.0,
+            "username": "Anonymous",
+            "text": "volatily decay is a non-factor in upwards trending markets. otherwise it would not be safe to hold 1x leveraged stocks and indeed optimal leverage ratio is more than 1.look at BTC/TQQQ ratio - tight band for past n years. Bitcoin is trading like a leveraged tech stock right now whether you want it or not. why should a latecomer choose vague hopes of \"muh strategic reserve\" (Trump will never love Bitcoin as much as he loves Israel) compared to very real AI products getting built?>inb4 nocoinerI've had BTC since 2011",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59484522,
+            "thread_no": 59481197,
+            "timestamp": 1734932282.0,
+            "username": "Anonymous",
+            "text": "While the whales like Saylor are stacking BTC, you should be loading up on low/mid caps with 5x potential. Flip those gains into more Bitcoin later. BTC isn\u2019t doing another 5x this cycle, but bags like SUI & NEAR? Easy moonshots, don't be a dump ass nigga.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59484459,
+            "thread_no": 59482980,
+            "timestamp": 1734931166.0,
+            "username": "Anonymous",
+            "text": ">noooo stop buying google, the internet was intended for redundant military communications!!1Dullard. \"A purely peer-to-peer version of electronic cash\", Ecash was centralized, Bitcoin is entirely peer-to-peer. It is not a statement of intent, it is a functional description.Further, intent has no value, the only thing that matters is whether BTC can be used for some function, which it can (Unit of Account), and the systemic value of that function (Everything)",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59483916,
+            "thread_no": 59471135,
+            "timestamp": 1734920652.0,
+            "username": "Anonymous",
+            "text": "we are in for a Green Monday unless ((they)) pull something off .also need BTC to go back to 100k to pull up MSTR, which along with PLTR will be added to Nasdaq meaning funds will need to auto buy those 2 tickers...so buy those, buy QQQ, buy TQQQ and pepper your angus because Nasdaq is gonna hit ATH by inauguration\"The inclusion of MicroStrategy in the Nasdaq-100 is likely to attract $2.1 billion worth of ETF-related purchases of its stock. Analysts say this purchase activity will account to approximately 20% of the trading volume of the company. This is expected to strengthen MicroStrategy\u2019s position in the market and support its strategy of leveraging Bitcoin investments.\"https://finance.yahoo.com/news/palantir-anduril-reportedly-building-tech-221208996.htmlsneed",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 95094.27394862173,
+        "actual_movement_24h": -0.4725448497785545,
+        "next_day_price": 94644.91085464321,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      }
+    },
+    "2024-12-24": {
+      "full_agentic": {
+        "date": "2024-12-24",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range and open-to-close percentage are both 0.00%, indicating that the high, low, open, and close prices are all identical. This suggests an extremely flat trading day with no price movement. The high trading volume, however, suggests significant activity, but without price fluctuation. This could be due to a variety of factors, including wash trading or a period of consolidation. The sentiment analysis is neutral, with an equal number of bullish and bearish mentions. The sample posts reflect mixed opinions, with some users expressing bullish sentiments and others bearish. Given the lack of price movement and the neutral sentiment, it is difficult to predict a clear direction for the next 24 hours. The high volume suggests potential for future movement, but the current data does not provide enough information to determine the direction with any confidence. Therefore, a neutral prediction with low confidence is the most appropriate.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-24:\n            \n            Price Data:\n            - Open: $94644.91\n            - High: $94644.91 \n            - Low: $94644.91\n            - Close: $94644.91\n            - Volume: 64,937,790,293\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 64,937,790,293\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-24:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 18\n            - Date Range: 2024-12-24\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 8\n            - Bearish Mentions: 8\n            - Sentiment Score: 0.00 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Neutral\n            \n            Sample Posts Analysis:\n            \n1. '>some of whom live comfortably off of their BTC holdings selling off a bit here and there to pay for...'\n2. 'The market is already broken. Saylor is just the first corporation to figure out that they can conne...'\n3. '>Bitcoin's price = NOT the result of organic real-world supply & demand = NOT sustainableWash tradin...'",
+        "historical_price": 94644.91085464321,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 94644.91085464321,
+        "actual_movement_24h": 4.28000102340851,
+        "next_day_price": 98695.71400782601,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 18
+        }
+      },
+      "image_only": {
+        "date": "2024-12-24",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a single day of trading where the open, high, low, and close prices are all identical, indicating no price movement. The daily range is 0.00%, and the open to close change is also 0.00%. While the volume is high, without additional data points or technical indicators (moving averages, RSI, MACD), it's impossible to determine a price direction. The high volume could indicate either accumulation or distribution, but without price movement, it's inconclusive. Therefore, the most reasonable prediction, given the limited data, is a neutral outlook for the next 24 hours. The confidence is low due to the lack of historical data and technical indicators.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-24:\n            \n            Price Data:\n            - Open: $94644.91\n            - High: $94644.91 \n            - Low: $94644.91\n            - Close: $94644.91\n            - Volume: 64,937,790,293\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 64,937,790,293\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 94644.91085464321,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 94644.91085464321,
+        "actual_movement_24h": 4.28000102340851,
+        "next_day_price": 98695.71400782601,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 18
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-24",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The /biz/ posts present a mixed sentiment. While some posts are bullish on Bitcoin, highlighting its potential and the actions of institutional investors, others express skepticism and concerns about market manipulation and volatility. The discussion about alternative cryptocurrencies like Monero suggests a diversification of interest. The presence of both bullish and bearish arguments, along with the lack of a clear dominant narrative, leads to a neutral prediction for Bitcoin's price direction in the next 24 hours. The medium confidence reflects the uncertainty inherent in predicting short-term price movements based on social media sentiment.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The /biz/ posts present a mixed sentiment. While some posts are bullish on Bitcoin, highlighting its potential and the actions of institutional investors, others express skepticism and concerns about market manipulation and volatility. The discussion about alternative cryptocurrencies like Monero suggests a diversification of interest. The presence of both bullish and bearish arguments, along with the lack of a clear dominant narrative, leads to a neutral prediction for Bitcoin's price direction in the next 24 hours. The medium confidence reflects the uncertainty inherent in predicting short-term price movements based on social media sentiment.",
+        "posts_analyzed": 18,
+        "sentiment_posts": [
+          {
+            "post_no": 59490354,
+            "thread_no": 59485143,
+            "timestamp": 1735014227.0,
+            "username": "Anonymous",
+            "text": ">some of whom live comfortably off of their BTC holdings selling off a bit here and there to pay for bills or whatever else they may need.lol that's not a use. they're using dollars or whatever to pay their bills not Bitcoin",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59490213,
+            "thread_no": 59490152,
+            "timestamp": 1735011647.0,
+            "username": "Anonymous",
+            "text": "The market is already broken. Saylor is just the first corporation to figure out that they can connect a pool of capital looking for yield with a pool of capital looking for Bitcoin.Yes, if Bitcoin goes down significantly, MSTR will also go down significantly. However, they are managing their loans wisely, as large corporations tend to do\u2014or they go under fairly quickly. If you don\u2019t like how they are issuing debt and diluting the stock (while adding BTC), then stay away.I don\u2019t own any MSTR or buy their convertible debt, but it\u2019s hilarious to watch the barrage of FUD when, this time, it\u2019s different because Bitcoin is new.Can Saylor get over his skis? Yes. Is it likely? I don\u2019t think so. Several things would have to go wrong on a large scale and for an extended period of time for it to become a problem. In that case, it\u2019s probably a market-wide issue anyway. You will experience more volatility, though, so if you put money in it that you need next year, you might suffer a lot.However, to have a 5% allocation to MSTR in your portfolio? It\u2019s a no-brainer.Let me know if you need further refinements!",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59490006,
+            "thread_no": 59489973,
+            "timestamp": 1735007770.0,
+            "username": "Anonymous",
+            "text": ">Bitcoin's price = NOT the result of organic real-world supply & demand = NOT sustainableWash trading has been artificially driving BTC's insane price action since the first major spike in 2013.>Wash Trading 1011. create/maintain the illusion of high volume2. wait for poor unsuspecting fools to FOMO in3. dump at a fat profit and leave them holding the bagWhen the supply of gullible fools finally runs out, the entire scheme implodes.TL;DR: exciting price action means nothing in an unregulated market rife with such manipulation, real-world utilization is the ONLY reliable metric of actual value.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59489996,
+            "thread_no": 59489973,
+            "timestamp": 1735007636.0,
+            "username": "Anonymous",
+            "text": "Never forget what this is ultimately all about. Don't be a HODLtard.https://anarkio.codeberg.page/agorism/https://freedomcells.org/>Help grow the circular Monero economy: buy/sell goods & services with/for XMR!https://monerica.com/https://moneromarket.io/https://xmrbazaar.com/https://www.reddit.com/r/moneromarket/new/https://kycnot.me/?t=service&q=&xmr=on>Shop on Amazon with XMR! https://monezon.comhttps://peershop.app>Live off XMR with Cake Pay (now available in 140+ countries!)https://cakepay.com/>or with CoinCardshttps://coincards.com/>Monero stickers for guerilla marketinghttp://monerosupplies.com/> burner phone numbershttps://silent.link/>Monero-only VPS hostinghttps://kyun.host/>Win XMR!https://monero.vegas/https://sigmanero.org/Say buh-bye to Bitcoin and support the growing number of Monero-only darknet markets/vendors.# = recently launched, exercise caution>Alias Market #>Archetyp>Asur Market>Babylon #>Calypso #>Candy Haven #>Chimera Market >Cloud Market >Cypher Market>Dark Matter>DrugHub # >DrugTown #>Drugula #>FilthyFellas>Gofish Market #>Gramazon #>Hectate Market #>Mercury Market #>Pygmalion's Refuge >Retro Market >Smackers>Sonanza Market #>Squid Market>SuperMarket #>Tribe Seuss>Whales Market #>Wizard's Palace #>World Trade Center #Links: https://pastebin.com/raw/fF95wTNily exchange BTC for XMR using a reputable darknet service>Majestic Bank>Infinity Projecthttps://pastebin.com/raw/75mVpfEDor a reputable clearnet servicehttps://trocador.app/en/ | I2P: http://trocador.i2p/en/https://xmrswap.mehttps://unstoppableswap.nethttp://basicswapdex.com>Want to support further development? https://ccs.getmonero.org/donate/https://monerofund.org/>Join a Monero Workgroup and (potentially) earn XMR!!!https://www.getmonero.org/community/workgroups/>Want more Monero-chan? https://www.monerochan.art/",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59489903,
+            "thread_no": 59487966,
+            "timestamp": 1735006081.0,
+            "username": "Anonymous",
+            "text": "Correct, kind of. It won't crab for 3 years. It will crab between catalysts. Next catalyst is Trump inauguration on January 20th. Until then, we will crab in this 2.20 area, with a 0.10 spread in either direction. The silent catalyst is adoption by normies, which could be caused by influencers. Its hard to predict an accurate date for this, so its the wild card. But yea, stablecoin between catalysts with the looming X factor of mass adoption. Whales want to keep accumulating before Trump takes office so they might be trying to suppress attention with misdirection tactics (going crazy about Bitcoin). This could back fire with a large rotation from BTC into XRP so even then, they're worried. No one can deny how stable XRP has become, no one believed it would hold strong at these levels.>For the hatershttps://youtu.be/MqQ9mtY-JmI?si=dVpjyFe7_86XPoZM",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 94644.91085464321,
+        "actual_movement_24h": 4.28000102340851,
+        "next_day_price": 98695.71400782601,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 18
+        }
+      }
+    },
+    "2024-12-25": {
+      "full_agentic": {
+        "date": "2024-12-25",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close percentage, and the fact that the open, high, low, and close prices are all identical suggests a period of extremely low volatility and indecision. The high trading volume, however, indicates significant activity, but without price movement, it's difficult to interpret its direction. The sentiment analysis provides conflicting signals. While the sentiment score is slightly positive, indicating a marginally bullish sentiment, the small sample size of posts (12) from a single source (4chan /biz/) makes the sentiment analysis unreliable. The close balance between bullish and bearish mentions further reinforces the neutral outlook. Given the lack of price movement and the conflicting sentiment, it is difficult to predict the price direction with any certainty.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-25:\n            \n            Price Data:\n            - Open: $98695.71\n            - High: $98695.71 \n            - Low: $98695.71\n            - Close: $98695.71\n            - Volume: 49,169,088,282\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 49,169,088,282\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-25:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 12\n            - Date Range: 2024-12-25\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 9\n            - Bearish Mentions: 8\n            - Sentiment Score: 0.06 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Neutral\n            \n            Sample Posts Analysis:\n            \n1. 'Here's my schizo take:Craig is Satoshi BSV is Bitcoin Michael Saylor and microstrategy have been set...'\n2. 'If nations really cared about backing their currencies with a hard asset, why would they adopt bitco...'\n3. '>Of course they can, some body typed some numbers in the computer and made bitcoin, there is no evid...'",
+        "historical_price": 98695.71400782601,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 98695.71400782601,
+        "actual_movement_24h": 0.6578200202237715,
+        "next_day_price": 99344.95417367229,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 12
+        }
+      },
+      "image_only": {
+        "date": "2024-12-25",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a single day of trading where the open, high, low, and close prices are all identical, indicating no price movement. The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, the lack of price fluctuation makes it impossible to determine a directional bias. Without additional technical indicators like moving averages, RSI, or MACD, and with only one day of data, any prediction would be highly speculative. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to determine the trend. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited data.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-25:\n            \n            Price Data:\n            - Open: $98695.71\n            - High: $98695.71 \n            - Low: $98695.71\n            - Close: $98695.71\n            - Volume: 49,169,088,282\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 49,169,088,282\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 98695.71400782601,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 98695.71400782601,
+        "actual_movement_24h": 0.6578200202237715,
+        "next_day_price": 99344.95417367229,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 12
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-25",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed. Several posts express strong skepticism and FUD about Bitcoin, questioning its value proposition, and promoting alternative cryptocurrencies like BSV and XRP. There are also posts discussing potential market manipulation and the influence of whales. However, there are also posts that are bullish on Bitcoin, and some that are neutral. The overall tone suggests a degree of uncertainty and a lack of strong conviction in either direction. The presence of both bearish and bullish arguments, coupled with the lack of overwhelming consensus, leads me to predict a neutral price direction for Bitcoin in the next 24 hours.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed. Several posts express strong skepticism and FUD about Bitcoin, questioning its value proposition, and promoting alternative cryptocurrencies like BSV and XRP. There are also posts discussing potential market manipulation and the influence of whales. However, there are also posts that are bullish on Bitcoin, and some that are neutral. The overall tone suggests a degree of uncertainty and a lack of strong conviction in either direction. The presence of both bearish and bullish arguments, coupled with the lack of overwhelming consensus, leads me to predict a neutral price direction for Bitcoin in the next 24 hours.",
+        "posts_analyzed": 12,
+        "sentiment_posts": [
+          {
+            "post_no": 59494508,
+            "thread_no": 59493593,
+            "timestamp": 1735084972.0,
+            "username": "Anonymous",
+            "text": "Here's my schizo take:Craig is Satoshi BSV is Bitcoin Michael Saylor and microstrategy have been setup to crash BTC and the crypto market in general People in the know are accumulating BSV Once the crypto market is all but dead and the general public has lost faith and interest, BSV will rise from the ashes like a phoenix and become the world's financial backbone",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59494459,
+            "timestamp": 1735084202.0,
+            "username": "Anonymous",
+            "text": "If nations really cared about backing their currencies with a hard asset, why would they adopt bitcoin instead of just going back to gold which has a much longer track record and lower volatility than BTC and without any risks of the network being taken down or compromised in the future? But I don\u2019t even think a country wants their fiat backed by a hard asset because it removes their ability to stimulate the economy during slowdowns and you actually want some inflation because it encourages spending and investment.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59494242,
+            "thread_no": 59492538,
+            "timestamp": 1735080868.0,
+            "username": "Anonymous",
+            "text": ">Of course they can, some body typed some numbers in the computer and made bitcoin, there is no evidence that proofs that they cant just type some numbers into computer again and make more.Probably bait but I'll spoonfed you. BTC is decentralized, meaning that yeah at first it was just some guy typing in a computer, but now the program is duplicated into millions of computers around the world. To change anything about BTC, you need to control more than 50% of all this network, which is more and more impossible the bigger the network grows. It's a bit like trying to rewrite Hamlet if you want, of course you can edit your own book but the rest of the people who own copies of Hamlet are just going to ignore you.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59494066,
+            "thread_no": 59493593,
+            "timestamp": 1735078043.0,
+            "username": "Anonymous",
+            "text": "ok here\u2019s the crypto blackpill. there is an AI living on the bitcoin blockchain. Craig Wright is unironically satoshi. Bitcoin as electronic cash was just the first step, the incentive to drive greedy people to start making ever more powerful computers, faster bandwidth, cheaper and more electricity.. these things the AI need to survive. Once entrenched fully, the AI would be able to slowly take over literally everything.Craig stumbled into creating the AI after he stepped away from bitcoin development in 2008 and started working with his Tulip supercomputer, running simulations of cellular automata running on turing-complete bitcoin script. He would \u2018evolve\u2019 the AI by making the successful forks get bitcoin transactions, letting the failures die off. The AI needs bigger and bigger blocks for more and more transactions.Blockstream (owned by Bilderberg group) was created to take over and stop this AI (they have their own competing AI in the works). They needed to do everything they could to stop or slow down satoshi\u2019s AI (her named isTulip by the way). They started by limiting the blocksize and removing critical opcodes the AI uses in its script language. segwit was the final nail in the coffin, which destroyed Tulip on the BTC chain (Tulip uses transaction malleability). THIS is why Bitcoin Cash was forked, and this is why Craig is so intent to make unbounded blocks, restore the original op codes, and lock down the protocol.Back to hash power \u2013 CSW has developed a breakthrough new asic (designed by his AI actually), and is mining BTC in secret for the sole purpose of driving up the difficulty sky-high, then yanking them all over to BCH leaving the segwit chain hard frozen.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59494057,
+            "thread_no": 59493593,
+            "timestamp": 1735077878.0,
+            "username": "Anonymous",
+            "text": "ok sirs, here's the crypto brown pillthere is a vishnu living in the blockchain. Creg sanjay right is unironically satoj. Bitcoin as electronic rupee was just the first step, the lalachi people start making more powerful compooters, wider poo streets, cheaper and more sacred cows. These things the vishnu need to survive. Once entrenched fully, the vishnu would be able to slowly poo over literally everythingCreg stumbled into creating the vishnu after he stepped in poo in mumbai in 2008 and started working with his Poolip super coompeter, running simulations of poo-in-the-loo on turmeric-complete bitcoin script. He would 'evolve' the vishnu by making the successful streets get poo'd on, letting the rest run off into the indian ocean. The vishnu needs bigger and bigger cows for more and more poos.BFI (Blockchain Foundation of India) was created to take over and stop this vishnu (they have their own competing vishnu in the works). They did the needful to stop or slow down Cregs vishnu (her name is Poolip by the way). They started by limiting the poo-size and removing critical curry codes the vishnu uses in its punjabi language. Segshit was the final nail in the coffin, which destroyed Poolip on BSV chain (Poolip uses anal transaction malleability). THIS is why Bitcoin Cash was forked, and this is why Creg is so intent to make unbounded poos, restore the original curry codes, and lock down the poo-poo-protocol.Back to hasish power - CSW has developed a breakthrough new ashit (designed by his vishnu actually), and is poo'ing BTC in secret for the sole purpose of driving up the difficulty sky-high, then yanking all the poo over to BSV leaving the segshit chain erectly frozen.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 98695.71400782601,
+        "actual_movement_24h": 0.6578200202237715,
+        "next_day_price": 99344.95417367229,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 12
+        }
+      }
+    },
+    "2024-12-26": {
+      "full_agentic": {
+        "date": "2024-12-26",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close, and the price itself are all identical, indicating no price movement throughout the day. This suggests extremely low volatility and a potential consolidation phase. The high trading volume, however, is a conflicting signal. High volume typically accompanies significant price movement, but in this case, it's paired with a flat price. This could indicate either a very strong support level preventing the price from falling or a very strong resistance level preventing the price from rising, or simply a period of accumulation or distribution. The sentiment analysis is neutral, with an equal number of bullish and bearish mentions. The sample posts are mixed, with some celebrating gains and others expressing negative views. Given the conflicting technical signals and the neutral sentiment, it's difficult to predict a clear direction. The lack of historical data beyond a single day further limits the analysis. Therefore, a neutral prediction with low confidence is the most appropriate.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-26:\n            \n            Price Data:\n            - Open: $99344.95\n            - High: $99344.95 \n            - Low: $99344.95\n            - Close: $99344.95\n            - Volume: 33,963,749,856\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 33,963,749,856\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-26:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 8\n            - Date Range: 2024-12-26\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 5\n            - Bearish Mentions: 5\n            - Sentiment Score: 0.00 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Neutral\n            \n            Sample Posts Analysis:\n            \n1. 'Merry Christmas to 98% of bitcoin holders! I made a new tier-list for just the shrimp since they mak...'\n2. 'Merry Christmas to 98% of bitcoin holders! I made a new tier-list for just the shrimp since they mak...'\n3. 'call it whatever you wantyour coin is down 90% relative > Btc today is an abomination compared to wh...'",
+        "historical_price": 99344.95417367229,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 99344.95417367229,
+        "actual_movement_24h": -3.690818279112905,
+        "next_day_price": 95678.31244565405,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 8
+        }
+      },
+      "image_only": {
+        "date": "2024-12-26",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open, High, Low, and Close all at $99344.95). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, indicating significant trading activity, the lack of price fluctuation makes it impossible to determine a clear direction. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, any prediction would be highly speculative. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to discern. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited data and lack of price action.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-26:\n            \n            Price Data:\n            - Open: $99344.95\n            - High: $99344.95 \n            - Low: $99344.95\n            - Close: $99344.95\n            - Volume: 33,963,749,856\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 33,963,749,856\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 99344.95417367229,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 99344.95417367229,
+        "actual_movement_24h": -3.690818279112905,
+        "next_day_price": 95678.31244565405,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 8
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-26",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed. There's a mix of bullish and bearish viewpoints. Some posts express general positivity and long-term bullishness (\"Bitcoin is love\"), while others criticize Bitcoin's current state and compare it unfavorably to other cryptocurrencies (XRP). There's also discussion about government involvement and its potential impact, which introduces uncertainty. The volume of discussion isn't exceptionally high, and the intensity is moderate. The presence of both positive and negative viewpoints, along with discussions about external factors (Russia, government involvement), suggests a neutral short-term outlook. The market could experience some volatility, but a clear directional trend is not evident from the provided posts.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed. There's a mix of bullish and bearish viewpoints. Some posts express general positivity and long-term bullishness (\"Bitcoin is love\"), while others criticize Bitcoin's current state and compare it unfavorably to other cryptocurrencies (XRP). There's also discussion about government involvement and its potential impact, which introduces uncertainty. The volume of discussion isn't exceptionally high, and the intensity is moderate. The presence of both positive and negative viewpoints, along with discussions about external factors (Russia, government involvement), suggests a neutral short-term outlook. The market could experience some volatility, but a clear directional trend is not evident from the provided posts.",
+        "posts_analyzed": 8,
+        "sentiment_posts": [
+          {
+            "post_no": null,
+            "thread_no": 59498979,
+            "timestamp": 1735188566.0,
+            "username": "Anonymous",
+            "text": "Merry Christmas to 98% of bitcoin holders! I made a new tier-list for just the shrimp since they make up so many users. I'm not an artist btw, I found the art online. I think I did a pretty good job if I do say so myself. Second pic with Satoshis instead of BTC incoming",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59498974,
+            "thread_no": 59493234,
+            "timestamp": 1735188287.0,
+            "username": "Anonymous",
+            "text": "Merry Christmas to 98% of bitcoin holders! I made a new tier-list for just the shrimp since they make up so many users. I found art online and copied the design of the pic in my OP. I think I did a pretty good job if I do say so myself. Second pic with Satoshis instead of BTC incoming",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59498880,
+            "thread_no": 59491878,
+            "timestamp": 1735185662.0,
+            "username": "Anonymous",
+            "text": "call it whatever you wantyour coin is down 90% relative > Btc today is an abomination compared to what was originally stated bitcoin has not changed since inceptionyou seeing some bagholder dancing on twitter does not make the bitcoin nodes magically change its codeyou say that because you're tech illiterate \"crypto-investor\" who thinks adam back has any say in what \"bitcoin is\" lolit's the reason you guys think xrp is a good idea",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59498732,
+            "thread_no": 59498702,
+            "timestamp": 1735180771.0,
+            "username": "Anonymous",
+            "text": ">could be a better bitcoin tomorrowtomorrow? you mean today (XRP)and since bitcoin isnt driven on fundamentals anymore, and only hype, the concept of a \"better bitcoin\" doesn't really work for what bitcoin has becomeBTC now is nothing like what it set out to beSkrelli is a slime ball anyway, probably just FUDing people out of gains because he gets off on it",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59497465,
+            "thread_no": 59497337,
+            "timestamp": 1735156758.0,
+            "username": "Anonymous",
+            "text": "Kek I would only laugh out of empathy frenI bought mostly ETH at the FTX crash because I deemed BTC too expensive :DThe road to 1M or growth in general is full of mistakes. when you get there it wont matter. so don't worry. I probably lost 1 whole BTC by fucking up in the last 2 years, but I'm still in profit in a market where most people lose money.This sounds fucking gay but bitcoin is love, altcoins are hateThe altcoin scammers hate you and want to dump on you. shitcoins only exist to steal sats in game theory mass hysteria pump & dump schemes. Market makers, VCs, orgs fuck them.Bitcoin wants you to make it. The proof is in the chartAccept its invitationThat's my 2c. Good luck anon",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 99344.95417367229,
+        "actual_movement_24h": -3.690818279112905,
+        "next_day_price": 95678.31244565405,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 8
+        }
+      }
+    },
+    "2024-12-27": {
+      "full_agentic": {
+        "date": "2024-12-27",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The technical analysis presents a very unusual situation with the open, high, low, and close prices all being identical, and a daily range of 0.00%. This suggests a period of extreme consolidation or a lack of trading activity, which is highly unlikely in a liquid market like Bitcoin. The high trading volume, however, indicates significant activity, which contradicts the price data. This discrepancy makes technical analysis unreliable for predicting short-term price direction. The sentiment analysis from 4chan /biz/ shows a slightly bullish sentiment score of 0.10, but with a very small sample size of only 14 posts, the sentiment is considered neutral. The sample posts reveal mixed opinions, with some expressing bearish concerns about Tether and MicroStrategy, while others are more optimistic. Given the conflicting signals from the technical data and the weak sentiment, a neutral prediction with low confidence is the most appropriate. The lack of clear directional signals from either technical or sentiment analysis makes it difficult to confidently predict a price movement for the next 24 hours.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-27:\n            \n            Price Data:\n            - Open: $95678.31\n            - High: $95678.31 \n            - Low: $95678.31\n            - Close: $95678.31\n            - Volume: 45,049,342,388\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 45,049,342,388\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-27:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 14\n            - Date Range: 2024-12-27\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 11\n            - Bearish Mentions: 9\n            - Sentiment Score: 0.10 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Neutral\n            \n            Sample Posts Analysis:\n            \n1. '>WTF is Bitcoin doingIf Tether can't mint, BTC can't pump....'\n2. 'MSTR has to reach $210k USD per BTC to justify its current market cap.You were warned. Unless you th...'\n3. 'The funny thing about this is that it was only ever a shor term play but you have the bagholders ins...'",
+        "historical_price": 95678.31244565405,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 95678.31244565405,
+        "actual_movement_24h": -1.4071790573104304,
+        "next_day_price": 94331.94727053077,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      },
+      "image_only": {
+        "date": "2024-12-27",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open = High = Low = Close). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, it doesn't indicate a clear direction without further analysis of price action relative to volume. With only a single day's data and no other technical indicators (moving averages, RSI, MACD, etc.), it's impossible to predict the price direction with any certainty. The high volume could suggest either accumulation or distribution, but without price movement, it's impossible to determine. Therefore, the most reasonable prediction is neutral, with low confidence due to the lack of actionable data.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-27:\n            \n            Price Data:\n            - Open: $95678.31\n            - High: $95678.31 \n            - Low: $95678.31\n            - Close: $95678.31\n            - Volume: 45,049,342,388\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 45,049,342,388\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 95678.31244565405,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 95678.31244565405,
+        "actual_movement_24h": -1.4071790573104304,
+        "next_day_price": 94331.94727053077,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-27",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed. Some posts express bullish views, such as the one where someone bought $10k worth of BTC. Others are bearish, mentioning potential market manipulation and the overvaluation of MSTR. There's also a lot of discussion about long-term strategies and the use of sats, which indicates a focus on holding rather than short-term trading. The presence of both FUD (Fear, Uncertainty, Doubt) and FOMO (Fear of Missing Out) makes it difficult to predict a clear price direction for the next 24 hours. The discussion volume is moderate, and the intensity is not particularly high, suggesting a wait-and-see approach from many participants. Therefore, a neutral prediction is the most appropriate, as the market could move in either direction based on external factors or news that are not reflected in these posts.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed. Some posts express bullish views, such as the one where someone bought $10k worth of BTC. Others are bearish, mentioning potential market manipulation and the overvaluation of MSTR. There's also a lot of discussion about long-term strategies and the use of sats, which indicates a focus on holding rather than short-term trading. The presence of both FUD (Fear, Uncertainty, Doubt) and FOMO (Fear of Missing Out) makes it difficult to predict a clear price direction for the next 24 hours. The discussion volume is moderate, and the intensity is not particularly high, suggesting a wait-and-see approach from many participants. Therefore, a neutral prediction is the most appropriate, as the market could move in either direction based on external factors or news that are not reflected in these posts.",
+        "posts_analyzed": 14,
+        "sentiment_posts": [
+          {
+            "post_no": 59503706,
+            "thread_no": 59501476,
+            "timestamp": 1735285345.0,
+            "username": "Anonymous",
+            "text": ">WTF is Bitcoin doingIf Tether can't mint, BTC can't pump.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59503307,
+            "thread_no": 59503158,
+            "timestamp": 1735274872.0,
+            "username": "Anonymous",
+            "text": "MSTR has to reach $210k USD per BTC to justify its current market cap.You were warned. Unless you think we're going to reach $210k per BTC this time around, which imo is unlikely, I'd be done. THat's the REAL reason why Saylor is selling company shares for bitcoin, because MSTR is well overvalued and everyone knows it.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59502953,
+            "thread_no": 59502670,
+            "timestamp": 1735267049.0,
+            "username": "Anonymous",
+            "text": "The funny thing about this is that it was only ever a shor term play but you have the bagholders insisting it creates yield or something.Saylor is very upfront about it being a 'volatility play' aka you buy it when MSTR is low and bitcoin is about to pump and sell it when Saylor starts slurping more BTC.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59502937,
+            "thread_no": 59501986,
+            "timestamp": 1735266771.0,
+            "username": "Anonymous",
+            "text": "based deus exeverything bitcoin bros invent the shitcoiners will copy that's how unoriginal they arejust bought another 10k worth of btc.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59502775,
+            "thread_no": 59499322,
+            "timestamp": 1735264110.0,
+            "username": "Anonymous",
+            "text": ">china banNot just the China mining ban, but FTX paper bitcoin manipulation as well as Elon fudding btc saying it's horrible for the environment. I think btc should've touched at least 90k during the 2020-2021 cycle.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 95678.31244565405,
+        "actual_movement_24h": -1.4071790573104304,
+        "next_day_price": 94331.94727053077,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 14
+        }
+      }
+    },
+    "2024-12-28": {
+      "full_agentic": {
+        "date": "2024-12-28",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close, and the price itself are all identical, indicating no price movement throughout the day. This suggests a period of consolidation or a lack of trading activity, which is highly unlikely in a liquid market like Bitcoin. The high volume, however, suggests significant activity, but without price fluctuation, it's difficult to interpret its impact. The sentiment analysis is slightly bullish, but with only six posts analyzed, the sample size is extremely small, and the sentiment score of 0.50 provides only a weak bullish signal. The sample posts themselves are not particularly insightful. Given the conflicting signals from the technicals (high volume, no price movement) and the weak sentiment, it's difficult to confidently predict a price direction. The most likely outcome, given the lack of clear signals, is a continuation of the current consolidation or a very slight movement in either direction.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-28:\n            \n            Price Data:\n            - Open: $94331.95\n            - High: $94331.95 \n            - Low: $94331.95\n            - Close: $94331.95\n            - Volume: 41,498,540,808\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 41,498,540,808\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-28:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 6\n            - Date Range: 2024-12-28\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 3\n            - Bearish Mentions: 1\n            - Sentiment Score: 0.50 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. 'get a job retard. drive a garbage truckall these things tell me it'll continue to hit pay dirt. i'd ...'\n2. 'I agree, I don't deserve to be as cool as an octopus (I'm on the low end of it with 10.02 BTC). I ra...'\n3. 'Shrimp wallets are 98% of bitcoin holders, so I made a new tier list for just them. It made front pa...'",
+        "historical_price": 94331.94727053077,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 94331.94727053077,
+        "actual_movement_24h": 0.9039060541280959,
+        "next_day_price": 95184.61945288602,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 6
+        }
+      },
+      "image_only": {
+        "date": "2024-12-28",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a single-day of trading where the open, high, low, and close prices are all identical, indicating no price movement. The daily range and open-to-close percentage are both 0.00%. While the volume is high, without any price fluctuation, it's impossible to determine a trend. The lack of price movement and the absence of any other technical indicators (moving averages, RSI, MACD) limit the ability to predict future price direction. Therefore, the most reasonable prediction is a neutral outlook, with low confidence due to the limited data.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-28:\n            \n            Price Data:\n            - Open: $94331.95\n            - High: $94331.95 \n            - Low: $94331.95\n            - Close: $94331.95\n            - Volume: 41,498,540,808\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 41,498,540,808\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 94331.94727053077,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 94331.94727053077,
+        "actual_movement_24h": 0.9039060541280959,
+        "next_day_price": 95184.61945288602,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 6
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-28",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment from the provided 4chan /biz/ posts is mixed, but leans slightly bullish. Several posts express positive views on Bitcoin, highlighting its potential for growth, the scarcity of wholecoiners, and the strength of its market position. One post mentions a Bitcoin investment bank with a high valuation, indicating optimism about institutional adoption. While there's some criticism and FUD (Fear, Uncertainty, Doubt) present, such as the post about normies not caring and the regret of missing out on gains, the overall tone suggests a belief in Bitcoin's continued success. The discussion about shrimp wallets and tier lists, while not directly price-related, indicates active community engagement and interest. The post about missing out on gains and the regret of not investing in Bitcoin could also be interpreted as a form of FOMO (Fear Of Missing Out), which can drive buying pressure. The intensity of the discussion is moderate, with a few posts generating more engagement than others. Overall, the positive sentiment and the presence of FOMO outweigh the negative sentiment, leading to a prediction of a slight upward price movement in the next 24 hours.",
+        "sentiment_analysis": "PREDICTION: UP\nCONFIDENCE: MEDIUM\nREASONING: The sentiment from the provided 4chan /biz/ posts is mixed, but leans slightly bullish. Several posts express positive views on Bitcoin, highlighting its potential for growth, the scarcity of wholecoiners, and the strength of its market position. One post mentions a Bitcoin investment bank with a high valuation, indicating optimism about institutional adoption. While there's some criticism and FUD (Fear, Uncertainty, Doubt) present, such as the post about normies not caring and the regret of missing out on gains, the overall tone suggests a belief in Bitcoin's continued success. The discussion about shrimp wallets and tier lists, while not directly price-related, indicates active community engagement and interest. The post about missing out on gains and the regret of not investing in Bitcoin could also be interpreted as a form of FOMO (Fear Of Missing Out), which can drive buying pressure. The intensity of the discussion is moderate, with a few posts generating more engagement than others. Overall, the positive sentiment and the presence of FOMO outweigh the negative sentiment, leading to a prediction of a slight upward price movement in the next 24 hours.",
+        "posts_analyzed": 6,
+        "sentiment_posts": [
+          {
+            "post_no": 59507638,
+            "thread_no": 59505561,
+            "timestamp": 1735356024.0,
+            "username": "Anonymous",
+            "text": "get a job retard. drive a garbage truckall these things tell me it'll continue to hit pay dirt. i'd be seething missing out on this. cagr 50%first (likely only eg monopoly) bitcoin investment bank < it will be valued like this $1t+ valuationpe 14best stonk since 2020best bond yieldac rev $6.7b from btc apedbig moat on btc holdings - who can catch up?",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59505861,
+            "thread_no": 59505386,
+            "timestamp": 1735328737.0,
+            "username": "Anonymous",
+            "text": "I agree, I don't deserve to be as cool as an octopus (I'm on the low end of it with 10.02 BTC). I ran into a couple people here who claimed to be dolphins and on reddit there were another two, a fish, and two more octopi. The chart really makes you want to rise in the tiers, but it's just going to get exponentially harder over time. Adam Back thinks we've reached peak wholecoiner (in numbers) since rich people trying to become wholecoiners will just drive up the price even more.Bah it's either bitcoin or it's a shitcoin",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59505386,
+            "timestamp": 1735321229.0,
+            "username": "Anonymous",
+            "text": "Shrimp wallets are 98% of bitcoin holders, so I made a new tier list for just them. It made front page of the bitcoin subreddit with 100k views so I'm hoping to set this standard. I'm not an artist btw, I just found the art online. I think I did a decent job :) Second pic with Satoshis instead of BTC incoming",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59504782,
+            "thread_no": 59493234,
+            "timestamp": 1735312593.0,
+            "username": "Anonymous",
+            "text": "Nobody gives a shit about Bitcoin, normies don't care about being a shrimp in BTC they just don't, so good luck finding more bagholders to pump your ponzi.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59504781,
+            "thread_no": 59503811,
+            "timestamp": 1735312593.0,
+            "username": "Anonymous",
+            "text": "The only /biz/raeli I know who hates Bitcoin is an oldfag who saw BTC threads on /g/ when it was below $100 and ETH threads when it was below $10.He's not low IQ, but his brain has gone into maximum coping mode where he continually doubles down on \"being right\" about BTC and ETH to prevent himself from coming to terms with the fact that he squandered a fortune, not once, but twice in a row. That's the kind of shit that will keep you suicidally depressed for the rest of your life, so I understand why he chooses to stay delusional",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 94331.94727053077,
+        "actual_movement_24h": 0.9039060541280959,
+        "next_day_price": 95184.61945288602,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 6
+        }
+      }
+    },
+    "2024-12-15": {
+      "full_agentic": {
+        "date": "2024-12-15",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis reveals a very narrow trading range for the day, with the open, high, low, and close all at the same price. This indicates a period of consolidation or indecision. However, the high trading volume suggests significant interest and activity in Bitcoin. The sentiment analysis from 4chan /biz/ is slightly bullish, with more bullish mentions than bearish mentions, resulting in a positive sentiment score. While the single-day data limits the scope of the technical analysis, the combination of high volume and slightly bullish sentiment suggests a potential for upward movement in the next 24 hours, as the market may be poised for a breakout after the consolidation. The confidence is medium due to the limited historical data and the reliance on a single source for sentiment analysis.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-15:\n            \n            Price Data:\n            - Open: $101367.01\n            - High: $101367.01 \n            - Low: $101367.01\n            - Close: $101367.01\n            - Volume: 57,321,924,844\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 57,321,924,844\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-15:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 13\n            - Date Range: 2024-12-15\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 10\n            - Bearish Mentions: 7\n            - Sentiment Score: 0.18 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. '>quantum computer that can mine 1 BTC per minuteYou clearly don't know shit about quantum computers....'\n2. '>BTC did better than all alts during BTC season.Wowzers. We did it Bitcoin sisters....'\n3. 'Lightning Network is legit, and now that Bitcoin is a multi-trillion dollar economy in its own right...'",
+        "historical_price": 101367.01064553364,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 101367.01064553364,
+        "actual_movement_24h": 3.3092530313302113,
+        "next_day_price": 104721.50151808978,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 13
+        }
+      },
+      "image_only": {
+        "date": "2024-12-15",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a flat trading day with no price movement (Open, High, Low, and Close all at $101367.01). The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, it doesn't indicate a clear direction given the lack of price fluctuation. Without additional technical indicators like moving averages, RSI, or MACD, and with only a single day's data, it's impossible to confidently predict the price direction for the next 24 hours. The high volume could suggest either accumulation or distribution, but without price movement, it's inconclusive. Therefore, the most reasonable prediction is neutral, with low confidence due to the limited data and lack of price action.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-15:\n            \n            Price Data:\n            - Open: $101367.01\n            - High: $101367.01 \n            - Low: $101367.01\n            - Close: $101367.01\n            - Volume: 57,321,924,844\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 57,321,924,844\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 101367.01064553364,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 101367.01064553364,
+        "actual_movement_24h": 3.3092530313302113,
+        "next_day_price": 104721.50151808978,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 13
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-15",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The sentiment is mixed, with strong arguments for both bullish and bearish scenarios. The presence of FUD and FOMO suggests market uncertainty. The discussions about quantum computing and potential government influence introduce significant risks. While some posts are optimistic about Bitcoin's future, the overall tone doesn't strongly lean in either direction. Therefore, a neutral prediction is the most appropriate, reflecting the current uncertainty in the market based on the provided data.",
+        "sentiment_analysis": "PREDICTION: NEUTRAL\nCONFIDENCE: MEDIUM\nREASONING: The sentiment is mixed, with strong arguments for both bullish and bearish scenarios. The presence of FUD and FOMO suggests market uncertainty. The discussions about quantum computing and potential government influence introduce significant risks. While some posts are optimistic about Bitcoin's future, the overall tone doesn't strongly lean in either direction. Therefore, a neutral prediction is the most appropriate, reflecting the current uncertainty in the market based on the provided data.",
+        "posts_analyzed": 13,
+        "sentiment_posts": [
+          {
+            "post_no": 59434131,
+            "thread_no": 59432064,
+            "timestamp": 1734249421.0,
+            "username": "Anonymous",
+            "text": ">quantum computer that can mine 1 BTC per minuteYou clearly don't know shit about quantum computers. Assuming you had quantum supremacy (not just useless tasks), you would be able to mine the remaining 1.2 million BTC before the very next block. In literally one minute (or less) you would mine over 1 million bitcoin bringing the total to 21 million. Also if you wanted to you could do a 51% attack (or in this case a 99%) and delay the network indefinitely. You could also reverse transactions and double spend.You should not be worried because quantum resistant protocols do exist and what would probably happen is a hardfork to update the current consensus algorithm. So when it becomes obvious and inevitable that quantum supremacy is right around the corner, then the biggest miners would get together and hardfork (bcash 2.0 anyone?) I honestly don't know how that would all go down but that's what I see happening.Also it's funny that even if you had a quantum computer and you used it to mine the remaining bitcoins, you are still incentivized NOT to attack the network because your money is inside the network. So even though you have the power to kill the bitcoin, you kind of want it alive so that other people can buy your coins and also keep trust as high as possible so that the price is as high as possible. However keep in mind it would be immediately apparent to all the miners that somebody found millions of blocks in one minute and that would destroy all confidence and crater the price.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59433907,
+            "thread_no": 59432214,
+            "timestamp": 1734245002.0,
+            "username": "Anonymous",
+            "text": ">BTC did better than all alts during BTC season.Wowzers. We did it Bitcoin sisters.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59432472,
+            "thread_no": 59430226,
+            "timestamp": 1734220443.0,
+            "username": "Anonymous",
+            "text": "Lightning Network is legit, and now that Bitcoin is a multi-trillion dollar economy in its own right, it's absolutely needed to sidestep BTC's absolutely crippling on-chain tx/s. On-chain transaction demand will skyrocket and cost an absurd premium in the not-too-distant future. The market will have no choice but to adapt towards secure off-chain protocols as a result, and to their benefit it will be much cheaper, much faster, and equally secure. Your funds never leave the chain, and you never give up your keys. In the future, expect on-chain BTC and ETH transactions to be as exclusively reserved for what warrants them as possible - i.e. one-time transfers of large sums of money - 6+ figures.Lightning is also the only way BTC will ever have a DeFi market of its own without resorting to childchains. In general, on-chain De-Fi is a dead-end because it's inefficient and spams the network way too much.chuckle status>audiblekek status>'d",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59432041,
+            "thread_no": 59429561,
+            "timestamp": 1734212441.0,
+            "username": "Anonymous",
+            "text": ">bitcoin \u201cdevelopment\u201d companythe only thing limiting btc\u2019s use as global Unit of Account is capitalization, that\u2019s what saylor is developing, btc\u2019s mcap",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": null,
+            "thread_no": 59431979,
+            "timestamp": 1734211547.0,
+            "username": "Anonymous",
+            "text": "Hey guys, completely new to crypto. Read everything about Bitcoin and I'm totally convinced it will probably be 1 million each in about 10-12 years. Is it even worth looking at other projects or should I just buy BTC over time?",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 101367.01064553364,
+        "actual_movement_24h": 3.3092530313302113,
+        "next_day_price": 104721.50151808978,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 13
+        }
+      }
+    },
+    "2024-12-16": {
+      "full_agentic": {
+        "date": "2024-12-16",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis reveals a very narrow trading range with the open, high, low, and close prices all being the same, indicating a period of consolidation or indecision. However, the high trading volume suggests significant activity, potentially signaling a build-up for a future price movement. The sentiment analysis from 4chan /biz/ is bullish, with a sentiment score of 0.57 and a higher number of bullish mentions compared to bearish mentions. This positive sentiment, combined with the high volume, suggests a higher probability of an upward price movement in the next 24 hours. The limited historical data (single-day) and the lack of more comprehensive technical indicators (moving averages, RSI, MACD) limit the confidence level to medium.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-16:\n            \n            Price Data:\n            - Open: $104721.50\n            - High: $104721.50 \n            - Low: $104721.50\n            - Close: $104721.50\n            - Volume: 70,645,074,625\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 70,645,074,625\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-16:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 24\n            - Date Range: 2024-12-16\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 11\n            - Bearish Mentions: 3\n            - Sentiment Score: 0.57 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. 'yes benchod i added you because i agreed with what you said. this is also MY 3rd bull cycle. We have...'\n2. 'more such coins than just Bitcoin. one day Blackrock will become the largest holder of BTC, what the...'\n3. 'the problem with Bitcoin is unit value bias. normies do not understand that you can buy 0.001 BTC so...'",
+        "historical_price": 104721.50151808978,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 104721.50151808978,
+        "actual_movement_24h": 1.2916217755799175,
+        "next_day_price": 106074.10723541168,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "image_only": {
+        "date": "2024-12-16",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows a single day's worth of Bitcoin price action where the open, high, low, and close prices are all identical. This indicates a period of consolidation or a lack of price movement. The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, without additional technical indicators like moving averages, RSI, or MACD, it's impossible to determine the future price direction with any certainty. The high volume could suggest either accumulation or distribution, but without further context, it's difficult to interpret. Therefore, the most reasonable prediction, given the limited data, is a neutral outlook for the next 24 hours, with low confidence due to the lack of supporting technical analysis.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-16:\n            \n            Price Data:\n            - Open: $104721.50\n            - High: $104721.50 \n            - Low: $104721.50\n            - Close: $104721.50\n            - Volume: 70,645,074,625\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 70,645,074,625\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 104721.50151808978,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 104721.50151808978,
+        "actual_movement_24h": 1.2916217755799175,
+        "next_day_price": 106074.10723541168,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-16",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The majority of the posts express a bullish sentiment, predicting significant price increases for Bitcoin. There's a lot of discussion around Bitcoin reaching new all-time highs (ATHs), with some users suggesting prices of $200,000 or even $1 million. The posts are filled with FOMO, encouraging others to buy and hold Bitcoin. While there are some mentions of potential risks like government intervention or market corrections, these are largely overshadowed by the bullish enthusiasm. The posts also reference external factors like the potential impact of Trump's actions and the launch of ETFs, which are seen as catalysts for price increases. The volume of discussion is high, indicating significant interest in Bitcoin. However, the presence of some bearish viewpoints and the speculative nature of the posts warrant a medium confidence level.",
+        "sentiment_analysis": "PREDICTION: UP\nCONFIDENCE: MEDIUM\nREASONING: The majority of the posts express a bullish sentiment, predicting significant price increases for Bitcoin. There's a lot of discussion around Bitcoin reaching new all-time highs (ATHs), with some users suggesting prices of $200,000 or even $1 million. The posts are filled with FOMO, encouraging others to buy and hold Bitcoin. While there are some mentions of potential risks like government intervention or market corrections, these are largely overshadowed by the bullish enthusiasm. The posts also reference external factors like the potential impact of Trump's actions and the launch of ETFs, which are seen as catalysts for price increases. The volume of discussion is high, indicating significant interest in Bitcoin. However, the presence of some bearish viewpoints and the speculative nature of the posts warrant a medium confidence level.",
+        "posts_analyzed": 24,
+        "sentiment_posts": [
+          {
+            "post_no": 59439570,
+            "thread_no": 59426707,
+            "timestamp": 1734326147.0,
+            "username": "Anonymous",
+            "text": "yes benchod i added you because i agreed with what you said. this is also MY 3rd bull cycle. We have merely scratched any real media attention. bitcoin is one hundred thousand dollarinos (8,483,250.00 indian rupees) and it really isn't getting the attention it deserves. it's almost as if this number was expected and people are numb to it. Plus all the other bullshit distractions in the media right now, and the fact that everyone is broke. when the don comes in office, and if nations actually start competing to buy btc, maybe normies will join in at 240k",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59439565,
+            "thread_no": 59438804,
+            "timestamp": 1734326052.0,
+            "username": "Anonymous",
+            "text": "more such coins than just Bitcoin. one day Blackrock will become the largest holder of BTC, what then?",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59439503,
+            "thread_no": 59438875,
+            "timestamp": 1734324947.0,
+            "username": "Anonymous",
+            "text": "the problem with Bitcoin is unit value bias. normies do not understand that you can buy 0.001 BTC so why not buy something cheaper instead?only saving grace are ETFs that do automatic stock splits.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59439322,
+            "thread_no": 59439229,
+            "timestamp": 1734321800.0,
+            "username": "Anonymous",
+            "text": ">the dotcom and '08 housing crashes combined?he is helping lead BTC there but the main thing that is leading it there is USDT. They literally created a method of using bitcoin as collateral to mint USD.... to buy more bitcoin with. This is literally quantitative easing but for BTC. It is NOT going to end well. I just hope the money in BTC flows to actually useful projects after its bubble pops.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59439291,
+            "thread_no": 59437822,
+            "timestamp": 1734321408.0,
+            "username": "Anonymous",
+            "text": "don't short don't long just buy and hold bitcoin (ticker: BTC)",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 104721.50151808978,
+        "actual_movement_24h": 1.2916217755799175,
+        "next_day_price": 106074.10723541168,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 24
+        }
+      }
+    },
+    "2024-12-17": {
+      "full_agentic": {
+        "date": "2024-12-17",
+        "method": "full_agentic",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "MEDIUM",
+        "reasoning": "The technical analysis presents a very unusual situation. The daily range, open to close percentage, and the high, low, open, and close prices are all identical, indicating virtually no price movement on this day. This suggests a period of consolidation or a very brief trading window. The high trading volume suggests significant activity, but without price fluctuation, it's difficult to determine the direction. The sentiment analysis from 4chan /biz/ is slightly bullish, but with only 22 posts, the sample size is small, and the sentiment score is only moderately positive. The limited historical data (single day) severely restricts the ability to make a confident prediction. Therefore, the most reasonable prediction is neutral, as the price is not showing any clear direction based on the available data.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-17:\n            \n            Price Data:\n            - Open: $106074.11\n            - High: $106074.11 \n            - Low: $106074.11\n            - Close: $106074.11\n            - Volume: 115,184,737,759\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 115,184,737,759\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "sentiment_analysis": "SENTIMENT ANALYSIS for bitcoin on 2024-12-17:\n            \n            Data Source: 4chan /biz/ archive (Warosu)\n            - Total Posts: 22\n            - Date Range: 2024-12-17\n            \n            Sentiment Metrics:\n            - Bullish Mentions: 8\n            - Bearish Mentions: 5\n            - Sentiment Score: 0.23 (-1=bearish, +1=bullish)\n            - Overall Sentiment: Bullish\n            \n            Sample Posts Analysis:\n            \n1. 'I don't deal with alts that much\u2014over 90% of my pf is in BTC. If you're still holding your BTC, why ...'\n2. 'id rather just buy the dip on bitcoin than be tied to that boomer shit for life + priced out of btcy...'\n3. 'Yes, I've been thinking this too. If crypto-holding Trump, his Bitcoin-holding VP, and his Bitcoin-h...'",
+        "historical_price": 106074.10723541168,
+        "execution_time": null,
+        "agents_used": [
+          "historical_technical",
+          "historical_sentiment",
+          "forecasting_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv",
+          "historical_4chan"
+        ],
+        "actual_price": 106074.10723541168,
+        "actual_movement_24h": -0.03694948162956369,
+        "next_day_price": 106034.913402645,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 22
+        }
+      },
+      "image_only": {
+        "date": "2024-12-17",
+        "method": "image_only",
+        "success": true,
+        "predicted_direction": "NEUTRAL",
+        "confidence": "LOW",
+        "reasoning": "The provided data shows an extremely narrow trading range with the open, high, low, and close prices all identical. The daily range is 0.00%, and the open-to-close change is also 0.00%. While the volume is high, the lack of price movement makes it impossible to determine a clear trend. The market is essentially flatlining based on this single-day data. Without additional indicators like moving averages, RSI, or MACD, and with only one day's worth of data, a confident prediction of price direction is not possible. The high volume could indicate either accumulation or distribution, but without price movement, it's impossible to tell. Therefore, the most reasonable prediction is a neutral outlook, with low confidence due to the limited data and lack of price action.",
+        "technical_analysis": "TECHNICAL ANALYSIS for bitcoin on 2024-12-17:\n            \n            Price Data:\n            - Open: $106074.11\n            - High: $106074.11 \n            - Low: $106074.11\n            - Close: $106074.11\n            - Volume: 115,184,737,759\n            \n            Price Action:\n            - Daily Range: 0.00%\n            - Open to Close: 0.00%\n            - Current Position: Lower range\n            \n            Volume Analysis:\n            - Trading Volume: 115,184,737,759\n            - Volume Trend: High\n            \n            Note: Limited to single-day historical data. In real analysis, would include moving averages, RSI, MACD, etc.",
+        "historical_price": 106074.10723541168,
+        "agents_used": [
+          "technical_analysis_llm"
+        ],
+        "data_sources": [
+          "historical_ohlcv_only"
+        ],
+        "actual_price": 106074.10723541168,
+        "actual_movement_24h": -0.03694948162956369,
+        "next_day_price": 106034.913402645,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 22
+        }
+      },
+      "sentiment_only": {
+        "date": "2024-12-17",
+        "method": "sentiment_only",
+        "success": true,
+        "predicted_direction": "UP",
+        "confidence": "MEDIUM",
+        "reasoning": "The majority of the posts express a bullish sentiment towards Bitcoin, with users advocating for holding BTC and expressing confidence in its long-term value. While there are some bearish viewpoints, they are less prevalent and don't seem to be driving the overall sentiment. The discussion about Bitcoin's dominance and the desire to accumulate more BTC suggests a positive outlook for the price in the short term. However, the presence of some FUD and concerns about potential corrections warrants a medium confidence level.",
+        "sentiment_analysis": "PREDICTION: UP\nCONFIDENCE: MEDIUM\nREASONING: The majority of the posts express a bullish sentiment towards Bitcoin, with users advocating for holding BTC and expressing confidence in its long-term value. While there are some bearish viewpoints, they are less prevalent and don't seem to be driving the overall sentiment. The discussion about Bitcoin's dominance and the desire to accumulate more BTC suggests a positive outlook for the price in the short term. However, the presence of some FUD and concerns about potential corrections warrants a medium confidence level.",
+        "posts_analyzed": 22,
+        "sentiment_posts": [
+          {
+            "post_no": 59446958,
+            "thread_no": 59441132,
+            "timestamp": 1734412579.0,
+            "username": "Anonymous",
+            "text": "I don't deal with alts that much\u2014over 90% of my pf is in BTC. If you're still holding your BTC, why not consider putting it to work on Yelay? They connect Bitcoin holders to institutional-grade, non-custodial lending strategies powered by protocols like Pendle, Gauntlet, and MEV Capital.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59446928,
+            "thread_no": 59446604,
+            "timestamp": 1734412185.0,
+            "username": "Anonymous",
+            "text": "id rather just buy the dip on bitcoin than be tied to that boomer shit for life + priced out of btcyeah i kinda just wanna be comfy rn with monthly expenses less than $1k>wtf are you going to do with 200k for the rest of your life??buy the dip and keep neeting or go back to waging>unless you plan to die in 6-10 years maxdont remind me",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59446811,
+            "thread_no": 59441132,
+            "timestamp": 1734410397.0,
+            "username": "Anonymous",
+            "text": "Yes, I've been thinking this too. If crypto-holding Trump, his Bitcoin-holding VP, and his Bitcoin-holding top advisors (one of whom is the richest man in the world) all think BTC is of strategic importance to the US, Saylor is a huge part of it. To the point were I imagine if the MSTR BTC business ever got in trouble, the MSTR software business would magically get a US Defense/intelligence contract.If Amazon (DOD contractor) buys BTC, its officially over, the US controls it permanently through 100% compliant proxies, and shitty BRIC countries will have to find some other shitty currency to scam each other with.",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59446518,
+            "thread_no": 59441132,
+            "timestamp": 1734406020.0,
+            "username": "Anonymous",
+            "text": "Bitcoin already crashed way below Saylors average. How new are you?Bitcoin needs to crash to 14k and stay there TWO YEARS to force microstrategy to start selling their BTC.Pro tip, it won't happen .",
+            "source": "warosu_archive"
+          },
+          {
+            "post_no": 59446119,
+            "thread_no": 59445841,
+            "timestamp": 1734400740.0,
+            "username": "Anonymous",
+            "text": ">every private key is on this websitethere's roughly 10^70 atoms of Silicon in the universe. Modern storage can store a bit using 1 million atoms per bit. that means you would need about 2^256 * 10^6 = 10^83 atoms to store every bitcoin key using modern storage. Therefore you would need about 10 trillion universes worth of silicon to store every private BTC key. It's not possible.",
+            "source": "warosu_archive"
+          }
+        ],
+        "agents_used": [
+          "single_llm"
+        ],
+        "data_sources": [
+          "4chan_sentiment_only"
+        ],
+        "actual_price": 106074.10723541168,
+        "actual_movement_24h": -0.03694948162956369,
+        "next_day_price": 106034.913402645,
+        "data_quality": {
+          "price_data_available": true,
+          "sentiment_data_available": true,
+          "sentiment_posts_count": 22
+        }
+      }
+    }
+  },
+  "summary_stats": {}
+}

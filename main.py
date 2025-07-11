@@ -77,7 +77,7 @@ def forecast(
     4. Forecasting Agent synthesizes all data into final prediction
     
     OUTPUTS GENERATED:
-    • Forecast direction (UP/DOWN/NEUTRAL) with confidence score
+    • Forecast direction (UP or DOWN) with confidence score
     • Technical analysis charts saved as PNG files
     • Complete execution logs and agent interactions
     • Professional markdown report with embedded charts
@@ -138,6 +138,112 @@ def forecast(
     • Check results/ folder for saved outputs even on partial failures
     """
     success = handler.handle_forecast(crypto, horizon, provider, model, verbose, yes)
+    if not success:
+        raise typer.Exit(1)
+
+
+@app.command()
+def backtest(
+    crypto: str = typer.Argument(
+        "bitcoin",
+        help="Cryptocurrency to backtest. Examples: bitcoin, ethereum, solana"
+    ),
+    start_date: str = typer.Option(
+        None,
+        "--start-date", "-s",
+        help="Start date for backtest in YYYY-MM-DD format. Defaults to 1 year ago."
+    ),
+    end_date: str = typer.Option(
+        None,
+        "--end-date", "-e", 
+        help="End date for backtest in YYYY-MM-DD format. Defaults to yesterday."
+    ),
+    methods: str = typer.Option(
+        "all",
+        "--methods", "-m",
+        help="Prediction methods to test: 'all', 'agentic', 'image', 'sentiment', or comma-separated list"
+    ),
+    data_dir: str = typer.Option(
+        "thesis_data",
+        "--data-dir", "-d",
+        help="Directory to store thesis data and results"
+    ),
+    resume: bool = typer.Option(
+        True,
+        "--resume/--no-resume",
+        help="Resume existing backtest or start fresh"
+    ),
+    quick_test: bool = typer.Option(
+        False,
+        "--quick-test", "-q",
+        help="Run quick test with only 7 days of data"
+    )
+):
+    """
+    Run backtesting experiments for thesis research.
+    
+    This command runs comprehensive backtesting to compare different prediction approaches:
+    
+    PREDICTION METHODS:
+    1. **Full Agentic**: Complete multi-agent system (market data + sentiment + technical + forecasting agents)
+    2. **Image Only**: One-shot LLM analysis of technical charts only
+    3. **Sentiment Only**: One-shot LLM analysis of 4chan /biz/ sentiment only
+    
+    THESIS RESEARCH FEATURES:
+    • Daily predictions for specified date range (default: past 1 year)
+    • Historical data collection from CoinGecko and Warosu 4chan archive
+    • Automatic accuracy tracking vs actual price movements
+    • Statistical significance testing between methods
+    • Comprehensive visualizations and analysis reports
+    • Export to CSV format for further statistical analysis
+    
+    OUTPUT FILES:
+    • thesis_data/CRYPTO_backtest_results.json - Complete prediction data
+    • thesis_data/processed_data/CRYPTO_thesis_data.csv - CSV export for analysis
+    • thesis_data/analysis/CRYPTO_thesis_report.md - Comprehensive thesis report
+    • thesis_data/charts/ - Statistical visualizations and comparison charts
+    
+    EXAMPLES:
+        # Full year backtest for Bitcoin with all methods
+        crypto-agent-forecaster backtest bitcoin
+        
+        # Quick 7-day test
+        crypto-agent-forecaster backtest bitcoin --quick-test
+        
+        # Specific date range
+        crypto-agent-forecaster backtest ethereum --start-date 2024-01-01 --end-date 2024-06-30
+        
+        # Test only specific methods
+        crypto-agent-forecaster backtest solana --methods "agentic,image"
+        
+        # Custom data directory
+        crypto-agent-forecaster backtest bitcoin --data-dir my_thesis_data
+        
+        # Start fresh (don't resume)
+        crypto-agent-forecaster backtest bitcoin --no-resume
+    
+    RESEARCH OUTPUTS:
+    The backtest generates comprehensive data for thesis analysis including:
+    • Accuracy comparison between multi-agent vs one-shot approaches
+    • Confidence correlation analysis
+    • Temporal performance patterns
+    • Statistical significance tests (Chi-square, McNemar's test)
+    • Confusion matrices and detailed performance metrics
+    • Publication-ready visualizations
+    
+    DATA REQUIREMENTS:
+    • CoinGecko API for historical price data
+    • Warosu.org archive for historical 4chan /biz/ sentiment
+    • At least one LLM provider configured for predictions
+    
+    ⚠️  **NOTE**: Full year backtests can take several hours to complete due to:
+    • 365+ days × 3 methods = 1000+ API calls
+    • Rate limiting for respectful API usage
+    • LLM processing time for each prediction
+    
+    Use --quick-test for initial validation before running full experiments.
+    """
+    success = handler.handle_backtest(crypto, start_date, end_date, methods, data_dir, resume, quick_test)
     if not success:
         raise typer.Exit(1)
 
@@ -446,6 +552,19 @@ def help():
         crypto-agent-forecaster forecast chainlink --verbose
         crypto-agent-forecaster forecast avalanche-2 --horizon "1 week"
     
+    THESIS RESEARCH:
+        # Run full year backtest
+        crypto-agent-forecaster backtest bitcoin
+        
+        # Quick validation test
+        crypto-agent-forecaster backtest bitcoin --quick-test
+        
+        # Custom date range
+        crypto-agent-forecaster backtest ethereum --start-date 2024-01-01 --end-date 2024-06-30
+        
+        # Test specific methods only
+        crypto-agent-forecaster backtest solana --methods "agentic,image"
+    
     PRODUCTION WORKFLOWS:
         # Daily BTC analysis with high-quality model
         crypto-agent-forecaster forecast bitcoin --provider anthropic --horizon "24 hours" --verbose --yes
@@ -462,6 +581,12 @@ def help():
         # ├── charts/                  # Technical analysis charts (PNG)
         # ├── run_logs.txt            # Execution logs
         # └── README.md               # Professional report with charts
+        
+        # Thesis data saved to: thesis_data/
+        # ├── raw_data/               # Daily historical data
+        # ├── processed_data/         # CSV exports and predictions
+        # ├── analysis/               # Statistical reports
+        # └── charts/                 # Comparison visualizations
     
     TROUBLESHOOTING:
         # Debug configuration issues
@@ -483,6 +608,7 @@ def help():
     • Popular cryptos (BTC, ETH) have better sentiment data
     • Set default provider in .env file to avoid typing --provider every time
     • Use shorter time horizons (4-24 hours) for higher accuracy
+    • Use backtesting for thesis research and method comparison
     
     FULL DOCUMENTATION:
     Use 'crypto-agent-forecaster COMMAND --help' for detailed command documentation.

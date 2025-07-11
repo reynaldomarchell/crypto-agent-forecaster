@@ -32,11 +32,12 @@ class FusionPrompts:
     3. Consider the current market volatility in your confidence assessment
     4. Factor in the source reliability (news vs 4chan/biz forums)
     5. Provide step-by-step reasoning for your forecast
+    6. When signals are mixed or unclear, choose the direction supported by the most reliable signals
     
     === REQUIRED OUTPUT ===
     Predict the price direction for {cryptocurrency} and provide:
     
-    1. **Directional Forecast**: UP, DOWN, or NEUTRAL
+    1. **Directional Forecast**: UP or DOWN (choose one - no neutral allowed)
     2. **Confidence Score**: Low, Medium, or High
     3. **Reasoning**: Step-by-step explanation of how you weighed the evidence
     4. **Key Factors**: Most influential factors in your decision
@@ -45,7 +46,7 @@ class FusionPrompts:
     
     Respond in the following JSON format:
     {{
-        "forecast": "UP/DOWN/NEUTRAL",
+        "forecast": "UP/DOWN",
         "confidence": "Low/Medium/High", 
         "confidence_score": 0.0,
         "reasoning": "Detailed step-by-step reasoning",
@@ -94,7 +95,8 @@ class FusionPrompts:
     consider it as a potential early indicator.
     
     **Step 5: Final Forecast**
-    Predict the price direction for {cryptocurrency} over {time_horizon}.
+    Make a binary decision: UP or DOWN for {cryptocurrency} over {time_horizon}.
+    When signals are mixed, choose the direction supported by the most reliable data.
     
     Respond in JSON format:
     {{
@@ -107,7 +109,7 @@ class FusionPrompts:
             "forum": 0.0
         }},
         "synthesis": "how the three streams were combined",
-        "forecast": "UP/DOWN/NEUTRAL",
+        "forecast": "UP/DOWN",
         "confidence": "Low/Medium/High",
         "reasoning": "final reasoning for the forecast"
     }}
@@ -154,7 +156,8 @@ class FusionPrompts:
     **Step 5:** What is my final assessment?
     - Integrate all information streams
     - Assign appropriate weights to different signals
-    - Make final directional forecast with confidence level
+    - Make final directional forecast: UP or DOWN (no neutral allowed)
+    - When signals are mixed, lean toward the more reliable source
     
     **Final Output:**
     Based on this analysis, provide your forecast in JSON format:
@@ -164,7 +167,7 @@ class FusionPrompts:
         "step3_comparison": "comparison of signals",
         "step4_context": "market context considerations",
         "step5_integration": "final integration reasoning",
-        "forecast": "UP/DOWN/NEUTRAL",
+        "forecast": "UP/DOWN",
         "confidence": "Low/Medium/High",
         "primary_reasoning": "main factors driving the forecast"
     }}
@@ -195,7 +198,8 @@ class FusionPrompts:
     
     **Your Task:**
     Resolve this conflict and make a reasoned forecast for {cryptocurrency} 
-    over {time_horizon}.
+    over {time_horizon}. You must choose either UP or DOWN - no neutral allowed.
+    When truly uncertain, lean toward the more reliable signal source.
     
     Provide your analysis in JSON format:
     {{
@@ -204,7 +208,7 @@ class FusionPrompts:
         "sentiment_strength": "assessment of sentiment signal strength",
         "resolution_logic": "how you resolved the conflict",
         "dominant_factor": "which signal type dominated and why",
-        "forecast": "UP/DOWN/NEUTRAL",
+        "forecast": "UP/DOWN",
         "confidence": "Low/Medium/High",
         "rationale": "detailed rationale for the final decision",
         "risks": ["key risks to this forecast"]
@@ -212,50 +216,91 @@ class FusionPrompts:
     """
     
     CONFIDENCE_CALIBRATOR = """
-    You are calibrating the confidence level for a {cryptocurrency} price forecast.
+    You are calibrating confidence levels for cryptocurrency price predictions.
     
-    **Forecast Details:**
-    Direction: {forecast_direction}
-    Technical Score: {technical_score}
-    Sentiment Score: {sentiment_score}
+    **Prediction Details:**
+    Cryptocurrency: {cryptocurrency}
+    Forecast: {forecast_direction}
+    Time Horizon: {time_horizon}
     
-    **Evidence Strength:**
-    {evidence_summary}
+    **Signal Strength Assessment:**
+    Technical Signals: {technical_strength}
+    Sentiment Signals: {sentiment_strength}
+    Signal Agreement: {signal_agreement}
     
-    **Market Context:**
-    Volatility: {volatility_level}
-    Recent Price Action: {price_action}
+    **Confidence Calibration Guidelines:**
     
-    **Confidence Calibration Factors:**
-    
-    **High Confidence (0.8-1.0):**
-    - Strong agreement between technical and sentiment
-    - High-volume technical confirmations
-    - Clear, consistent sentiment themes
+    **HIGH Confidence (0.8-1.0):**
+    - Technical and sentiment strongly agree
+    - Multiple confirming indicators
+    - Clear trend with volume support
     - Low market volatility
+    - Historical pattern reliability high
     
-    **Medium Confidence (0.5-0.8):**
-    - Moderate agreement between signals
-    - Some conflicting indicators
-    - Mixed sentiment sources
+    **MEDIUM Confidence (0.5-0.7):**
+    - Moderate signal agreement
+    - Some confirming indicators
+    - Trend present but with some uncertainty
     - Normal market volatility
+    - Mixed historical patterns
     
-    **Low Confidence (0.0-0.5):**
-    - Conflicting signals
-    - Weak technical patterns
-    - Manipulated or unclear sentiment
+    **LOW Confidence (0.2-0.4):**
+    - Conflicting signals between technical/sentiment
+    - Weak or unclear indicators
     - High market volatility
+    - Uncertain market conditions
+    - Limited reliable data
     
-    Calibrate the confidence for this forecast:
+    **Your Task:**
+    Assess the confidence level for this {forecast_direction} prediction 
+    and provide detailed calibration reasoning.
     
+    Respond in JSON format:
     {{
-        "original_confidence": "{original_confidence}",
-        "calibrated_confidence": "Low/Medium/High",
+        "confidence_level": "Low/Medium/High",
         "confidence_score": 0.0,
-        "calibration_reasoning": "why confidence was adjusted",
-        "key_uncertainty_factors": ["factor1", "factor2"],
-        "confidence_drivers": ["what supports confidence"],
-        "final_assessment": "overall confidence assessment"
+        "supporting_factors": ["factor1", "factor2"],
+        "risk_factors": ["risk1", "risk2"],
+        "signal_agreement_score": 0.0,
+        "calibration_reasoning": "detailed explanation",
+        "forecast_reliability": "assessment of prediction reliability"
+    }}
+    """
+    
+    MULTI_TIMEFRAME_FUSION = """
+    You are analyzing {cryptocurrency} across multiple timeframes for trend consistency.
+    
+    **Multi-Timeframe Analysis:**
+    Short-term (4h-1d): {short_term_signals}
+    Medium-term (1d-1w): {medium_term_signals}  
+    Long-term (1w-1m): {long_term_signals}
+    
+    **Timeframe Alignment Assessment:**
+    Analyze how signals align across different timeframes:
+    - Do all timeframes suggest the same direction?
+    - Are there any conflicts between timeframes?
+    - Which timeframe is most relevant for {time_horizon} prediction?
+    
+    **Fusion Strategy:**
+    1. Identify the dominant trend across timeframes
+    2. Weight timeframes based on prediction horizon
+    3. Resolve any timeframe conflicts
+    4. Make final UP/DOWN decision (no neutral allowed)
+    
+    Respond in JSON format:
+    {{
+        "timeframe_alignment": "Strong/Moderate/Weak",
+        "dominant_timeframe": "short/medium/long",
+        "trend_consistency": "description of trend alignment",
+        "conflict_resolution": "how timeframe conflicts were resolved",
+        "forecast": "UP/DOWN",
+        "confidence": "Low/Medium/High",
+        "timeframe_weights": {{
+            "short_term": 0.0,
+            "medium_term": 0.0,
+            "long_term": 0.0
+        }},
+        "reasoning": "multi-timeframe analysis reasoning"
     }}
     """
 

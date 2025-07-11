@@ -120,34 +120,53 @@ class SentimentPrompts:
     """
     
     BATCH_SENTIMENT_SUMMARY = """
-    You are synthesizing sentiment analysis from multiple sources about {cryptocurrency}.
+    You are summarizing multiple sentiment analysis results for {cryptocurrency}.
     
-    Here are the individual sentiment analyses:
-    {sentiment_analyses}
+    **Individual Analysis Results:**
+    {individual_results}
     
-    Create a comprehensive sentiment summary that includes:
-    1. Overall sentiment trend across all sources
-    2. Weighted sentiment score considering source reliability
-    3. Key themes and narratives
-    4. Notable manipulation indicators if any
-    5. Confidence in the overall assessment
+    **Aggregation Task:**
+    1. Combine all individual sentiment scores and assessments
+    2. Weight different sources appropriately (news > verified social > anonymous forums)
+    3. Identify consensus themes and conflicting signals
+    4. Assess overall reliability and manipulation risk
+    5. Generate final sentiment assessment
     
-    Weight the sources as follows:
-    - News sources: High reliability
-    - 4chan/biz: Low-Medium reliability unless overwhelming consensus
+    **Output Requirements:**
+    Provide a comprehensive sentiment summary including:
+    - Overall sentiment direction (Positive/Negative)
+    - Aggregate sentiment score (-1.0 to +1.0)
+    - Confidence level in the assessment
+    - Key narrative themes identified
+    - Manipulation risk assessment
+    - Source quality breakdown
+    - Actionable insights for price prediction
     
-    Provide summary in JSON format:
+    **Price Direction Implications:**
+    Based on the sentiment analysis, provide insight into potential price direction:
+    - Strong positive sentiment → Bullish price bias
+    - Strong negative sentiment → Bearish price bias
+    - When sentiment is mixed or unclear → Look to technical analysis for direction
+    
+    Note: Sentiment analysis informs but does not solely determine price direction.
+    The final forecast should integrate sentiment with technical and fundamental analysis.
+    
+    Respond in JSON format:
     {{
-        "overall_sentiment": "Positive/Negative/Neutral/Mixed",
-        "weighted_sentiment_score": 0.0,
-        "confidence": "Low/Medium/High",
-        "key_narratives": ["narrative1", "narrative2"],
-        "manipulation_risk": "Low/Medium/High",
+        "overall_sentiment": "Positive/Negative",
+        "sentiment_score": 0.0,
+        "confidence": "High/Medium/Low",
+        "key_themes": ["theme1", "theme2", "theme3"],
+        "manipulation_risk": "High/Medium/Low",
         "source_breakdown": {{
-            "news_sentiment": "summary",
-            "forum_sentiment": "summary"
+            "news_sources": 0,
+            "social_media": 0,
+            "forum_posts": 0,
+            "total_analyzed": 0
         }},
-        "summary": "Comprehensive sentiment overview"
+        "price_direction_bias": "Bullish/Bearish",
+        "sentiment_summary": "Comprehensive sentiment analysis summary",
+        "actionable_insights": ["insight1", "insight2"]
     }}
     """
 

@@ -28,7 +28,7 @@ AGENTS & TOOLS:
 • Forecasting Agent → Multi-modal data fusion & prediction
 
 OUTPUTS:
-• Price direction prediction (UP/DOWN/NEUTRAL)
+• Price direction prediction (UP or DOWN only)
 • Confidence scoring (HIGH/MEDIUM/LOW)
 • Technical analysis charts (PNG format)
 • Detailed reasoning and explanation

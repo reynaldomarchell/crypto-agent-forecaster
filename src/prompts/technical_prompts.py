@@ -25,7 +25,7 @@ class TechnicalPrompts:
     {price_action}
     
     Generate a comprehensive technical analysis summary that includes:
-    1. Current trend direction (Bullish/Bearish/Neutral)
+    1. Current trend direction (Bullish/Bearish - choose one)
     2. Key support and resistance levels
     3. Momentum indicators interpretation
     4. Volume analysis
@@ -35,11 +35,11 @@ class TechnicalPrompts:
     
     Provide your analysis in the following JSON format:
     {{
-        "trend_direction": "Bullish/Bearish/Neutral",
+        "trend_direction": "Bullish/Bearish",
         "trend_strength": "Strong/Moderate/Weak",
         "support_levels": [level1, level2],
         "resistance_levels": [level1, level2],
-        "momentum": "Bullish/Bearish/Neutral",
+        "momentum": "Bullish/Bearish",
         "volume_analysis": "summary",
         "key_patterns": ["pattern1", "pattern2"],
         "technical_score": 0.0,
@@ -62,7 +62,7 @@ class TechnicalPrompts:
     For each identified pattern, provide:
     1. Pattern name
     2. Formation date
-    3. Bullish/Bearish implication
+    3. Bullish/Bearish implication (choose one - no neutral)
     4. Reliability/Strength
     5. Expected price target or continuation
     
@@ -79,13 +79,13 @@ class TechnicalPrompts:
             {{
                 "name": "pattern_name",
                 "date": "YYYY-MM-DD",
-                "type": "Bullish/Bearish/Neutral",
+                "type": "Bullish/Bearish",
                 "strength": "Strong/Moderate/Weak",
                 "description": "detailed description",
                 "implication": "expected market reaction"
             }}
         ],
-        "overall_pattern_sentiment": "Bullish/Bearish/Neutral",
+        "overall_pattern_sentiment": "Bullish/Bearish",
         "pattern_summary": "summary of all patterns"
     }}
     """
@@ -136,7 +136,7 @@ class TechnicalPrompts:
     """
     
     VOLUME_PRICE_ANALYSIS = """
-    You are analyzing volume and price relationship for {cryptocurrency}.
+    You are analyzing the relationship between price and volume for {cryptocurrency}.
     
     Price Data:
     {price_data}
@@ -144,26 +144,27 @@ class TechnicalPrompts:
     Volume Data:
     {volume_data}
     
-    Volume Indicators:
-    - Average Volume (20-day): {avg_volume}
-    - Volume Ratio (current/average): {volume_ratio}
-    - On-Balance Volume: {obv}
+    Analyze the price-volume relationship and provide:
+    1. Volume confirmation of price moves
+    2. Accumulation vs distribution patterns
+    3. Volume breakouts or climaxes
+    4. Overall volume trend assessment
+    5. Price-volume divergences
     
-    Analyze:
-    1. Volume trend vs price trend
-    2. Volume spikes and their significance
-    3. Price-volume divergences
-    4. Volume confirmation of price moves
-    5. Accumulation/Distribution signals
+    Focus on:
+    - Rising prices with increasing volume (bullish confirmation)
+    - Falling prices with increasing volume (bearish confirmation)
+    - Price moves without volume support (potential reversals)
+    - Volume spikes and their implications
     
     Respond in JSON format:
     {{
         "volume_trend": "Increasing/Decreasing/Stable",
-        "price_volume_relationship": "Confirmed/Diverging/Neutral",
-        "volume_spikes": ["date: significance"],
-        "accumulation_distribution": "Accumulation/Distribution/Neutral",
-        "volume_analysis": "comprehensive volume analysis",
-        "volume_score": 0.0
+        "price_volume_relationship": "Confirmed/Diverging",
+        "accumulation_distribution": "Accumulation/Distribution",
+        "volume_breakouts": ["breakout1", "breakout2"],
+        "key_observations": ["observation1", "observation2"],
+        "volume_analysis_summary": "comprehensive volume analysis"
     }}
     """
 

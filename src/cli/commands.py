@@ -5,6 +5,7 @@ Command handlers for the CLI application.
 import logging
 import traceback
 from typing import Optional
+from datetime import datetime, timedelta
 
 from .constants import ERROR_MESSAGES, SUCCESS_MESSAGES, DEFAULT_HORIZON
 from .output import OutputManager
@@ -264,4 +265,143 @@ class CommandHandler:
         except Exception as e:
             self.output.display_error(f"Failed to display help: {str(e)}")
             logger.error(f"Help command failed: {str(e)}")
+            return False
+
+    def handle_backtest(self, crypto: str, start_date: Optional[str], end_date: Optional[str], 
+                       methods: str, data_dir: str, resume: bool, quick_test: bool) -> bool:
+        """
+        Handle backtest command.
+        
+        Args:
+            crypto: Cryptocurrency to backtest
+            start_date: Start date for backtest (YYYY-MM-DD)
+            end_date: End date for backtest (YYYY-MM-DD)
+            methods: Prediction methods to test
+            data_dir: Directory to store results
+            resume: Whether to resume existing backtest
+            quick_test: Whether to run quick test
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        self.output.display_banner()
+        self.output.print(f"\n🧪 Starting backtest experiment for {crypto.upper()}")
+        
+        try:
+            # Import backtesting modules
+            from ..backtesting.framework import BacktestingFramework
+            from ..backtesting.analyzer import ThesisAnalyzer
+            
+            # Handle quick test mode - only override dates if not explicitly provided
+            if quick_test and not start_date and not end_date:
+                # Use a fixed recent date range that we know has real historical data
+                # Set to December 2024 which should have real CoinGecko data available
+                end_dt = datetime(2024, 12, 25)  # Christmas day 2024
+                start_dt = end_dt - timedelta(days=7)  # Week before
+                start_date = start_dt.strftime("%Y-%m-%d")
+                end_date = end_dt.strftime("%Y-%m-%d")
+                self.output.print(f"Quick test mode: Using {start_date} to {end_date} (7 days, real historical data)")
+            elif quick_test and (start_date or end_date):
+                # If dates are provided with quick test, limit the range to prevent long experiments
+                if start_date and end_date:
+                    start_dt = datetime.strptime(start_date, "%Y-%m-%d")
+                    end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+                    # Limit to 7 days max for quick test
+                    if (end_dt - start_dt).days > 7:
+                        end_dt = start_dt + timedelta(days=7)
+                        end_date = end_dt.strftime("%Y-%m-%d")
+                        self.output.print(f"Quick test mode: Limited date range to {start_date} to {end_date} (7 days max)")
+            
+            # Set default dates if not provided - use fixed dates that we know have real historical data
+            if not start_date:
+                # Use a known good date range (1 year ending December 2024)
+                start_dt = datetime(2024, 1, 1)  # Start of 2024
+                start_date = start_dt.strftime("%Y-%m-%d")
+            if not end_date:
+                # End at Christmas 2024, ensuring we have real historical data
+                end_dt = datetime(2024, 12, 25)
+                end_date = end_dt.strftime("%Y-%m-%d")
+            
+            # Validate that the date range makes sense for real historical data
+            start_dt = datetime.strptime(start_date, "%Y-%m-%d")
+            end_dt = datetime.strptime(end_date, "%Y-%m-%d")
+            
+            # Check if dates are too far in the past (before reliable CoinGecko data)
+            if start_dt.year < 2020:
+                start_dt = datetime(2024, 1, 1)
+                start_date = start_dt.strftime("%Y-%m-%d")
+                self.output.print(f"⚠️  Start date adjusted to {start_date} (ensuring reliable historical data)")
+            
+            # Check if dates are in the future or too recent (might not have next-day data)
+            if end_dt > datetime(2024, 12, 31):
+                end_dt = datetime(2024, 12, 25)
+                end_date = end_dt.strftime("%Y-%m-%d")
+                self.output.print(f"⚠️  End date adjusted to {end_date} (ensuring real historical data availability)")
+            
+            # Parse methods
+            if methods.lower() == "all":
+                methods_list = ["full_agentic", "image_only", "sentiment_only"]
+            else:
+                method_mapping = {
+                    "agentic": "full_agentic",
+                    "full_agentic": "full_agentic",
+                    "image": "image_only",
+                    "image_only": "image_only",
+                    "sentiment": "sentiment_only",
+                    "sentiment_only": "sentiment_only"
+                }
+                methods_list = []
+                for method in methods.split(","):
+                    method = method.strip().lower()
+                    if method in method_mapping:
+                        methods_list.append(method_mapping[method])
+                    else:
+                        self.output.display_error(f"Unknown method: {method}")
+                        return False
+            
+            self.output.print(f"Methods to test: {', '.join(methods_list)}")
+            self.output.print(f"Date range: {start_date} to {end_date}")
+            self.output.print(f"Data directory: {data_dir}")
+            self.output.print(f"Resume existing: {resume}")
+            
+            # Initialize framework with crypto symbol
+            framework = BacktestingFramework(crypto_symbol=crypto, data_dir=data_dir)
+            
+            # Run backtest
+            self.output.print("\n🚀 Starting backtesting...")
+            results = framework.run_backtest(
+                start_date=start_date,
+                end_date=end_date,
+                methods=methods_list,
+                skip_existing=resume
+            )
+            
+            if not results:
+                self.output.display_error("Backtesting failed")
+                return False
+            
+            self.output.print("✅ Backtesting completed!")
+            
+            # Run analysis
+            self.output.print("\n📊 Generating analysis...")
+            analyzer = ThesisAnalyzer(data_dir=data_dir)
+            analysis_results = analyzer.analyze_prediction_accuracy(results)
+            
+            if analysis_results:
+                self.output.print("✅ Analysis completed!")
+                self.output.print(f"\n📁 Results saved to: {data_dir}/")
+                self.output.print(f"📈 Charts: {data_dir}/charts/")
+                self.output.print(f"📊 CSV data: {data_dir}/processed_data/")
+                self.output.print(f"📝 Report: {data_dir}/analysis/{crypto}_thesis_report.md")
+            else:
+                self.output.print("⚠️  Analysis completed with some issues")
+            
+            logger.info(f"Backtest command completed successfully for {crypto}")
+            return True
+            
+        except Exception as e:
+            self.output.display_error(f"Backtesting failed: {str(e)}")
+            logger.error(f"Backtest command failed: {str(e)}")
+            if hasattr(self, 'output'):
+                self.output.print(traceback.format_exc())
             return False 

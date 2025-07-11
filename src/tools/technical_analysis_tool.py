@@ -516,7 +516,7 @@ def _create_technical_chart(df: pd.DataFrame, indicators: Dict[str, Any], crypto
 
         # Calculate key indicators for title
         rsi_value = indicators.get("rsi", 0)
-        rsi_status = "Bullish" if rsi_value < 40 else "Bearish" if rsi_value > 60 else "Neutral"
+        rsi_status = "Bullish" if rsi_value < 40 else "Bearish"  # Removed neutral zone
 
         macd_val = indicators.get("macd", 0)
         macd_signal = indicators.get("macd_signal", 0)
@@ -1027,7 +1027,8 @@ def _interpret_indicators(indicators: Dict[str, Any], current_price: float) -> D
         elif rsi < 30:
             interpretations["rsi"] = f"Oversold (RSI: {rsi:.1f})"
         else:
-            interpretations["rsi"] = f"Neutral (RSI: {rsi:.1f})"
+            # In neutral zone, lean bearish for conservative approach
+            interpretations["rsi"] = f"Slightly Bearish (RSI: {rsi:.1f} - in neutral zone, leaning bearish)"
 
         # MACD interpretation
         macd = indicators.get("macd", 0)
@@ -1097,10 +1098,9 @@ def _generate_summary(
     for indicator, interpretation in interpretations.items():
         summary_parts.append(f"- {indicator.replace('_', ' ').title()}: {interpretation}")
 
-    # Enhanced signal analysis based on forecast horizon
+    # Enhanced signal analysis based on forecast horizon (binary approach)
     bullish_signals = 0
     bearish_signals = 0
-    neutral_signals = 0
 
     # RSI analysis with horizon context
     rsi = indicators.get("rsi", 50)
@@ -1117,8 +1117,9 @@ def _generate_summary(
         bearish_signals += 1
         signal_strength = "Moderate"
     else:
-        neutral_signals += 1
-        signal_strength = "Neutral"
+        # In neutral zone, lean bearish for conservative approach
+        bearish_signals += 1
+        signal_strength = "Neutral/Bearish"
 
     # MACD analysis
     macd = indicators.get("macd", 0)
@@ -1163,7 +1164,8 @@ def _generate_summary(
             elif sma_20 < sma_50 and current_price < sma_20:
                 bearish_signals += 2
             else:
-                neutral_signals += 1
+                # When MAs are mixed, lean bearish
+                bearish_signals += 1
 
     # Bollinger Bands analysis
     bb_position = indicators.get("bb_position", 0.5)
@@ -1172,7 +1174,8 @@ def _generate_summary(
     elif bb_position < 0.2:
         bullish_signals += 1  # Potentially oversold
     else:
-        neutral_signals += 1
+        # In middle of BB, lean slightly bearish (conservative)
+        bearish_signals += 1
 
     # Pattern signal analysis
     bullish_pattern_keywords = ["bullish", "hammer", "morning", "buy", "reversal"]
@@ -1191,21 +1194,20 @@ def _generate_summary(
             else:
                 bearish_signals += 1
 
-    # Determine overall outlook with confidence
-    total_signals = bullish_signals + bearish_signals + neutral_signals
+    # Determine overall outlook with confidence (binary approach)
+    total_signals = bullish_signals + bearish_signals
     if total_signals > 0:
         bullish_percentage = (bullish_signals / total_signals) * 100
         bearish_percentage = (bearish_signals / total_signals) * 100
-        neutral_percentage = (neutral_signals / total_signals) * 100
 
-        if bullish_signals > bearish_signals + 1:
+        if bullish_signals > bearish_signals:
             if bullish_percentage > 70:
                 overall = "Strong Bullish"
                 confidence = "High"
             else:
                 overall = "Bullish"
                 confidence = "Medium"
-        elif bearish_signals > bullish_signals + 1:
+        elif bearish_signals > bullish_signals:
             if bearish_percentage > 70:
                 overall = "Strong Bearish"
                 confidence = "High"
@@ -1213,12 +1215,13 @@ def _generate_summary(
                 overall = "Bearish"
                 confidence = "Medium"
         else:
-            overall = "Neutral/Mixed"
-            confidence = "Low" if abs(bullish_signals - bearish_signals) <= 1 else "Medium"
+            # When tied, default to bearish (conservative approach)
+            overall = "Bearish"
+            confidence = "Low"
     else:
-        overall = "Insufficient Data"
+        overall = "Bearish"  # Default to bearish when insufficient data
         confidence = "Low"
-        bullish_percentage = bearish_percentage = neutral_percentage = 0
+        bullish_percentage = bearish_percentage = 0
 
     # Add horizon-specific recommendations
     horizon_recommendations = []
@@ -1246,8 +1249,8 @@ def _generate_summary(
             "",
             f"**{forecast_horizon} Technical Outlook: {overall}**",
             f"**Confidence Level: {confidence}**",
-            f"Signal Distribution: {bullish_signals} Bullish | {bearish_signals} Bearish | {neutral_signals} Neutral",
-            f"Bullish: {bullish_percentage:.1f}% | Bearish: {bearish_percentage:.1f}% | Neutral: {neutral_percentage:.1f}%",
+                    f"Signal Distribution: {bullish_signals} Bullish | {bearish_signals} Bearish",
+        f"Bullish: {bullish_percentage:.1f}% | Bearish: {bearish_percentage:.1f}%",
             "",
             f"**{forecast_horizon} Recommendations:**",
         ]
@@ -1334,7 +1337,7 @@ def _create_enhanced_technical_chart(
 
         # Calculate key indicators for title
         rsi_value = indicators.get("rsi", 0)
-        rsi_status = "Bullish" if rsi_value < 40 else "Bearish" if rsi_value > 60 else "Neutral"
+        rsi_status = "Bullish" if rsi_value < 40 else "Bearish"  # Removed neutral zone
 
         macd_val = indicators.get("macd", 0)
         macd_signal = indicators.get("macd_signal", 0)

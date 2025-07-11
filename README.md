@@ -220,7 +220,7 @@ LOG_LEVEL=INFO
 
 The system provides structured forecasts including:
 
-- **Direction**: UP/DOWN/NEUTRAL
+- **Direction**: UP or DOWN
 - **Confidence**: HIGH/MEDIUM/LOW  
 - **Detailed Explanation**: Reasoning and key factors
 - **Technical Analysis**: Indicators and patterns
