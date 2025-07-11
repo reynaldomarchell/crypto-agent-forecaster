@@ -21,3 +21,5 @@ logs/
 
 # Configuration
 vps_config.ini
+.DS_Store
+thesis_data/
