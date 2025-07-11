@@ -213,7 +213,7 @@ def warosu_archive_tool(keywords: List[str], date_from: Optional[str] = None, da
     # Main execution
     try:
         # Handle historical backtesting mode
-        if historical_date:
+        if historical_date and historical_date.strip():
             from datetime import datetime, timedelta
             current_date = datetime.strptime(historical_date, '%Y-%m-%d')
             prev_date = current_date - timedelta(days=1)
@@ -272,13 +272,24 @@ class WarosuArchiveTool:
         Fetches historical cryptocurrency discussions from Warosu 4chan /biz/ archive.
         Use this tool to gather historical sentiment data for backtesting and analysis.
         Supports date range queries and keyword filtering.
+        
+        Args:
+            keywords: List of keywords to search for (REQUIRED)
+            date_from: Start date in YYYY-MM-DD format (optional)
+            date_to: End date in YYYY-MM-DD format (optional)  
+            max_posts: Maximum number of posts to fetch (default: 50)
+            historical_date: Historical date for backtesting mode (optional)
         """
     
     def _run(self, keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: Optional[str] = None) -> str:
         """Legacy interface for the tool."""
         return warosu_archive_tool.func(keywords, date_from, date_to, max_posts, historical_date)
+    
+    def __call__(self, keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: Optional[str] = None) -> str:
+        """Allow the tool to be called directly."""
+        return self._run(keywords, date_from, date_to, max_posts, historical_date)
 
 
 def create_warosu_tool():
     """Create and return a Warosu archive tool instance."""
-    return warosu_archive_tool 
+    return WarosuArchiveTool() 

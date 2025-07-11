@@ -17,7 +17,7 @@ class DataCollector:
     
     def __init__(self, data_dir: Path):
         self.data_dir = Path(data_dir)
-        self.data_dir.mkdir(exist_ok=True)
+        self.data_dir.mkdir(parents=True, exist_ok=True)
         
         # Create subdirectories
         self.raw_data_dir = self.data_dir / "raw_data"
@@ -26,7 +26,7 @@ class DataCollector:
         self.charts_dir = self.data_dir / "charts"
         
         for dir_path in [self.raw_data_dir, self.processed_data_dir, self.analysis_dir, self.charts_dir]:
-            dir_path.mkdir(exist_ok=True)
+            dir_path.mkdir(parents=True, exist_ok=True)
     
     def save_daily_data(self, date: str, crypto_symbol: str, data: Dict[str, Any]):
         """Save daily data for a specific date and cryptocurrency."""

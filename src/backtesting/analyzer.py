@@ -24,17 +24,56 @@ class ThesisAnalyzer:
         self.analysis_dir = self.data_dir / "analysis"
         self.charts_dir = self.data_dir / "charts"
         
-        # Ensure directories exist
-        self.analysis_dir.mkdir(exist_ok=True)
-        self.charts_dir.mkdir(exist_ok=True)
+        # Ensure directories exist (create parent directories if needed)
+        self.analysis_dir.mkdir(parents=True, exist_ok=True)
+        self.charts_dir.mkdir(parents=True, exist_ok=True)
         
         # Set up plotting style
-        plt.style.use('seaborn-v0_8')
-        sns.set_palette("husl")
+        plt.style.use('default')
+        sns.set_style("whitegrid")
+        plt.rcParams['figure.dpi'] = 300
+        plt.rcParams['savefig.dpi'] = 300
+        plt.rcParams['font.size'] = 10
+    
+    def load_backtest_data(self, crypto_symbol: str) -> pd.DataFrame:
+        """Load and process backtest data into a comprehensive DataFrame."""
+        results_file = self.data_dir / f"{crypto_symbol}_backtest_results.json"
+        
+        if not results_file.exists():
+            logger.error(f"No backtest results found for {crypto_symbol}")
+            return pd.DataFrame()
+        
+        with open(results_file, 'r') as f:
+            results = json.load(f)
+        
+        return self._create_analysis_dataframe(results)
     
     def analyze_prediction_accuracy(self, results: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze prediction accuracy across all methods."""
         try:
+            logger.info("=== ANALYZER: Starting prediction accuracy analysis ===")
+            logger.info(f"Input results keys: {list(results.keys()) if results else 'None'}")
+            
+            if not results:
+                logger.error("ANALYZER: No results provided to analyzer")
+                return {"error": "No results provided"}
+            
+            # Log the structure of daily_predictions
+            daily_predictions = results.get("daily_predictions", {})
+            logger.info(f"ANALYZER: Found {len(daily_predictions)} days of predictions")
+            
+            if daily_predictions:
+                sample_date = list(daily_predictions.keys())[0]
+                sample_data = daily_predictions[sample_date]
+                logger.info(f"ANALYZER: Sample date {sample_date} has methods: {list(sample_data.keys())}")
+                
+                # Log a sample prediction structure
+                if sample_data:
+                    sample_method = list(sample_data.keys())[0]
+                    sample_pred = sample_data[sample_method]
+                    logger.info(f"ANALYZER: Sample prediction keys: {list(sample_pred.keys()) if isinstance(sample_pred, dict) else 'Not a dict'}")
+                    logger.info(f"ANALYZER: Sample prediction success: {sample_pred.get('success') if isinstance(sample_pred, dict) else 'N/A'}")
+            
             analysis = {
                 "overall_stats": {},
                 "method_comparison": {},
@@ -44,33 +83,49 @@ class ThesisAnalyzer:
             }
             
             # Create comparison dataset
+            logger.info("ANALYZER: Creating analysis dataframe...")
             df = self._create_analysis_dataframe(results)
+            logger.info(f"ANALYZER: Created dataframe with {len(df)} rows")
             
             if df.empty:
+                logger.error("ANALYZER: Dataframe is empty - no valid data for analysis")
                 return {"error": "No valid data for analysis"}
             
+            logger.info(f"ANALYZER: Dataframe columns: {list(df.columns)}")
+            logger.info(f"ANALYZER: Sample dataframe data:\n{df.head()}")
+            
             # Overall statistics
+            logger.info("ANALYZER: Calculating overall stats...")
             analysis["overall_stats"] = self._calculate_overall_stats(df)
+            logger.info(f"ANALYZER: Overall stats: {analysis['overall_stats']}")
             
             # Method comparison
+            logger.info("ANALYZER: Comparing methods...")
             analysis["method_comparison"] = self._compare_methods(df)
             
             # Confidence analysis
+            logger.info("ANALYZER: Analyzing confidence correlation...")
             analysis["confidence_analysis"] = self._analyze_confidence_correlation(df)
             
             # Temporal analysis
+            logger.info("ANALYZER: Analyzing temporal patterns...")
             analysis["temporal_analysis"] = self._analyze_temporal_patterns(df)
             
             # Detailed metrics
+            logger.info("ANALYZER: Calculating detailed metrics...")
             analysis["detailed_metrics"] = self._calculate_detailed_metrics(df)
             
             # Statistical significance tests
+            logger.info("ANALYZER: Performing statistical tests...")
             analysis["statistical_tests"] = self._perform_statistical_tests(df)
             
+            logger.info("=== ANALYZER: Analysis completed successfully ===")
             return analysis
             
         except Exception as e:
-            logger.error(f"Failed to analyze prediction accuracy: {e}")
+            logger.error(f"ANALYZER: Failed to analyze prediction accuracy: {e}")
+            import traceback
+            logger.error(f"ANALYZER: Traceback: {traceback.format_exc()}")
             return {"error": str(e)}
     
     def _create_analysis_dataframe(self, results: Dict[str, Any]) -> pd.DataFrame:
@@ -129,7 +184,23 @@ class ThesisAnalyzer:
                     
                     records.append(record)
         
-        return pd.DataFrame(records)
+        df = pd.DataFrame(records)
+        
+        if len(df) > 0:
+            # Add additional temporal features for enhanced analysis
+            df['day_of_week'] = df['date'].dt.day_name()
+            df['month'] = df['date'].dt.month
+            df['week_of_year'] = df['date'].dt.isocalendar().week
+            df['volatility'] = abs(df['actual_movement'].fillna(0))
+            
+            # Add numerical direction columns for correlation analysis
+            df['actual_numerical'] = df['actual_direction'].map({'UP': 1, 'DOWN': -1})
+            df['predicted_numerical'] = df['predicted_direction'].map({'UP': 1, 'DOWN': -1, 'FAILED': -1})
+            
+            # Sort by date and method for easier analysis
+            df = df.sort_values(['date', 'method']).reset_index(drop=True)
+        
+        return df
     
     def _calculate_overall_stats(self, df: pd.DataFrame) -> Dict[str, Any]:
         """Calculate overall statistics across all methods."""
@@ -306,43 +377,109 @@ class ThesisAnalyzer:
     def generate_thesis_visualizations(self, results: Dict[str, Any], crypto_symbol: str) -> List[Path]:
         """Generate comprehensive visualizations for thesis including trading performance."""
         try:
+            logger.info("=== ANALYZER: Starting chart generation ===")
+            logger.info(f"CHARTS: Charts directory: {self.charts_dir}")
+            logger.info(f"CHARTS: Charts directory exists: {self.charts_dir.exists()}")
+            
             df = self._create_analysis_dataframe(results)
             if df.empty:
+                logger.error("CHARTS: Cannot generate charts - dataframe is empty")
                 return []
+            
+            logger.info(f"CHARTS: Using dataframe with {len(df)} rows for chart generation")
             
             chart_paths = []
             
             # 1. Overall Accuracy Comparison
-            chart_paths.append(self._plot_accuracy_comparison(df, crypto_symbol))
+            logger.info("CHARTS: Generating accuracy comparison chart...")
+            chart_path = self._plot_accuracy_comparison(df, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Accuracy comparison saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate accuracy comparison chart")
+            chart_paths.append(chart_path)
             
             # 2. Confidence vs Accuracy Analysis
-            chart_paths.append(self._plot_confidence_accuracy(df, crypto_symbol))
+            logger.info("CHARTS: Generating confidence accuracy chart...")
+            chart_path = self._plot_confidence_accuracy(df, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Confidence accuracy saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate confidence accuracy chart")
+            chart_paths.append(chart_path)
             
             # 3. Temporal Performance Analysis
-            chart_paths.append(self._plot_temporal_analysis(df, crypto_symbol))
+            logger.info("CHARTS: Generating temporal analysis chart...")
+            chart_path = self._plot_temporal_analysis(df, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Temporal analysis saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate temporal analysis chart")
+            chart_paths.append(chart_path)
             
             # 4. Confusion Matrix Heatmaps
-            chart_paths.append(self._plot_confusion_matrices(df, crypto_symbol))
+            logger.info("CHARTS: Generating confusion matrices chart...")
+            chart_path = self._plot_confusion_matrices(df, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Confusion matrices saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate confusion matrices chart")
+            chart_paths.append(chart_path)
             
             # 5. Method Performance Distribution
-            chart_paths.append(self._plot_performance_distribution(df, crypto_symbol))
+            logger.info("CHARTS: Generating performance distribution chart...")
+            chart_path = self._plot_performance_distribution(df, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Performance distribution saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate performance distribution chart")
+            chart_paths.append(chart_path)
             
             # 6. Trading Performance Analysis (NEW)
-            chart_paths.append(self._plot_trading_performance(results, crypto_symbol))
+            logger.info("CHARTS: Generating trading performance chart...")
+            chart_path = self._plot_trading_performance(results, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Trading performance saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate trading performance chart")
+            chart_paths.append(chart_path)
             
             # 7. Portfolio Performance Over Time (NEW)
-            chart_paths.append(self._plot_portfolio_performance(results, crypto_symbol))
+            logger.info("CHARTS: Generating portfolio performance chart...")
+            chart_path = self._plot_portfolio_performance(results, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Portfolio performance saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate portfolio performance chart")
+            chart_paths.append(chart_path)
             
             # 8. Risk-Return Analysis (NEW)
-            chart_paths.append(self._plot_risk_return_analysis(results, crypto_symbol))
+            logger.info("CHARTS: Generating risk-return analysis chart...")
+            chart_path = self._plot_risk_return_analysis(results, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Risk-return analysis saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate risk-return analysis chart")
+            chart_paths.append(chart_path)
             
             # 9. Stop Loss / Take Profit Analysis (NEW)
-            chart_paths.append(self._plot_stop_loss_take_profit_analysis(results, crypto_symbol))
+            logger.info("CHARTS: Generating stop loss/take profit chart...")
+            chart_path = self._plot_stop_loss_take_profit_analysis(results, crypto_symbol)
+            if chart_path:
+                logger.info(f"CHARTS: ✅ Stop loss/take profit saved to: {chart_path}")
+            else:
+                logger.error("CHARTS: ❌ Failed to generate stop loss/take profit chart")
+            chart_paths.append(chart_path)
             
-            return [path for path in chart_paths if path]
+            valid_charts = [path for path in chart_paths if path]
+            logger.info(f"CHARTS: Generated {len(valid_charts)} valid charts out of {len(chart_paths)} attempts")
+            
+            return valid_charts
             
         except Exception as e:
-            logger.error(f"Failed to generate visualizations: {e}")
+            logger.error(f"CHARTS: Failed to generate visualizations: {e}")
+            import traceback
+            logger.error(f"CHARTS: Traceback: {traceback.format_exc()}")
             return []
     
     def _plot_accuracy_comparison(self, df: pd.DataFrame, crypto_symbol: str) -> Optional[Path]:
@@ -1283,25 +1420,95 @@ class ThesisAnalyzer:
     def generate_thesis_report(self, results: Dict[str, Any], crypto_symbol: str) -> Path:
         """Generate comprehensive thesis report."""
         try:
+            logger.info("=== ANALYZER: Generating thesis report ===")
+            logger.info(f"REPORT: Analysis directory: {self.analysis_dir}")
+            logger.info(f"REPORT: Analysis directory exists: {self.analysis_dir.exists()}")
+            
+            logger.info("REPORT: Running prediction accuracy analysis...")
             analysis = self.analyze_prediction_accuracy(results)
+            logger.info(f"REPORT: Analysis completed, has error: {'error' in analysis}")
+            
+            if "error" in analysis:
+                logger.error(f"REPORT: Analysis failed with error: {analysis['error']}")
+                return None
+            
+            logger.info("REPORT: Generating visualizations...")
             chart_paths = self.generate_thesis_visualizations(results, crypto_symbol)
+            logger.info(f"REPORT: Generated {len(chart_paths)} chart files")
             
             # Create markdown report
             report_path = self.analysis_dir / f"{crypto_symbol}_thesis_report.md"
+            logger.info(f"REPORT: Creating markdown report at: {report_path}")
             
+            logger.info("REPORT: Generating markdown content...")
+            markdown_content = self._generate_markdown_report(analysis, chart_paths, crypto_symbol)
+            logger.info(f"REPORT: Generated {len(markdown_content)} characters of markdown")
+            
+            logger.info("REPORT: Writing markdown file...")
             with open(report_path, 'w') as f:
-                f.write(self._generate_markdown_report(analysis, chart_paths, crypto_symbol))
+                f.write(markdown_content)
+            logger.info(f"REPORT: ✅ Markdown report saved to: {report_path}")
             
             # Also save as JSON
             json_path = self.analysis_dir / f"{crypto_symbol}_thesis_analysis.json"
-            with open(json_path, 'w') as f:
-                json.dump(analysis, f, indent=2, default=str)
+            logger.info(f"REPORT: Saving JSON analysis to: {json_path}")
             
+            # Clean the analysis data for JSON serialization
+            logger.info("REPORT: Cleaning analysis data for JSON serialization...")
+            cleaned_analysis = self._clean_for_json_serialization(analysis)
+            
+            with open(json_path, 'w') as f:
+                json.dump(cleaned_analysis, f, indent=2, default=str)
+            logger.info(f"REPORT: ✅ JSON analysis saved to: {json_path}")
+            
+            # Verify files were created
+            if report_path.exists():
+                logger.info(f"REPORT: ✅ Markdown file verified: {report_path.stat().st_size} bytes")
+            else:
+                logger.error(f"REPORT: ❌ Markdown file not found after creation: {report_path}")
+                
+            if json_path.exists():
+                logger.info(f"REPORT: ✅ JSON file verified: {json_path.stat().st_size} bytes")
+            else:
+                logger.error(f"REPORT: ❌ JSON file not found after creation: {json_path}")
+            
+            logger.info("=== ANALYZER: Thesis report generation completed ===")
             return report_path
             
         except Exception as e:
-            logger.error(f"Failed to generate thesis report: {e}")
+            logger.error(f"REPORT: Failed to generate thesis report: {e}")
+            import traceback
+            logger.error(f"REPORT: Traceback: {traceback.format_exc()}")
             return None
+    
+    def _clean_for_json_serialization(self, obj):
+        """Clean data structure for JSON serialization by converting tuple keys to strings."""
+        if isinstance(obj, dict):
+            cleaned = {}
+            for key, value in obj.items():
+                # Convert tuple keys to string
+                if isinstance(key, tuple):
+                    key_str = "_".join(str(k) for k in key)
+                    cleaned[key_str] = self._clean_for_json_serialization(value)
+                else:
+                    cleaned[str(key)] = self._clean_for_json_serialization(value)
+            return cleaned
+        elif isinstance(obj, list):
+            return [self._clean_for_json_serialization(item) for item in obj]
+        elif isinstance(obj, (pd.DataFrame, pd.Series)):
+            # Convert pandas objects to dict with string keys
+            if isinstance(obj, pd.DataFrame):
+                return obj.to_dict()
+            else:
+                return obj.to_dict()
+        elif hasattr(obj, 'to_dict'):
+            # Handle other objects with to_dict method
+            return self._clean_for_json_serialization(obj.to_dict())
+        elif isinstance(obj, (int, float, str, bool, type(None))):
+            return obj
+        else:
+            # Convert other types to string
+            return str(obj)
     
     def _generate_markdown_report(self, analysis: Dict[str, Any], chart_paths: List[Path], crypto_symbol: str) -> str:
         """Generate comprehensive markdown thesis report with trading performance metrics."""

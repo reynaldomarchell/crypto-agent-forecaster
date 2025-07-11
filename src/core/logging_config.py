@@ -125,7 +125,7 @@ class LoggingConfig:
             if log_dir is None:
                 log_dir = Path("logs")
             
-            log_dir.mkdir(exist_ok=True)
+            log_dir.mkdir(parents=True, exist_ok=True)
             
             # Create log file path
             timestamp = datetime.now().strftime("%Y%m%d")
@@ -148,7 +148,7 @@ class LoggingConfig:
             try:
                 if log_dir is None:
                     log_dir = Path("logs")
-                log_dir.mkdir(exist_ok=True)
+                log_dir.mkdir(parents=True, exist_ok=True)
                 
                 log_file = log_dir / "crypto_agent_forecaster.log"
                 handler = logging.FileHandler(log_file)

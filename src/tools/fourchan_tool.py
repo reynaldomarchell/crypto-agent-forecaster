@@ -13,7 +13,7 @@ from ..config import Config
 
 
 @tool("fourchan_biz_tool")
-def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: Optional[str] = None) -> str:
+def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: str = "") -> str:
     """
     Fetches cryptocurrency discussions from 4chan's /biz/ board.
     
@@ -100,7 +100,7 @@ def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_t
     
     # Main execution
     # Handle historical backtesting mode
-    if historical_date:
+    if historical_date and historical_date.strip():
         from datetime import datetime
         print(f"Historical mode: 4chan has no historical data for {historical_date}")
         return json.dumps({
@@ -212,7 +212,7 @@ class FourChanBizTool:
         Input should include keywords related to cryptocurrencies.
         """
     
-    def _run(self, keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: Optional[str] = None) -> str:
+    def _run(self, keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: str = "") -> str:
         """Legacy interface for the tool."""
         return fourchan_biz_tool.func(keywords, max_threads, max_posts_per_thread, historical_date)
 

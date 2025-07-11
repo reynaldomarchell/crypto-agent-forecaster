@@ -284,7 +284,7 @@ def save_run_results(results: Dict[str, Any], charts: Dict[str, bytes] = None, l
     chart_paths = {}
     if charts:
         charts_dir = run_dir / "charts"
-        charts_dir.mkdir(exist_ok=True)
+        charts_dir.mkdir(parents=True, exist_ok=True)
         
         for chart_name, chart_data in charts.items():
             chart_file = charts_dir / f"{chart_name}.png"

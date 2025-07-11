@@ -624,7 +624,7 @@ def coingecko_tool(query: str, historical_date: Optional[str] = None) -> str:
     # Main execution
     try:
         # Check if we're in historical backtesting mode
-        if historical_date:
+        if historical_date and historical_date.strip():
             return _handle_historical_mode(query, historical_date)
         
         session = _get_session()

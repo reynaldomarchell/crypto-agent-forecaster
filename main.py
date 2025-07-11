@@ -199,7 +199,7 @@ def backtest(
     
     OUTPUT FILES:
     • thesis_data/CRYPTO_backtest_results.json - Complete prediction data
-    • thesis_data/processed_data/CRYPTO_thesis_data.csv - CSV export for analysis
+    • thesis_data/analysis/CRYPTO_thesis_analysis.json - Analysis results and metrics
     • thesis_data/analysis/CRYPTO_thesis_report.md - Comprehensive thesis report
     • thesis_data/charts/ - Statistical visualizations and comparison charts
     
@@ -584,8 +584,7 @@ def help():
         
         # Thesis data saved to: thesis_data/
         # ├── raw_data/               # Daily historical data
-        # ├── processed_data/         # CSV exports and predictions
-        # ├── analysis/               # Statistical reports
+                  # ├── analysis/               # Analysis results, reports, and metrics
         # └── charts/                 # Comparison visualizations
     
     TROUBLESHOOTING:

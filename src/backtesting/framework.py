@@ -30,7 +30,7 @@ class BacktestingFramework:
     def __init__(self, crypto_symbol: str = "bitcoin", data_dir: str = "thesis_data"):
         self.crypto_symbol = crypto_symbol
         self.data_dir = Path(data_dir)
-        self.data_dir.mkdir(exist_ok=True)
+        self.data_dir.mkdir(parents=True, exist_ok=True)
         
         # Initialize components
         self.prediction_methods = PredictionMethods()
@@ -296,11 +296,11 @@ class BacktestingFramework:
         backtest_date = historical_date
         
         # Create historical mode wrappers that automatically inject the historical date
-        def coingecko_historical_wrapper(query: str, historical_date: Optional[str] = None):
+        def coingecko_historical_wrapper(query: str, historical_date: str = ""):
             # Always use the backtest historical date, ignore any passed parameter
             return self._original_coingecko_func(query, backtest_date)
         
-        def warosu_historical_wrapper(keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: Optional[str] = None):
+        def warosu_historical_wrapper(keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: str = ""):
             # Always use the backtest historical date, ignore any passed parameter
             return self._original_warosu_func(keywords, date_from, date_to, max_posts, backtest_date)
         
@@ -308,7 +308,7 @@ class BacktestingFramework:
             # Always use the backtest historical date, ignore any passed parameter
             return self._original_technical_func(crypto_name, forecast_horizon, backtest_date)
         
-        def fourchan_historical_wrapper(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: Optional[str] = None):
+        def fourchan_historical_wrapper(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: str = ""):
             # Always use the backtest historical date, ignore any passed parameter
             return self._original_fourchan_func(keywords, max_threads, max_posts_per_thread, backtest_date)
         
@@ -326,24 +326,24 @@ class BacktestingFramework:
     
     def _replace_sentiment_tool_for_backtesting(self):
         """Replace sentiment agent's fourchan tool with warosu tool for historical data."""
-        from ..tools import create_warosu_tool
+        from ..tools.warosu_tool import warosu_archive_tool
         
         try:
             # Get the sentiment agent from the forecasting crew
             sentiment_agent = self.forecasting_crew.sentiment_agent
             
-            # Create warosu tool instance
-            warosu_tool = create_warosu_tool()
+            # Use the function-based tool directly since that's what gets the historical wrapper
+            # The function wrapper will provide the historical_date automatically
             
             # Replace the tools list - sentiment agent should only have one tool
             if hasattr(sentiment_agent, 'tools') and sentiment_agent.tools:
                 original_tool_count = len(sentiment_agent.tools)
-                sentiment_agent.tools = [warosu_tool]
-                logger.info(f"Replaced {original_tool_count} sentiment tool(s) with warosu tool for backtesting")
+                sentiment_agent.tools = [warosu_archive_tool]
+                logger.info(f"Replaced {original_tool_count} sentiment tool(s) with warosu function tool for backtesting")
             else:
                 # If no tools, add warosu tool
-                sentiment_agent.tools = [warosu_tool]
-                logger.info("Added warosu tool to sentiment agent for backtesting")
+                sentiment_agent.tools = [warosu_archive_tool]
+                logger.info("Added warosu function tool to sentiment agent for backtesting")
                 
         except Exception as e:
             logger.warning(f"Failed to replace sentiment tool with warosu: {e}")

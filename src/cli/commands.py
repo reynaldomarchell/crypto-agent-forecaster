@@ -377,17 +377,30 @@ class CommandHandler:
             
             # Run analysis
             self.output.print("\n📊 Generating analysis...")
+            logger.info("CLI: Initializing ThesisAnalyzer...")
             analyzer = ThesisAnalyzer(data_dir=data_dir)
+            
+            logger.info("CLI: Running prediction accuracy analysis...")
             analysis_results = analyzer.analyze_prediction_accuracy(results)
             
-            if analysis_results:
+            if "error" in analysis_results:
+                logger.error(f"CLI: Analysis failed: {analysis_results['error']}")
+                self.output.print("❌ Analysis failed!")
+                return False
+            
+            logger.info("CLI: Generating comprehensive thesis report...")
+            report_path = analyzer.generate_thesis_report(results, crypto)
+            
+            if report_path and report_path.exists():
                 self.output.print("✅ Analysis completed!")
                 self.output.print(f"\n📁 Results saved to: {data_dir}/")
                 self.output.print(f"📈 Charts: {data_dir}/charts/")
-                self.output.print(f"📊 CSV data: {data_dir}/processed_data/")
+                self.output.print(f"📊 Analysis data: {data_dir}/analysis/")
                 self.output.print(f"📝 Report: {data_dir}/analysis/{crypto}_thesis_report.md")
+                logger.info(f"CLI: ✅ Complete analysis report generated at: {report_path}")
             else:
-                self.output.print("⚠️  Analysis completed with some issues")
+                self.output.print("⚠️  Analysis completed but report generation failed")
+                logger.error("CLI: ❌ Report generation failed or file not created")
             
             logger.info(f"Backtest command completed successfully for {crypto}")
             return True
