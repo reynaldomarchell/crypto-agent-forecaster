@@ -1,30 +1,30 @@
-# 🚀 CryptoAgentForecaster
+# CryptoAgentForecaster
 
 **Multimodal AI-Driven Cryptocurrency Price Forecasting System**
 
 An advanced cryptocurrency forecasting tool that leverages hosted Large Language Models (LLMs), multi-agent architecture, and novel data sources including 4chan's /biz/ board for sentiment analysis.
 
-## 🌟 Features
+## Features
 
-- **🤖 Multi-Agent Architecture**: Specialized AI agents for data collection, sentiment analysis, technical analysis, and forecasting
-- **📊 Comprehensive Data Sources**:
+- **Multi-Agent Architecture**: Specialized AI agents for data collection, sentiment analysis, technical analysis, and forecasting
+- **Comprehensive Data Sources**:
   - CoinGecko API for market data (OHLCV, volume, market cap)
   - 4chan /biz/ board for raw sentiment analysis
   - Technical indicators and candlestick patterns
-- **🧠 Hosted LLM Integration**: Support for OpenAI GPT, Anthropic Claude, and Google Gemini
-- **📈 Advanced Analysis**:
+- **Hosted LLM Integration**: Support for OpenAI GPT, Anthropic Claude, and Google Gemini
+- **Advanced Analysis**:
   - FUD (Fear, Uncertainty, Doubt) detection
   - Shill detection and manipulation analysis
   - Technical pattern recognition
   - Multimodal signal fusion
-- **💻 User-Friendly CLI**: Rich terminal interface with beautiful output formatting
-- **🗂️ Automatic Result Management**:
+- **User-Friendly CLI**: Rich terminal interface with beautiful output formatting
+- **Automatic Result Management**:
   - Auto-saves all results to organized folders
   - Technical analysis charts saved as PNG files
   - Complete run logs with sanitized output
   - Clean logging (no verbose JSON or base64 spam)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Installation
 
@@ -84,7 +84,7 @@ python main.py test --quick
 python main.py forecast bitcoin
 ```
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Basic Commands
 
@@ -133,7 +133,7 @@ python main.py test
 python main.py test --quick
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 The CryptoAgentForecaster uses a multi-agent architecture built with CrewAI:
 
@@ -163,27 +163,27 @@ The CryptoAgentForecaster uses a multi-agent architecture built with CrewAI:
 
 ### Agents
 
-1. **🔍 CryptoMarketDataAgent**
+1. **CryptoMarketDataAgent**
    - Fetches OHLCV data from CoinGecko
    - Handles rate limiting and data quality
    - Provides foundation for technical analysis
 
-2. **💭 CryptoSentimentAnalysisAgent**
+2. **CryptoSentimentAnalysisAgent**
    - Analyzes 4chan /biz/ discussions
    - Detects FUD and shilling attempts
    - Extracts market sentiment and narratives
 
-3. **📊 TechnicalAnalysisAgent**
+3. **TechnicalAnalysisAgent**
    - Calculates technical indicators (RSI, MACD, MA, BB)
    - Identifies candlestick patterns
    - Generates technical outlook
 
-4. **🎯 CryptoForecastingAgent**
+4. **CryptoForecastingAgent**
    - Fuses sentiment and technical analysis
    - Generates final forecast with confidence
    - Provides detailed reasoning
 
-## 🔧 Advanced Configuration
+## Advanced Configuration
 
 ### LLM Provider Settings
 
@@ -216,7 +216,7 @@ API_RATE_LIMIT_DELAY=1.0
 LOG_LEVEL=INFO
 ```
 
-## 📊 Output Format
+## Output Format
 
 The system provides structured forecasts including:
 
@@ -229,24 +229,24 @@ The system provides structured forecasts including:
 
 Example output:
 ```
-📊 Forecast Results for BITCOIN
+Forecast Results for BITCOIN
 ┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ║ Metric           ║ Value                         ║
 ┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ Direction        │ 🟢 UP (Bullish)              │
+│ Direction        │ UP (Bullish)                  │
 │ Confidence       │ MEDIUM                        │
 │ Forecast Horizon │ 24 hours                      │
 │ Timestamp        │ 2024-01-15T10:30:00           │
-│ Charts Generated │ ✅ 1                          │
+│ Charts Generated │ 1                             │
 └──────────────────┴───────────────────────────────┘
 
-🧠 Analysis & Reasoning
+Analysis & Reasoning
 Technical analysis shows bullish momentum with RSI at 45 
 and MACD crossing above signal line. 4chan sentiment 
 reveals moderate optimism with limited FUD detection...
 ```
 
-## 📁 Results Management
+## Results Management
 
 Every forecast run automatically creates a dedicated folder in `results/` with:
 
@@ -262,13 +262,13 @@ results/
 ```
 
 ### Features
-- **🧹 Clean Logging**: No verbose JSON or base64 spam in console
-- **📊 Chart Generation**: Technical analysis charts saved as PNG
-- **📄 Structured Data**: Complete results in JSON format
-- **📝 Run Logs**: Full execution history with timestamps
-- **📋 Summary**: Markdown summary with embedded charts
+- **Clean Logging**: No verbose JSON or base64 spam in console
+- **Chart Generation**: Technical analysis charts saved as PNG
+- **Structured Data**: Complete results in JSON format
+- **Run Logs**: Full execution history with timestamps
+- **Summary**: Markdown summary with embedded charts
 
-## ⚠️ Important Considerations
+## Important Considerations
 
 ### Risks & Limitations
 
@@ -285,13 +285,13 @@ results/
 - Do not use for market manipulation
 - Always conduct additional research before making financial decisions
 
-## 🛠️ Development
+## Development
 
 ### Project Structure
 
 ```
 crypto-agent-forecaster/
-├── src/crypto_agent_forecaster/
+├── src/
 │   ├── agents/          # CrewAI agent definitions
 │   ├── tools/           # LangChain tools for data fetching
 │   ├── prompts/         # LLM prompt templates
@@ -310,7 +310,7 @@ crypto-agent-forecaster/
 4. Add tests if applicable  
 5. Submit a pull request
 
-## 📚 Related Background
+## Related Background
 
 This project builds upon and extends concepts from recent academic research in multi-agent systems for cryptocurrency investment:
 
@@ -326,11 +326,12 @@ Our implementation extends these concepts by:
 - Providing a user-friendly CLI interface for real-time forecasting
 - Implementing multimodal chart analysis using AI vision capabilities
 - Offering support for multiple LLM providers (OpenAI, Anthropic, Google)
-## 📄 License
+
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - CoinGecko API for market data
 - 4chan for providing public API access
@@ -340,13 +341,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-**⚠️ Disclaimer**: This software is for educational and research purposes only. Cryptocurrency trading involves substantial risk of loss. Always do your own research and never invest more than you can afford to lose.
+**Disclaimer**: This software is for educational and research purposes only. Cryptocurrency trading involves substantial risk of loss. Always do your own research and never invest more than you can afford to lose.
 
 ## Features
 
 - Real-time cryptocurrency data retrieval
 - Advanced technical analysis with visual charts
-- **NEW: Multimodal chart analysis using AI agents**
+- **Multimodal chart analysis using AI agents**
 - Sentiment analysis from multiple sources
 - Comprehensive market forecasting
 
@@ -420,7 +421,7 @@ print(f"Final Forecast: {forecast}")
 - **File-based Chart Storage**: Saves charts as temporary files for multimodal access
 - **Comprehensive Indicators**: RSI, MACD, Moving Averages, Bollinger Bands, Volume analysis
 
-### Chart Analysis Tool (`chart_analysis_tool`) - NEW MULTIMODAL
+### Chart Analysis Tool (`chart_analysis_tool`) - Multimodal
 
 - **AI-Powered Visual Analysis**: Uses CrewAI multimodal agents to actually "see" and analyze charts
 - **Computer Vision Capabilities**: Recognizes patterns, trends, and technical formations visually
@@ -509,7 +510,7 @@ chart_result = chart_analysis_tool(
 
 ## Configuration
 
-Configure technical analysis parameters in `src/crypto_agent_forecaster/config.py`:
+Configure technical analysis parameters in `src/config.py`:
 
 ```python
 TA_INDICATORS = {
