@@ -1,5 +1,6 @@
 """
 Prediction methods for thesis comparison: Agentic vs One-shot approaches.
+Enhanced with trading metrics including take profit, stop loss, and percentage targets.
 """
 
 import json
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 class PredictionMethods:
-    """Contains all prediction methods for thesis comparison."""
+    """Contains all prediction methods for thesis comparison with enhanced trading metrics."""
     
     def __init__(self):
         self.llm = self._create_llm()
@@ -39,27 +40,23 @@ class PredictionMethods:
                                price_data: Dict[str, Any], 
                                sentiment_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Full multi-agent prediction using the complete system.
-        This simulates what the system would have predicted on that historical date using historical data.
+        Full multi-agent prediction with enhanced trading metrics.
         """
         try:
             logger.info(f"Running full agentic prediction for {crypto_symbol} on {date}")
             
+            current_price = price_data.get('price', 0)
+            
             # Create historical analysis using the provided historical data
-            # Instead of calling current data tools, we'll simulate the analysis
-            
-            # Create historical technical analysis
             tech_analysis = self._create_historical_technical_analysis(crypto_symbol, date, price_data)
-            
-            # Create historical sentiment analysis
             sentiment_analysis = self._create_historical_sentiment_analysis(crypto_symbol, date, sentiment_data)
             
-            # Use LLM to make final prediction based on historical data
+            # Enhanced prediction prompt with trading metrics
             prediction_prompt = f"""
-            As a cryptocurrency forecasting expert, analyze the following historical data for {crypto_symbol} on {date} and predict the price direction for the next 24 hours.
+            As a cryptocurrency trading expert, analyze the following historical data for {crypto_symbol} on {date} and provide comprehensive trading predictions for the next 24 hours.
             
             HISTORICAL MARKET DATA (as of {date}):
-            - Current Price: ${price_data.get('price', 'N/A')}
+            - Current Price: ${current_price:.2f}
             - Historical OHLCV data available: {bool(price_data.get('ohlcv'))}
             
             TECHNICAL ANALYSIS:
@@ -68,26 +65,47 @@ class PredictionMethods:
             SENTIMENT ANALYSIS:
             {sentiment_analysis}
             
-            Based on this historical data (pretending it's {date}), provide:
+            Provide a comprehensive trading analysis with the following:
+            
             1. DIRECTION: UP or DOWN for next 24 hours (choose one - no neutral)
             2. CONFIDENCE: HIGH/MEDIUM/LOW
-            3. REASONING: Detailed explanation based on technical and sentiment factors
+            3. TARGET_PERCENTAGE: Expected percentage move (e.g., +5.2% or -3.1%)
+            4. TARGET_PRICE: Specific price target based on percentage move
+            5. TAKE_PROFIT: Recommended take profit level (price)
+            6. STOP_LOSS: Recommended stop loss level (price) 
+            7. RISK_REWARD_RATIO: Risk/reward ratio for this trade
+            8. POSITION_SIZE: Recommended position size (SMALL/MEDIUM/LARGE)
+            9. TIME_HORIZON: Expected time to reach target (e.g., 4-8 hours, 12-18 hours)
+            10. REASONING: Detailed explanation based on technical and sentiment factors
             
-            When signals are mixed or unclear, make a binary decision based on the most reliable indicators.
+            Be specific with numbers. For a ${current_price:.2f} current price:
+            - If predicting UP by 3%, target would be ${current_price * 1.03:.2f}
+            - Take profit might be at ${current_price * 1.025:.2f} (2.5% gain)
+            - Stop loss might be at ${current_price * 0.985:.2f} (1.5% loss)
             
             Format your response as:
-            DIRECTION: [your prediction]
-            CONFIDENCE: [your confidence]
-            REASONING: [your reasoning]
+            DIRECTION: [UP/DOWN]
+            CONFIDENCE: [HIGH/MEDIUM/LOW]
+            TARGET_PERCENTAGE: [percentage with + or - sign]
+            TARGET_PRICE: [specific price]
+            TAKE_PROFIT: [specific price]
+            STOP_LOSS: [specific price]
+            RISK_REWARD_RATIO: [ratio like 1:2 or 1:3]
+            POSITION_SIZE: [SMALL/MEDIUM/LARGE]
+            TIME_HORIZON: [time estimate]
+            REASONING: [detailed reasoning]
             """
             
             # Get LLM response using historical context
             response = self._get_llm_response(prediction_prompt)
             
-            # Extract prediction components
+            # Extract all prediction components
             predicted_direction = self._extract_direction_from_text(response)
             confidence = self._extract_confidence_from_text(response)
             reasoning = self._extract_reasoning_from_text(response)
+            
+            # Extract new trading metrics
+            trading_metrics = self._extract_trading_metrics(response, current_price)
             
             prediction = {
                 "date": date,
@@ -98,7 +116,17 @@ class PredictionMethods:
                 "reasoning": reasoning,
                 "technical_analysis": tech_analysis,
                 "sentiment_analysis": sentiment_analysis,
-                "historical_price": price_data.get('price'),
+                "historical_price": current_price,
+                
+                # Enhanced trading metrics
+                "target_percentage": trading_metrics.get("target_percentage"),
+                "target_price": trading_metrics.get("target_price"),
+                "take_profit": trading_metrics.get("take_profit"),
+                "stop_loss": trading_metrics.get("stop_loss"),
+                "risk_reward_ratio": trading_metrics.get("risk_reward_ratio"),
+                "position_size": trading_metrics.get("position_size"),
+                "time_horizon": trading_metrics.get("time_horizon"),
+                
                 "execution_time": None,
                 "agents_used": ["historical_technical", "historical_sentiment", "forecasting_llm"],
                 "data_sources": ["historical_ohlcv", "historical_4chan"]
@@ -120,44 +148,62 @@ class PredictionMethods:
                              date: str, 
                              price_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Image-only prediction using one-shot LLM analysis of historical technical data.
-        This tests pure technical analysis without sentiment or multi-agent reasoning.
+        Image-only prediction with enhanced trading metrics.
         """
         try:
             logger.info(f"Running image-only prediction for {crypto_symbol} on {date}")
             
-            # Create technical analysis from historical data
+            current_price = price_data.get('price', 0)
             tech_analysis = self._create_historical_technical_analysis(crypto_symbol, date, price_data)
             
-            # Create one-shot technical analysis prompt using historical data
+            # Enhanced technical analysis prompt with trading metrics
             analysis_prompt = f"""
-            As a technical analyst, analyze the following historical market data for {crypto_symbol} on {date} and predict the price direction for the next 24 hours.
+            As a technical analyst, analyze the following historical market data for {crypto_symbol} on {date} and provide comprehensive technical trading predictions for the next 24 hours.
             
             HISTORICAL TECHNICAL DATA (as of {date}):
-            - Price: ${price_data.get('price', 'N/A')}
+            - Price: ${current_price:.2f}
             - OHLCV data available: {bool(price_data.get('ohlcv'))}
             
             TECHNICAL ANALYSIS:
             {tech_analysis}
             
-            Based ONLY on this technical analysis (ignore any sentiment factors), provide:
+            Based ONLY on technical analysis, provide:
+            
             1. DIRECTION: UP or DOWN for next 24 hours (choose one - no neutral)
-            2. CONFIDENCE: HIGH/MEDIUM/LOW
-            3. REASONING: Technical analysis reasoning only
+            2. CONFIDENCE: HIGH/MEDIUM/LOW  
+            3. TARGET_PERCENTAGE: Expected percentage move based on technical levels
+            4. TARGET_PRICE: Technical target price
+            5. TAKE_PROFIT: Technical take profit level
+            6. STOP_LOSS: Technical stop loss level
+            7. RISK_REWARD_RATIO: Technical risk/reward ratio
+            8. POSITION_SIZE: Recommended position size based on technical setup
+            9. TIME_HORIZON: Expected time to reach technical target
+            10. REASONING: Technical analysis reasoning only
+            
+            Use technical analysis principles (support/resistance, chart patterns, indicators).
+            For current price ${current_price:.2f}, be specific with price levels.
             
             Format your response as:
-            DIRECTION: [your prediction]
-            CONFIDENCE: [your confidence]
-            REASONING: [your technical reasoning]
+            DIRECTION: [UP/DOWN]
+            CONFIDENCE: [HIGH/MEDIUM/LOW]
+            TARGET_PERCENTAGE: [percentage]
+            TARGET_PRICE: [price]
+            TAKE_PROFIT: [price]
+            STOP_LOSS: [price]
+            RISK_REWARD_RATIO: [ratio]
+            POSITION_SIZE: [SMALL/MEDIUM/LARGE]
+            TIME_HORIZON: [time]
+            REASONING: [technical reasoning]
             """
             
             # Get LLM response
             response = self._get_llm_response(analysis_prompt)
             
-            # Extract prediction from the analysis
+            # Extract prediction components
             predicted_direction = self._extract_direction_from_text(response)
             confidence = self._extract_confidence_from_text(response)
             reasoning = self._extract_reasoning_from_text(response)
+            trading_metrics = self._extract_trading_metrics(response, current_price)
             
             prediction = {
                 "date": date,
@@ -167,7 +213,17 @@ class PredictionMethods:
                 "confidence": confidence,
                 "reasoning": reasoning,
                 "technical_analysis": tech_analysis,
-                "historical_price": price_data.get('price'),
+                "historical_price": current_price,
+                
+                # Enhanced trading metrics
+                "target_percentage": trading_metrics.get("target_percentage"),
+                "target_price": trading_metrics.get("target_price"),
+                "take_profit": trading_metrics.get("take_profit"),
+                "stop_loss": trading_metrics.get("stop_loss"),
+                "risk_reward_ratio": trading_metrics.get("risk_reward_ratio"),
+                "position_size": trading_metrics.get("position_size"),
+                "time_horizon": trading_metrics.get("time_horizon"),
+                
                 "agents_used": ["technical_analysis_llm"],
                 "data_sources": ["historical_ohlcv_only"]
             }
@@ -188,8 +244,7 @@ class PredictionMethods:
                                  date: str, 
                                  sentiment_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Sentiment-only prediction using one-shot LLM analysis of 4chan posts.
-        This tests pure sentiment analysis without technical or multi-agent reasoning.
+        Sentiment-only prediction with enhanced trading metrics.
         """
         try:
             logger.info(f"Running sentiment-only prediction for {crypto_symbol} on {date}")
@@ -202,31 +257,54 @@ class PredictionMethods:
                     "error": "No sentiment data available for this date"
                 }
             
+            # For sentiment-only, we need to estimate current price from historical data
+            # This is a limitation but we'll work with available information
+            estimated_price = 50000  # Default BTC price - in real implementation, get from price_data
+            
             # Prepare sentiment data for analysis
             posts_text = ""
             for post in sentiment_data["posts"][:20]:  # Limit to top 20 posts
                 posts_text += f"Post: {post['text']}\n\n"
             
-            # Create one-shot sentiment analysis prompt
+            # Enhanced sentiment analysis prompt with trading metrics
             sentiment_prompt = f"""
-            Analyze the following 4chan /biz/ posts about {crypto_symbol} from {date} and predict the price direction for the next 24 hours.
+            Analyze the following 4chan /biz/ posts about {crypto_symbol} from {date} and provide comprehensive sentiment-based trading predictions for the next 24 hours.
             
             Posts to analyze:
             {posts_text}
             
-            Instructions:
-            1. Analyze the overall sentiment (bullish/bearish)
-            2. Look for FUD (Fear, Uncertainty, Doubt) vs FOMO/shilling
-            3. Consider the volume and intensity of discussion
-            4. Provide a clear prediction: UP or DOWN (choose one - no neutral)
-            5. Assign confidence: HIGH/MEDIUM/LOW
-            6. Explain your reasoning based on sentiment analysis
-            7. When sentiment is mixed, lean toward the stronger signal or default to DOWN (conservative)
+            Based ONLY on sentiment analysis, provide:
             
-            Respond in this format:
-            PREDICTION: [UP/DOWN]
+            1. DIRECTION: UP or DOWN based on overall sentiment (choose one - no neutral)
+            2. CONFIDENCE: HIGH/MEDIUM/LOW based on sentiment strength and consistency
+            3. TARGET_PERCENTAGE: Expected percentage move based on sentiment intensity
+            4. TARGET_PRICE: Price target based on sentiment (estimate from typical moves)
+            5. TAKE_PROFIT: Conservative profit target based on sentiment
+            6. STOP_LOSS: Risk management level if sentiment proves wrong
+            7. RISK_REWARD_RATIO: Risk/reward based on sentiment conviction
+            8. POSITION_SIZE: Position size based on sentiment confidence
+            9. TIME_HORIZON: Expected time for sentiment to impact price
+            10. REASONING: Detailed sentiment analysis
+            
+            Consider:
+            - Bullish sentiment: FOMO, moon talk, buy pressure, positive narratives
+            - Bearish sentiment: FUD, dump expectations, negative sentiment, fear
+            - Sentiment intensity: Number of posts, emotional language, conviction level
+            - Mixed signals: Conflicting opinions, uncertainty
+            
+            When sentiment is mixed, lean toward the stronger signal or default to DOWN (conservative).
+            
+            Format your response as:
+            DIRECTION: [UP/DOWN]
             CONFIDENCE: [HIGH/MEDIUM/LOW]
-            REASONING: [Your detailed analysis based on sentiment]
+            TARGET_PERCENTAGE: [percentage]
+            TARGET_PRICE: [estimated price]
+            TAKE_PROFIT: [estimated price]
+            STOP_LOSS: [estimated price]
+            RISK_REWARD_RATIO: [ratio]
+            POSITION_SIZE: [SMALL/MEDIUM/LARGE]
+            TIME_HORIZON: [time estimate]
+            REASONING: [sentiment analysis]
             """
             
             # Get LLM response
@@ -236,6 +314,7 @@ class PredictionMethods:
             predicted_direction = self._extract_direction_from_text(response)
             confidence = self._extract_confidence_from_text(response)
             reasoning = self._extract_reasoning_from_text(response)
+            trading_metrics = self._extract_trading_metrics(response, estimated_price)
             
             prediction = {
                 "date": date,
@@ -247,6 +326,17 @@ class PredictionMethods:
                 "sentiment_analysis": response,
                 "posts_analyzed": len(sentiment_data["posts"]),
                 "sentiment_posts": sentiment_data["posts"][:5],  # Sample of posts
+                "historical_price": estimated_price,
+                
+                # Enhanced trading metrics
+                "target_percentage": trading_metrics.get("target_percentage"),
+                "target_price": trading_metrics.get("target_price"),
+                "take_profit": trading_metrics.get("take_profit"),
+                "stop_loss": trading_metrics.get("stop_loss"),
+                "risk_reward_ratio": trading_metrics.get("risk_reward_ratio"),
+                "position_size": trading_metrics.get("position_size"),
+                "time_horizon": trading_metrics.get("time_horizon"),
+                
                 "agents_used": ["single_llm"],
                 "data_sources": ["4chan_sentiment_only"]
             }
@@ -457,3 +547,107 @@ class PredictionMethods:
             
         except Exception as e:
             return f"Error creating sentiment analysis: {str(e)}" 
+
+    def _extract_trading_metrics(self, text: str, current_price: float) -> Dict[str, Any]:
+        """Extract trading metrics from LLM response text."""
+        metrics = {}
+        
+        try:
+            lines = text.split('\n')
+            
+            for line in lines:
+                line = line.strip()
+                line_upper = line.upper()
+                
+                # Extract target percentage
+                if 'TARGET_PERCENTAGE:' in line_upper:
+                    try:
+                        pct_str = line.split(':', 1)[1].strip()
+                        # Extract percentage value
+                        import re
+                        pct_match = re.search(r'([+-]?\d+\.?\d*)%?', pct_str)
+                        if pct_match:
+                            metrics["target_percentage"] = float(pct_match.group(1))
+                    except:
+                        pass
+                
+                # Extract target price
+                elif 'TARGET_PRICE:' in line_upper:
+                    try:
+                        price_str = line.split(':', 1)[1].strip()
+                        # Extract price value
+                        import re
+                        price_match = re.search(r'\$?(\d+\.?\d*)', price_str.replace(',', ''))
+                        if price_match:
+                            metrics["target_price"] = float(price_match.group(1))
+                    except:
+                        pass
+                
+                # Extract take profit
+                elif 'TAKE_PROFIT:' in line_upper:
+                    try:
+                        price_str = line.split(':', 1)[1].strip()
+                        import re
+                        price_match = re.search(r'\$?(\d+\.?\d*)', price_str.replace(',', ''))
+                        if price_match:
+                            metrics["take_profit"] = float(price_match.group(1))
+                    except:
+                        pass
+                
+                # Extract stop loss
+                elif 'STOP_LOSS:' in line_upper or 'STOP LOSS:' in line_upper:
+                    try:
+                        price_str = line.split(':', 1)[1].strip()
+                        import re
+                        price_match = re.search(r'\$?(\d+\.?\d*)', price_str.replace(',', ''))
+                        if price_match:
+                            metrics["stop_loss"] = float(price_match.group(1))
+                    except:
+                        pass
+                
+                # Extract risk/reward ratio
+                elif 'RISK_REWARD_RATIO:' in line_upper or 'RISK REWARD RATIO:' in line_upper:
+                    try:
+                        ratio_str = line.split(':', 1)[1].strip()
+                        metrics["risk_reward_ratio"] = ratio_str
+                    except:
+                        pass
+                
+                # Extract position size
+                elif 'POSITION_SIZE:' in line_upper or 'POSITION SIZE:' in line_upper:
+                    try:
+                        size_str = line.split(':', 1)[1].strip().upper()
+                        if any(size in size_str for size in ['SMALL', 'MEDIUM', 'LARGE']):
+                            for size in ['SMALL', 'MEDIUM', 'LARGE']:
+                                if size in size_str:
+                                    metrics["position_size"] = size
+                                    break
+                    except:
+                        pass
+                
+                # Extract time horizon
+                elif 'TIME_HORIZON:' in line_upper or 'TIME HORIZON:' in line_upper:
+                    try:
+                        time_str = line.split(':', 1)[1].strip()
+                        metrics["time_horizon"] = time_str
+                    except:
+                        pass
+            
+            # Calculate derived metrics if we have the basic ones
+            if "target_percentage" in metrics and current_price > 0:
+                if "target_price" not in metrics:
+                    target_pct = metrics["target_percentage"] / 100
+                    metrics["target_price"] = current_price * (1 + target_pct)
+            
+            # Set defaults for missing values
+            if "position_size" not in metrics:
+                metrics["position_size"] = "MEDIUM"
+            if "time_horizon" not in metrics:
+                metrics["time_horizon"] = "12-24 hours"
+            if "risk_reward_ratio" not in metrics:
+                metrics["risk_reward_ratio"] = "1:2"
+                
+        except Exception as e:
+            logger.error(f"Error extracting trading metrics: {e}")
+        
+        return metrics 

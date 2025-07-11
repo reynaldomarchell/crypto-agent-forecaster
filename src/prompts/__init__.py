@@ -140,15 +140,35 @@ def get_task_prompts():
         - When signals conflict: Weight by reliability and choose stronger signal
         - When truly uncertain: Choose direction supported by most reliable signals
 
-        **Required Output Format:**
-        Provide final forecast including:
-        - **Direction**: UP or DOWN for {forecast_horizon}
-        - **Confidence**: High/Medium/Low
-        - **Key Supporting Factors**: Most important factors driving decision
-        - **Technical Synopsis**: Brief technical analysis summary
-        - **Sentiment Synopsis**: Brief sentiment analysis summary  
-        - **Risk Factors**: Key risks to monitor
-        - **Detailed Reasoning**: Step-by-step explanation of decision process
+        **CRITICAL: You MUST use this EXACT output format for proper parsing:**
+
+        **Direction**: [UP or DOWN]
+        **Confidence**: [High, Medium, or Low]
+        **Primary Target**: $[price level]
+        **Secondary Target**: $[price level] (if applicable)
+        **Stop Loss**: $[price level]
+        **Take Profit 1**: $[price level]
+        **Take Profit 2**: $[price level] (if applicable)
+        **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+        **Position Size**: [Small, Medium, Large, or percentage like 5%]
+        **Time Horizon**: {forecast_horizon}
+        **Key Catalysts**: 
+        - [catalyst 1]
+        - [catalyst 2]
+        - [catalyst 3]
+        **Risk Factors**:
+        - [risk factor 1]
+        - [risk factor 2] 
+        - [risk factor 3]
+
+        **Analysis Summary:**
+        [Provide detailed reasoning for your decision, including:
+        - Technical analysis synthesis
+        - Sentiment analysis synthesis
+        - Market data insights
+        - Why you chose this direction
+        - Supporting evidence from each analysis stream
+        - Potential scenarios and their probabilities]
 
         **Critical Guidelines:**
         - Be decisive: Must choose either UP or DOWN direction
@@ -156,6 +176,8 @@ def get_task_prompts():
         - Be realistic: Acknowledge uncertainty with appropriate confidence levels
         - Be consistent: Ensure reasoning aligns with direction and confidence
         - When signals are mixed: Choose direction supported by most reliable data
+        - Provide concrete price targets and risk management levels
+        - Include realistic time horizons for targets
 
         Your forecast will be the final output used for decision making.
         """

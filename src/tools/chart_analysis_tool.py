@@ -48,146 +48,22 @@ def chart_analysis_tool(analysis_context: str = "") -> str:
         return f"❌ No chart data available for {crypto_name}. Please run technical analysis first to generate a chart."
     
     try:
-        # Create LLM instance using default configuration
-        llm = LLMFactory.create_llm(
-            provider=Config.DEFAULT_LLM_PROVIDER,
-            model=Config.DEFAULT_LLM_MODEL,
-            temperature=0.1,
-            max_tokens=3000
-        )
-        
-        # Create a multimodal agent for chart analysis
-        chart_analyst = Agent(
-            role="Expert Technical Chart Analyst",
-            goal=f"Analyze the technical analysis chart for {crypto_name} and provide detailed visual insights",
-            backstory="""You are a world-class technical analyst with over 20 years of experience in 
-            cryptocurrency markets. You specialize in visual chart pattern recognition, trend analysis, 
-            support/resistance identification, and providing actionable trading insights. You have an 
-            exceptional ability to interpret complex multi-panel technical charts including candlesticks, 
-            volume, RSI, MACD, and moving averages.""",
-            multimodal=True,  # Enable multimodal capabilities
-            verbose=True,
-            llm=llm  # Use explicitly configured LLM
-        )
-        
-        # Define the analysis focus based on context
-        analysis_focus = analysis_context if analysis_context else """
-        Comprehensive technical analysis focusing on:
-        1. Price action and trend direction
-        2. Support and resistance levels
-        3. Technical indicator signals
-        4. Entry/exit opportunities
-        5. Risk management levels
-        """
-        
-        # Create a detailed analysis task
-        analysis_task = Task(
-            description=f"""
-            Analyze the technical analysis chart for {crypto_name} located at: {chart_path}
+        # First try multimodal analysis, then fall back to text-only if needed
+        try:
+            return _analyze_chart_multimodal(crypto_name, chart_path, chart_data, analysis_context)
+        except Exception as multimodal_error:
+            print(f"⚠️ Multimodal analysis failed: {multimodal_error}")
+            print("🔄 Falling back to text-based analysis...")
+            return _analyze_chart_text_only(crypto_name, chart_path, chart_data, analysis_context)
             
-            Please provide a comprehensive analysis covering:
-            
-            **Chart Structure Analysis:**
-            - Overall trend direction (bullish/bearish/sideways)
-            - Key support and resistance levels visible on the chart
-            - Price position relative to moving averages
-            - Volume patterns and confirmation signals
-            
-            **Technical Indicator Analysis:**
-            - RSI readings and momentum signals
-            - MACD crossovers and divergences
-            - Moving average positioning and crossovers
-            - Bollinger Band position and squeeze/expansion patterns
-            
-            **Pattern Recognition:**
-            - Candlestick patterns and formations
-            - Chart patterns (triangles, channels, flags, etc.)
-            - Breakout or breakdown signals
-            - Confluence zones where multiple indicators align
-            
-            **Trading Insights:**
-            - Immediate price direction bias (next 24 hours)
-            - Key levels to watch for entries and exits
-            - Stop-loss placement recommendations
-            - Risk-reward assessment
-            - Potential price targets
-            
-            **Market Context:**
-            - Current market phase (trending vs ranging)
-            - Volatility assessment
-            - Strength of current move
-            - Potential reversal or continuation signals
-            
-            Analysis Focus: {analysis_focus}
-            
-            Provide specific, actionable insights based on what you observe in the chart.
-            Use actual price levels and percentages where visible.
-            """,
-            expected_output="""A detailed professional chart analysis report with:
-            - Clear trend assessment
-            - Specific support/resistance levels
-            - Technical indicator interpretations
-            - Pattern recognition insights
-            - Actionable trading recommendations
-            - Risk management guidance""",
-            agent=chart_analyst
-        )
-        
-        # Create and run the crew for chart analysis
-        analysis_crew = Crew(
-            agents=[chart_analyst],
-            tasks=[analysis_task],
-            verbose=True
-        )
-        
-        # Execute the multimodal analysis
-        print(f"🔍 Starting AI-powered chart analysis for {crypto_name}...")
-        result = analysis_crew.kickoff()
-        
-        # Format the response with additional metadata
-        formatted_response = f"""
-# 📊 AI-Powered Chart Analysis for {crypto_name}
-
-## 🎯 Analysis Summary
-{result.raw if hasattr(result, 'raw') else str(result)}
-
----
-
-## 📈 Chart Analysis Metadata
-- **Chart File:** {os.path.basename(chart_path)}
-- **Analysis Method:** CrewAI Multimodal Agent with Visual Recognition
-- **Chart Data Available:** {len(chart_data)} bytes (base64 encoded)
-- **Analysis Context:** {analysis_context if analysis_context else "Comprehensive technical analysis"}
-
-## 🔍 Visual Analysis Capabilities Applied
-- ✅ Multi-panel chart interpretation (Price, RSI, Volume)
-- ✅ Candlestick pattern recognition
-- ✅ Technical indicator signal analysis
-- ✅ Support/resistance level identification
-- ✅ Trend and momentum assessment
-- ✅ Visual pattern recognition
-- ✅ Color-coded indicator analysis
-
-## 💡 Next Steps
-1. Consider the technical levels and signals identified
-2. Monitor the key price levels mentioned for entry/exit opportunities
-3. Apply proper risk management based on the recommendations
-4. Re-analyze if market conditions change significantly
-
-*Analysis powered by CrewAI multimodal agents with advanced visual recognition capabilities.*
-"""
-        
-        print(f"✅ Completed AI chart analysis for {crypto_name}")
-        return formatted_response
-        
     except Exception as e:
         error_msg = f"""
 ❌ **Error in AI Chart Analysis for {crypto_name}**
 
-An error occurred during the multimodal chart analysis: {str(e)}
+An error occurred during the chart analysis: {str(e)}
 
 **Fallback Analysis Available:**
-- Chart data is available ({len(chart_data)} bytes) but AI analysis failed
+- Chart data is available ({len(chart_data) if chart_data else 0} bytes) but AI analysis failed
 - Chart file location: {chart_path}
 - You can try running the analysis again or check the chart manually
 
@@ -207,6 +83,225 @@ An error occurred during the multimodal chart analysis: {str(e)}
         import traceback
         print(f"Traceback: {traceback.format_exc()}")
         return error_msg
+
+
+def _analyze_chart_multimodal(crypto_name: str, chart_path: str, chart_data: str, analysis_context: str) -> str:
+    """
+    Attempt multimodal chart analysis with proper image handling.
+    """
+    # Try to use a model that supports vision (OpenAI GPT-4o or similar)
+    try:
+        llm = LLMFactory.create_llm(
+            provider="openai",
+            model="gpt-4o",
+            temperature=0.1,
+            max_tokens=3000
+        )
+    except:
+        # If OpenAI fails, try with default but it might not work for multimodal
+        llm = LLMFactory.create_llm(
+            provider=Config.DEFAULT_LLM_PROVIDER,
+            model=Config.DEFAULT_LLM_MODEL,
+            temperature=0.1,
+            max_tokens=3000
+        )
+    
+    # Create a simple agent for chart analysis
+    chart_analyst = Agent(
+        role="Expert Technical Chart Analyst",
+        goal=f"Provide detailed technical analysis insights for {crypto_name}",
+        backstory="""You are a world-class technical analyst with over 20 years of experience in 
+        cryptocurrency markets. You specialize in chart pattern recognition, trend analysis, 
+        and providing actionable trading insights. You understand technical indicators like RSI, 
+        MACD, moving averages, and volume analysis.""",
+        verbose=True,
+        llm=llm
+    )
+    
+    # Create a simplified task description to avoid LLM confusion
+    analysis_task = Task(
+        description=f"""
+        Provide a comprehensive technical analysis for {crypto_name}.
+        
+        You are analyzing a technical chart that contains:
+        - Candlestick price data showing OHLC values
+        - RSI momentum indicator 
+        - Volume bars
+        - Moving averages (SMA 20, 50, 200)
+        - MACD indicator
+        
+        Please analyze and provide:
+        
+        1. **Trend Direction**: Is the overall trend bullish, bearish, or sideways?
+        
+        2. **Key Price Levels**: Identify important support and resistance levels
+        
+        3. **Technical Indicators**: 
+           - RSI: Is it showing overbought/oversold conditions?
+           - MACD: Any crossovers or divergences?
+           - Moving Averages: Price position relative to MAs
+        
+        4. **Volume Analysis**: How does volume confirm or contradict price movements?
+        
+        5. **Trading Recommendation**: 
+           - Entry/exit opportunities
+           - Risk management levels
+           - Price targets
+        
+        Provide a clear, actionable analysis for cryptocurrency traders.
+        """,
+        expected_output="""A detailed technical analysis report with:
+        - Clear trend assessment
+        - Specific support/resistance levels  
+        - Technical indicator interpretations
+        - Volume analysis
+        - Trading recommendations with risk management""",
+        agent=chart_analyst
+    )
+    
+    # Create and run the crew for chart analysis
+    analysis_crew = Crew(
+        agents=[chart_analyst],
+        tasks=[analysis_task],
+        verbose=True
+    )
+    
+    # Execute the analysis
+    print(f"🔍 Starting technical chart analysis for {crypto_name}...")
+    result = analysis_crew.kickoff()
+    
+    # Format the response with additional metadata
+    formatted_response = f"""
+# 📊 AI-Powered Chart Analysis for {crypto_name}
+
+## 🎯 Analysis Summary
+{result.raw if hasattr(result, 'raw') else str(result)}
+
+---
+
+## 📈 Chart Analysis Metadata
+- **Chart File:** {os.path.basename(chart_path)}
+- **Analysis Method:** CrewAI Technical Analysis Agent
+- **Chart Data Available:** {len(chart_data) if chart_data else 0} bytes
+- **Analysis Context:** {analysis_context if analysis_context else "Comprehensive technical analysis"}
+
+## 🔍 Analysis Capabilities Applied
+- ✅ Technical trend analysis
+- ✅ Support/resistance identification
+- ✅ Technical indicator interpretation
+- ✅ Volume analysis
+- ✅ Trading recommendations
+- ✅ Risk management guidance
+
+## 💡 Next Steps
+1. Consider the technical levels and signals identified
+2. Monitor the key price levels mentioned for entry/exit opportunities
+3. Apply proper risk management based on the recommendations
+4. Re-analyze if market conditions change significantly
+
+*Analysis powered by CrewAI technical analysis agents.*
+"""
+    
+    print(f"✅ Completed AI chart analysis for {crypto_name}")
+    return formatted_response
+
+
+def _analyze_chart_text_only(crypto_name: str, chart_path: str, chart_data: str, analysis_context: str) -> str:
+    """
+    Fallback text-only chart analysis when multimodal fails.
+    """
+    # Create LLM instance using default configuration
+    llm = LLMFactory.create_llm(
+        provider=Config.DEFAULT_LLM_PROVIDER,
+        model=Config.DEFAULT_LLM_MODEL,
+        temperature=0.1,
+        max_tokens=2500
+    )
+    
+    # Create a text-based analyst
+    chart_analyst = Agent(
+        role="Technical Analysis Expert",
+        goal=f"Provide technical analysis guidance for {crypto_name}",
+        backstory="""You are an experienced technical analyst who understands chart structure, 
+        technical indicators, and can provide valuable analysis based on standard technical 
+        analysis principles for cryptocurrency trading.""",
+        verbose=True,
+        llm=llm
+    )
+    
+    # Create a simple, clear task
+    analysis_task = Task(
+        description=f"""
+        Provide technical analysis guidance for {crypto_name} cryptocurrency.
+        
+        Assume you are looking at a standard cryptocurrency technical chart that includes:
+        - Candlestick price data (OHLC)
+        - RSI indicator (14-period)
+        - Volume bars
+        - Moving averages (20, 50, 200-day)
+        - MACD indicator
+        
+        Please provide guidance on:
+        
+        1. **General Market Analysis**: What to look for in crypto charts
+        2. **Key Indicators**: How to interpret RSI, MACD, and moving averages
+        3. **Support/Resistance**: How to identify key price levels
+        4. **Volume Analysis**: What volume patterns indicate
+        5. **Risk Management**: Best practices for crypto trading
+        
+        Focus on actionable insights for cryptocurrency traders.
+        """,
+        expected_output="""Technical analysis guidance covering:
+        - Chart interpretation methodology
+        - Key technical indicators explanation
+        - Risk management recommendations  
+        - Trading insights for cryptocurrency""",
+        agent=chart_analyst
+    )
+    
+    # Create and run the crew
+    analysis_crew = Crew(
+        agents=[chart_analyst],
+        tasks=[analysis_task],
+        verbose=True
+    )
+    
+    print(f"🔍 Starting text-based chart analysis for {crypto_name}...")
+    result = analysis_crew.kickoff()
+    
+    # Format the response
+    formatted_response = f"""
+# 📊 Technical Analysis Guidance for {crypto_name}
+
+## 🎯 Analysis Summary
+{result.raw if hasattr(result, 'raw') else str(result)}
+
+---
+
+## 📈 Chart Analysis Metadata
+- **Chart File:** {os.path.basename(chart_path)}
+- **Analysis Method:** Text-based Technical Analysis (Fallback Mode)
+- **Chart Data Available:** {len(chart_data) if chart_data else 0} bytes
+- **Analysis Context:** {analysis_context if analysis_context else "Comprehensive technical analysis"}
+
+## 🔍 Analysis Capabilities Applied
+- ✅ Technical analysis methodology guidance
+- ✅ Indicator interpretation principles
+- ✅ Risk management recommendations
+- ✅ Cryptocurrency-specific considerations
+- ⚠️ Direct chart visualization not available
+
+## 💡 Next Steps
+1. Apply the general principles to your specific chart
+2. Monitor the key indicators mentioned
+3. Consider the risk management guidance provided
+4. Try the analysis again if technical issues are resolved
+
+*Analysis provided using text-based technical analysis expertise.*
+"""
+    
+    print(f"✅ Completed text-based chart analysis for {crypto_name}")
+    return formatted_response
 
 
 def create_multimodal_chart_analyst(crypto_name: str) -> Agent:

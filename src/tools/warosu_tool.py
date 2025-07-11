@@ -15,15 +15,16 @@ from ..config import Config
 
 
 @tool("warosu_archive_tool")
-def warosu_archive_tool(keywords: List[str], date_from: str, date_to: str, max_posts: int = 50) -> str:
+def warosu_archive_tool(keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: Optional[str] = None) -> str:
     """
     Fetches historical cryptocurrency discussions from Warosu 4chan /biz/ archive.
     
     Args:
         keywords: Keywords to search for in posts (e.g., ['btc', 'bitcoin'])
-        date_from: Start date in YYYY-MM-DD format
-        date_to: End date in YYYY-MM-DD format  
+        date_from: Start date in YYYY-MM-DD format (optional if historical_date provided)
+        date_to: End date in YYYY-MM-DD format (optional if historical_date provided)
         max_posts: Maximum number of posts to fetch (default: 50)
+        historical_date: Optional date in YYYY-MM-DD format for backtesting mode
     
     Returns:
         JSON string containing historical posts and metadata
@@ -211,7 +212,25 @@ def warosu_archive_tool(keywords: List[str], date_from: str, date_to: str, max_p
     
     # Main execution
     try:
-        # Validate date format
+        # Handle historical backtesting mode
+        if historical_date:
+            from datetime import datetime, timedelta
+            current_date = datetime.strptime(historical_date, '%Y-%m-%d')
+            prev_date = current_date - timedelta(days=1)
+            date_from = prev_date.strftime('%Y-%m-%d')
+            date_to = historical_date
+            print(f"Historical mode: Searching from {date_from} to {date_to}")
+        
+        # Auto-generate date range if not provided (for live mode)
+        if not date_from or not date_to:
+            from datetime import datetime, timedelta
+            current_date = datetime.now()
+            date_to = current_date.strftime('%Y-%m-%d')
+            date_from = (current_date - timedelta(days=7)).strftime('%Y-%m-%d')  # Default to last 7 days
+            print(f"Auto-generated date range: {date_from} to {date_to}")
+        
+        # Validate date format if provided
+        
         try:
             datetime.strptime(date_from, '%Y-%m-%d')
             datetime.strptime(date_to, '%Y-%m-%d')
@@ -255,9 +274,9 @@ class WarosuArchiveTool:
         Supports date range queries and keyword filtering.
         """
     
-    def _run(self, keywords: List[str], date_from: str, date_to: str, max_posts: int = 50) -> str:
+    def _run(self, keywords: List[str], date_from: Optional[str] = None, date_to: Optional[str] = None, max_posts: int = 50, historical_date: Optional[str] = None) -> str:
         """Legacy interface for the tool."""
-        return warosu_archive_tool.func(keywords, date_from, date_to, max_posts)
+        return warosu_archive_tool.func(keywords, date_from, date_to, max_posts, historical_date)
 
 
 def create_warosu_tool():

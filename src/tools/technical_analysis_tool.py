@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import seaborn as sns
-from typing import Dict, List, Any, Optional, Union
+from typing import Dict, List, Any, Union
 from crewai.tools import tool
 import ta
 import io
@@ -29,16 +29,16 @@ _current_chart_path = None
 _current_results_path = None  # Store the current results directory
 
 
-def get_current_chart_data() -> Optional[str]:
+def get_current_chart_data() -> str:
     """Get the current chart data (base64 encoded)."""
     global _current_chart_data
-    return _current_chart_data
+    return _current_chart_data or ""
 
 
-def get_current_chart_path() -> Optional[str]:
+def get_current_chart_path() -> str:
     """Get the current chart file path for multimodal access."""
     global _current_chart_path
-    return _current_chart_path
+    return _current_chart_path or ""
 
 
 def set_results_directory(results_dir: str):
@@ -47,7 +47,7 @@ def set_results_directory(results_dir: str):
     _current_results_path = results_dir
 
 
-def save_chart_to_results(chart_name: str = "technical_analysis_chart") -> Optional[str]:
+def save_chart_to_results(chart_name: str = "technical_analysis_chart") -> str:
     """
     Save the current chart to the results directory.
     
@@ -60,10 +60,10 @@ def save_chart_to_results(chart_name: str = "technical_analysis_chart") -> Optio
     global _current_chart_path, _current_results_path
 
     if not _current_chart_path or not os.path.exists(_current_chart_path):
-        return None
+        return ""
 
     if not _current_results_path:
-        return None
+        return ""
 
     try:
         # Create charts directory in results
@@ -82,7 +82,7 @@ def save_chart_to_results(chart_name: str = "technical_analysis_chart") -> Optio
         return results_chart_path
 
     except Exception as e:
-        return None
+        return ""
 
 
 def clear_chart_data():
@@ -98,7 +98,7 @@ def clear_chart_data():
 
 
 @tool("technical_analysis_tool")
-def technical_analysis_tool(crypto_name: str, forecast_horizon: str = "24 hours") -> str:
+def technical_analysis_tool(crypto_name: str, forecast_horizon: str = "24 hours", historical_date: str = "") -> str:
     """
     Performs comprehensive technical analysis on cryptocurrency data by fetching fresh OHLCV data
     and generating visual charts optimized for the forecast horizon.
@@ -106,6 +106,7 @@ def technical_analysis_tool(crypto_name: str, forecast_horizon: str = "24 hours"
     Args:
         crypto_name: Name or symbol of the cryptocurrency to analyze (e.g., 'bitcoin', 'ethereum', 'BTC')
         forecast_horizon: The forecast time horizon to optimize analysis for (e.g., "1 hour", "24 hours", "3 days", "1 week")
+        historical_date: Date in YYYY-MM-DD format for backtesting mode (use empty string for current data)
     
     Returns:
         Textual summary with chart generation status and analysis insights
@@ -120,7 +121,8 @@ def technical_analysis_tool(crypto_name: str, forecast_horizon: str = "24 hours"
 
         # Use the coingecko tool to fetch data with consistent query format
         query = f"{crypto_name} ohlcv {days} days horizon {forecast_horizon}"
-        coingecko_result = coingecko_tool.func(query)
+        historical_date_param = historical_date if historical_date else None
+        coingecko_result = coingecko_tool.func(query, historical_date_param)
 
         # Parse the result
         if isinstance(coingecko_result, str):
@@ -177,8 +179,8 @@ def technical_analysis_tool(crypto_name: str, forecast_horizon: str = "24 hours"
         if "timestamp" in df.columns:
             df = _standardize_timestamps(df)
         else:
-            df["timestamp"] = pd.date_range(start="2023-01-01", periods=len(df), freq="H")
-            df["datetime"] = df["timestamp"]
+            # ABORT: No timestamp data available - cannot proceed with analysis
+            return f"Error: No timestamp data available for {crypto_name}. Cannot perform technical analysis without valid timestamps."
 
         # Ensure data is sorted chronologically (oldest first)
         if "datetime" in df.columns:
@@ -257,9 +259,8 @@ def _standardize_timestamps(df: pd.DataFrame) -> pd.DataFrame:
                 # Check for parsing failures
                 failed_count = df["datetime"].isna().sum()
                 if failed_count > 0:
-                    # Create sequential timestamps as fallback
-                    start_time = pd.Timestamp.now() - pd.Timedelta(days=30)
-                    df["datetime"] = pd.date_range(start=start_time, periods=len(df), freq="H")
+                    # ABORT: Do not create fallback timestamps
+                    raise ValueError(f"Failed to parse {failed_count} string timestamps out of {len(df)} records. Cannot proceed with invalid timestamp data.")
         else:
             # Numeric timestamps
             if df["timestamp"].max() > 1e10:
@@ -269,16 +270,18 @@ def _standardize_timestamps(df: pd.DataFrame) -> pd.DataFrame:
                 # Seconds
                 df["datetime"] = pd.to_datetime(df["timestamp"], unit="s")
 
-        # Validate the datetime column
+        # Validate the datetime column - ABORT if any timestamps failed to parse
         if df["datetime"].isna().any():
+            invalid_count = df["datetime"].isna().sum()
             valid_count = df["datetime"].notna().sum()
+            raise ValueError(f"Timestamp parsing failed for {invalid_count} out of {len(df)} records. "
+                           f"Only {valid_count} valid timestamps found. Cannot proceed with incomplete timestamp data.")
 
         return df
 
     except Exception as e:
-        # Fallback: create sequential timestamps
-        df["datetime"] = pd.date_range(start="2023-01-01", periods=len(df), freq="H")
-        return df
+        # ABORT: Do not create fallback timestamps - this leads to incorrect data
+        raise ValueError(f"Failed to parse timestamps: {str(e)}. Cannot proceed with invalid timestamp data.")
 
 
 def _validate_ohlc_data(df: pd.DataFrame) -> int:
@@ -480,7 +483,9 @@ def _create_technical_chart(df: pd.DataFrame, indicators: Dict[str, Any], crypto
             if "timestamp" in df.columns:
                 df = _standardize_timestamps(df)
             else:
-                df["datetime"] = pd.date_range(start="2023-01-01", periods=len(df), freq="H")
+                # ABORT: Cannot create chart without proper timestamp data
+                print(f"ERROR: Cannot create chart for {crypto_name} - no timestamp data available")
+                return False
 
         # Import mplfinance for candlestick charts
         try:
@@ -688,7 +693,9 @@ def _create_fallback_line_chart(df: pd.DataFrame, indicators: Dict[str, Any], cr
             if "timestamp" in df.columns:
                 df = _standardize_timestamps(df)
             else:
-                df["datetime"] = pd.date_range(start="2023-01-01", periods=len(df), freq="H")
+                # ABORT: Cannot create fallback chart without proper timestamp data
+                print(f"ERROR: Cannot create fallback chart for {crypto_name} - no timestamp data available")
+                return False
 
         # Sort data chronologically
         df = df.sort_values("datetime").reset_index(drop=True)
@@ -1823,9 +1830,9 @@ class TechnicalAnalysisTool:
         """
         self.ta_config = Config.TA_INDICATORS
 
-    def _run(self, crypto_name: str, forecast_horizon: str = "24 hours") -> str:
+    def _run(self, crypto_name: str, forecast_horizon: str = "24 hours", historical_date: str = "") -> str:
         """Legacy interface for the tool with proper parameter handling."""
-        return technical_analysis_tool.func(crypto_name, forecast_horizon)
+        return technical_analysis_tool.func(crypto_name, forecast_horizon, historical_date)
 
 
 def create_technical_analysis_tool():

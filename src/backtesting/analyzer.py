@@ -304,7 +304,7 @@ class ThesisAnalyzer:
         return statistical_tests
     
     def generate_thesis_visualizations(self, results: Dict[str, Any], crypto_symbol: str) -> List[Path]:
-        """Generate comprehensive visualizations for thesis."""
+        """Generate comprehensive visualizations for thesis including trading performance."""
         try:
             df = self._create_analysis_dataframe(results)
             if df.empty:
@@ -326,6 +326,18 @@ class ThesisAnalyzer:
             
             # 5. Method Performance Distribution
             chart_paths.append(self._plot_performance_distribution(df, crypto_symbol))
+            
+            # 6. Trading Performance Analysis (NEW)
+            chart_paths.append(self._plot_trading_performance(results, crypto_symbol))
+            
+            # 7. Portfolio Performance Over Time (NEW)
+            chart_paths.append(self._plot_portfolio_performance(results, crypto_symbol))
+            
+            # 8. Risk-Return Analysis (NEW)
+            chart_paths.append(self._plot_risk_return_analysis(results, crypto_symbol))
+            
+            # 9. Stop Loss / Take Profit Analysis (NEW)
+            chart_paths.append(self._plot_stop_loss_take_profit_analysis(results, crypto_symbol))
             
             return [path for path in chart_paths if path]
             
@@ -592,6 +604,682 @@ class ThesisAnalyzer:
             logger.error(f"Failed to plot performance distribution: {e}")
             return None
     
+    def _plot_trading_performance(self, results: Dict[str, Any], crypto_symbol: str) -> Optional[Path]:
+        """Plot comprehensive trading performance metrics."""
+        try:
+            fig, axes = plt.subplots(2, 3, figsize=(20, 12))
+            fig.suptitle(f'Trading Performance Analysis - {crypto_symbol.upper()}', fontsize=16, fontweight='bold')
+            
+            methods = ["full_agentic", "image_only", "sentiment_only"]
+            trading_data = {}
+            
+            # Extract trading data from results
+            for method in methods:
+                method_trades = []
+                for date, predictions in results.get("daily_predictions", {}).items():
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            # Calculate trade performance
+                            current_price = pred.get("historical_price", 0)
+                            actual_movement = pred.get("actual_movement_24h", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                if predicted_direction == "UP":
+                                    pnl_pct = ((next_day_price - current_price) / current_price) * 100
+                                else:
+                                    pnl_pct = ((current_price - next_day_price) / current_price) * 100
+                                
+                                method_trades.append({
+                                    'date': date,
+                                    'pnl_pct': pnl_pct,
+                                    'confidence': pred.get('confidence', 'MEDIUM'),
+                                    'target_pct': pred.get('target_percentage', 0),
+                                    'position_size': pred.get('position_size', 'MEDIUM')
+                                })
+                
+                trading_data[method] = method_trades
+            
+            # 1. P&L Distribution by Method
+            for i, method in enumerate(methods):
+                if trading_data[method]:
+                    pnl_values = [trade['pnl_pct'] for trade in trading_data[method]]
+                    axes[0, 0].hist(pnl_values, alpha=0.6, label=method.replace('_', ' ').title(), bins=20)
+            
+            axes[0, 0].set_title('P&L Distribution by Method', fontweight='bold')
+            axes[0, 0].set_xlabel('P&L Percentage')
+            axes[0, 0].set_ylabel('Frequency')
+            axes[0, 0].legend()
+            axes[0, 0].axvline(x=0, color='red', linestyle='--', alpha=0.8)
+            
+            # 2. Win Rate by Method
+            win_rates = []
+            method_names = []
+            for method in methods:
+                if trading_data[method]:
+                    wins = len([t for t in trading_data[method] if t['pnl_pct'] > 0])
+                    total = len(trading_data[method])
+                    win_rates.append(wins / total if total > 0 else 0)
+                    method_names.append(method.replace('_', ' ').title())
+            
+            if win_rates:
+                bars = axes[0, 1].bar(method_names, win_rates, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
+                axes[0, 1].set_title('Win Rate by Method', fontweight='bold')
+                axes[0, 1].set_ylabel('Win Rate')
+                axes[0, 1].set_ylim(0, 1)
+                
+                for bar, rate in zip(bars, win_rates):
+                    axes[0, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                                   f'{rate:.2%}', ha='center', va='bottom', fontweight='bold')
+            
+            # 3. Average Return by Method
+            avg_returns = []
+            for method in methods:
+                if trading_data[method]:
+                    avg_return = sum(t['pnl_pct'] for t in trading_data[method]) / len(trading_data[method])
+                    avg_returns.append(avg_return)
+                else:
+                    avg_returns.append(0)
+            
+            bars = axes[0, 2].bar(method_names, avg_returns, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
+            axes[0, 2].set_title('Average Return per Trade', fontweight='bold')
+            axes[0, 2].set_ylabel('Average Return (%)')
+            axes[0, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
+            
+            for bar, ret in zip(bars, avg_returns):
+                axes[0, 2].text(bar.get_x() + bar.get_width()/2, 
+                               bar.get_height() + (0.1 if ret >= 0 else -0.3),
+                               f'{ret:.2f}%', ha='center', va='bottom' if ret >= 0 else 'top', fontweight='bold')
+            
+            # 4. Confidence vs Performance
+            for method in methods:
+                if trading_data[method]:
+                    conf_performance = {}
+                    for conf_level in ['HIGH', 'MEDIUM', 'LOW']:
+                        conf_trades = [t for t in trading_data[method] if t['confidence'] == conf_level]
+                        if conf_trades:
+                            avg_pnl = sum(t['pnl_pct'] for t in conf_trades) / len(conf_trades)
+                            conf_performance[conf_level] = avg_pnl
+                    
+                    if conf_performance:
+                        x_pos = range(len(conf_performance))
+                        axes[1, 0].plot(x_pos, list(conf_performance.values()), 
+                                      marker='o', label=method.replace('_', ' ').title(), linewidth=2)
+            
+            axes[1, 0].set_title('Performance by Confidence Level', fontweight='bold')
+            axes[1, 0].set_xlabel('Confidence Level')
+            axes[1, 0].set_ylabel('Average P&L (%)')
+            axes[1, 0].set_xticks(range(3))
+            axes[1, 0].set_xticklabels(['HIGH', 'MEDIUM', 'LOW'])
+            axes[1, 0].legend()
+            axes[1, 0].axhline(y=0, color='red', linestyle='--', alpha=0.8)
+            axes[1, 0].grid(True, alpha=0.3)
+            
+            # 5. Best vs Worst Trades
+            best_worst_data = []
+            for method in methods:
+                if trading_data[method]:
+                    pnl_values = [t['pnl_pct'] for t in trading_data[method]]
+                    best_worst_data.append({
+                        'method': method.replace('_', ' ').title(),
+                        'best': max(pnl_values),
+                        'worst': min(pnl_values)
+                    })
+            
+            if best_worst_data:
+                methods_clean = [d['method'] for d in best_worst_data]
+                best_trades = [d['best'] for d in best_worst_data]
+                worst_trades = [d['worst'] for d in best_worst_data]
+                
+                x = range(len(methods_clean))
+                width = 0.35
+                
+                axes[1, 1].bar([i - width/2 for i in x], best_trades, width, 
+                             label='Best Trade', alpha=0.8, color='green')
+                axes[1, 1].bar([i + width/2 for i in x], worst_trades, width, 
+                             label='Worst Trade', alpha=0.8, color='red')
+                
+                axes[1, 1].set_title('Best vs Worst Trades', fontweight='bold')
+                axes[1, 1].set_ylabel('P&L Percentage')
+                axes[1, 1].set_xticks(x)
+                axes[1, 1].set_xticklabels(methods_clean)
+                axes[1, 1].legend()
+                axes[1, 1].axhline(y=0, color='black', linestyle='-', alpha=0.5)
+            
+            # 6. Risk-Adjusted Returns (Sharpe-like ratio)
+            risk_adjusted = []
+            for method in methods:
+                if trading_data[method] and len(trading_data[method]) > 1:
+                    pnl_values = [t['pnl_pct'] for t in trading_data[method]]
+                    avg_return = sum(pnl_values) / len(pnl_values)
+                    volatility = (sum((x - avg_return) ** 2 for x in pnl_values) / len(pnl_values)) ** 0.5
+                    sharpe = avg_return / volatility if volatility > 0 else 0
+                    risk_adjusted.append(sharpe)
+                else:
+                    risk_adjusted.append(0)
+            
+            bars = axes[1, 2].bar(method_names, risk_adjusted, alpha=0.8, color=['#2E86C1', '#E74C3C', '#F39C12'])
+            axes[1, 2].set_title('Risk-Adjusted Returns (Sharpe-like)', fontweight='bold')
+            axes[1, 2].set_ylabel('Risk-Adjusted Return')
+            axes[1, 2].axhline(y=0, color='red', linestyle='--', alpha=0.8)
+            
+            for bar, ratio in zip(bars, risk_adjusted):
+                axes[1, 2].text(bar.get_x() + bar.get_width()/2, 
+                               bar.get_height() + (0.01 if ratio >= 0 else -0.02),
+                               f'{ratio:.3f}', ha='center', va='bottom' if ratio >= 0 else 'top', fontweight='bold')
+            
+            plt.tight_layout()
+            
+            chart_path = self.charts_dir / f"{crypto_symbol}_trading_performance.png"
+            plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            return chart_path
+            
+        except Exception as e:
+            logger.error(f"Failed to plot trading performance: {e}")
+            return None
+    
+    def _plot_portfolio_performance(self, results: Dict[str, Any], crypto_symbol: str) -> Optional[Path]:
+        """Plot portfolio performance over time."""
+        try:
+            fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+            fig.suptitle(f'Portfolio Performance Over Time - {crypto_symbol.upper()}', fontsize=16, fontweight='bold')
+            
+            methods = ["full_agentic", "image_only", "sentiment_only"]
+            colors = ['#2E86C1', '#E74C3C', '#F39C12']
+            
+            # Calculate cumulative portfolio performance for each method
+            for method_idx, method in enumerate(methods):
+                portfolio_values = [10000]  # Starting with $10,000
+                dates = []
+                cumulative_returns = [0]
+                
+                for date, predictions in sorted(results.get("daily_predictions", {}).items()):
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            current_price = pred.get("historical_price", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                position_size = pred.get("position_size", "MEDIUM")
+                                
+                                # Calculate position size multiplier
+                                multipliers = {"SMALL": 0.25, "MEDIUM": 0.5, "LARGE": 1.0}
+                                size_mult = multipliers.get(position_size, 0.5)
+                                
+                                # Calculate P&L
+                                if predicted_direction == "UP":
+                                    pnl_pct = ((next_day_price - current_price) / current_price) * 100
+                                else:
+                                    pnl_pct = ((current_price - next_day_price) / current_price) * 100
+                                
+                                # Update portfolio
+                                current_portfolio = portfolio_values[-1]
+                                portfolio_change = current_portfolio * (pnl_pct / 100) * size_mult
+                                new_portfolio = current_portfolio + portfolio_change
+                                
+                                portfolio_values.append(new_portfolio)
+                                dates.append(date)
+                                cumulative_return = ((new_portfolio - 10000) / 10000) * 100
+                                cumulative_returns.append(cumulative_return)
+                
+                # Plot portfolio value over time
+                if len(dates) > 0:
+                    axes[0, 0].plot(range(len(portfolio_values)), portfolio_values, 
+                                  color=colors[method_idx], label=method.replace('_', ' ').title(), 
+                                  linewidth=2, marker='o', markersize=3)
+                    
+                    # Plot cumulative returns
+                    axes[0, 1].plot(range(len(cumulative_returns)), cumulative_returns, 
+                                  color=colors[method_idx], label=method.replace('_', ' ').title(), 
+                                  linewidth=2, marker='o', markersize=3)
+            
+            # 1. Portfolio Value Over Time
+            axes[0, 0].set_title('Portfolio Value Over Time', fontweight='bold')
+            axes[0, 0].set_xlabel('Trade Number')
+            axes[0, 0].set_ylabel('Portfolio Value ($)')
+            axes[0, 0].legend()
+            axes[0, 0].grid(True, alpha=0.3)
+            axes[0, 0].axhline(y=10000, color='black', linestyle='--', alpha=0.5, label='Starting Value')
+            
+            # 2. Cumulative Returns Over Time
+            axes[0, 1].set_title('Cumulative Returns Over Time', fontweight='bold')
+            axes[0, 1].set_xlabel('Trade Number')
+            axes[0, 1].set_ylabel('Cumulative Return (%)')
+            axes[0, 1].legend()
+            axes[0, 1].grid(True, alpha=0.3)
+            axes[0, 1].axhline(y=0, color='black', linestyle='--', alpha=0.5)
+            
+            # 3. Drawdown Analysis
+            for method_idx, method in enumerate(methods):
+                portfolio_values = [10000]
+                peak = 10000
+                drawdowns = [0]
+                
+                for date, predictions in sorted(results.get("daily_predictions", {}).items()):
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            current_price = pred.get("historical_price", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                position_size = pred.get("position_size", "MEDIUM")
+                                
+                                multipliers = {"SMALL": 0.25, "MEDIUM": 0.5, "LARGE": 1.0}
+                                size_mult = multipliers.get(position_size, 0.5)
+                                
+                                if predicted_direction == "UP":
+                                    pnl_pct = ((next_day_price - current_price) / current_price) * 100
+                                else:
+                                    pnl_pct = ((current_price - next_day_price) / current_price) * 100
+                                
+                                current_portfolio = portfolio_values[-1]
+                                portfolio_change = current_portfolio * (pnl_pct / 100) * size_mult
+                                new_portfolio = current_portfolio + portfolio_change
+                                
+                                portfolio_values.append(new_portfolio)
+                                
+                                # Calculate drawdown
+                                if new_portfolio > peak:
+                                    peak = new_portfolio
+                                drawdown = ((peak - new_portfolio) / peak) * 100
+                                drawdowns.append(drawdown)
+                
+                if len(drawdowns) > 1:
+                    axes[1, 0].plot(range(len(drawdowns)), drawdowns, 
+                                  color=colors[method_idx], label=method.replace('_', ' ').title(), 
+                                  linewidth=2)
+            
+            axes[1, 0].set_title('Drawdown Analysis', fontweight='bold')
+            axes[1, 0].set_xlabel('Trade Number')
+            axes[1, 0].set_ylabel('Drawdown (%)')
+            axes[1, 0].legend()
+            axes[1, 0].grid(True, alpha=0.3)
+            axes[1, 0].fill_between(range(len(drawdowns)), drawdowns, 0, alpha=0.3, color='red')
+            
+            # 4. Risk-Return Scatter
+            risk_return_data = []
+            for method in methods:
+                returns = []
+                for date, predictions in results.get("daily_predictions", {}).items():
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            current_price = pred.get("historical_price", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                if predicted_direction == "UP":
+                                    pnl_pct = ((next_day_price - current_price) / current_price) * 100
+                                else:
+                                    pnl_pct = ((current_price - next_day_price) / current_price) * 100
+                                returns.append(pnl_pct)
+                
+                if len(returns) > 1:
+                    avg_return = sum(returns) / len(returns)
+                    volatility = (sum((x - avg_return) ** 2 for x in returns) / len(returns)) ** 0.5
+                    risk_return_data.append((volatility, avg_return, method))
+            
+            if risk_return_data:
+                for i, (risk, ret, method) in enumerate(risk_return_data):
+                    axes[1, 1].scatter(risk, ret, s=100, color=colors[i], 
+                                     label=method.replace('_', ' ').title())
+                    axes[1, 1].annotate(method.replace('_', ' ').title(), 
+                                      (risk, ret), xytext=(5, 5), textcoords='offset points')
+                
+                axes[1, 1].set_title('Risk-Return Profile', fontweight='bold')
+                axes[1, 1].set_xlabel('Volatility (Risk)')
+                axes[1, 1].set_ylabel('Average Return (%)')
+                axes[1, 1].grid(True, alpha=0.3)
+                axes[1, 1].axhline(y=0, color='black', linestyle='--', alpha=0.5)
+                axes[1, 1].axvline(x=0, color='black', linestyle='--', alpha=0.5)
+            
+            plt.tight_layout()
+            
+            chart_path = self.charts_dir / f"{crypto_symbol}_portfolio_performance.png"
+            plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            return chart_path
+            
+        except Exception as e:
+            logger.error(f"Failed to plot portfolio performance: {e}")
+            return None
+    
+    def _plot_risk_return_analysis(self, results: Dict[str, Any], crypto_symbol: str) -> Optional[Path]:
+        """Plot comprehensive risk-return analysis."""
+        try:
+            fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+            fig.suptitle(f'Risk-Return Analysis - {crypto_symbol.upper()}', fontsize=16, fontweight='bold')
+            
+            methods = ["full_agentic", "image_only", "sentiment_only"]
+            colors = ['#2E86C1', '#E74C3C', '#F39C12']
+            
+            # Calculate comprehensive risk metrics
+            method_metrics = {}
+            
+            for method in methods:
+                returns = []
+                winning_trades = []
+                losing_trades = []
+                
+                for date, predictions in results.get("daily_predictions", {}).items():
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            current_price = pred.get("historical_price", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                if predicted_direction == "UP":
+                                    pnl_pct = ((next_day_price - current_price) / current_price) * 100
+                                else:
+                                    pnl_pct = ((current_price - next_day_price) / current_price) * 100
+                                
+                                returns.append(pnl_pct)
+                                if pnl_pct > 0:
+                                    winning_trades.append(pnl_pct)
+                                else:
+                                    losing_trades.append(pnl_pct)
+                
+                if returns:
+                    avg_return = sum(returns) / len(returns)
+                    volatility = (sum((x - avg_return) ** 2 for x in returns) / len(returns)) ** 0.5
+                    sharpe = avg_return / volatility if volatility > 0 else 0
+                    win_rate = len(winning_trades) / len(returns)
+                    avg_win = sum(winning_trades) / len(winning_trades) if winning_trades else 0
+                    avg_loss = sum(losing_trades) / len(losing_trades) if losing_trades else 0
+                    profit_factor = abs(avg_win * len(winning_trades)) / abs(avg_loss * len(losing_trades)) if losing_trades and avg_loss != 0 else float('inf')
+                    
+                    method_metrics[method] = {
+                        'returns': returns,
+                        'avg_return': avg_return,
+                        'volatility': volatility,
+                        'sharpe': sharpe,
+                        'win_rate': win_rate,
+                        'avg_win': avg_win,
+                        'avg_loss': avg_loss,
+                        'profit_factor': profit_factor,
+                        'max_win': max(returns),
+                        'max_loss': min(returns)
+                    }
+            
+            # 1. Return Distribution Comparison
+            for i, method in enumerate(methods):
+                if method in method_metrics:
+                    returns = method_metrics[method]['returns']
+                    axes[0, 0].hist(returns, alpha=0.6, label=method.replace('_', ' ').title(), 
+                                  bins=20, color=colors[i])
+            
+            axes[0, 0].set_title('Return Distribution Comparison', fontweight='bold')
+            axes[0, 0].set_xlabel('Return (%)')
+            axes[0, 0].set_ylabel('Frequency')
+            axes[0, 0].legend()
+            axes[0, 0].axvline(x=0, color='black', linestyle='--', alpha=0.8)
+            axes[0, 0].grid(True, alpha=0.3)
+            
+            # 2. Risk Metrics Comparison
+            metrics_to_plot = ['volatility', 'sharpe', 'win_rate']
+            metric_names = ['Volatility', 'Sharpe Ratio', 'Win Rate']
+            
+            x = np.arange(len(methods))
+            width = 0.25
+            
+            for i, metric in enumerate(metrics_to_plot):
+                values = [method_metrics.get(method, {}).get(metric, 0) for method in methods]
+                axes[0, 1].bar(x + i*width, values, width, label=metric_names[i], alpha=0.8)
+            
+            axes[0, 1].set_title('Risk Metrics Comparison', fontweight='bold')
+            axes[0, 1].set_xlabel('Methods')
+            axes[0, 1].set_ylabel('Metric Value')
+            axes[0, 1].set_xticks(x + width)
+            axes[0, 1].set_xticklabels([m.replace('_', ' ').title() for m in methods])
+            axes[0, 1].legend()
+            axes[0, 1].grid(True, alpha=0.3)
+            
+            # 3. Profit Factor Analysis
+            profit_factors = []
+            method_names_clean = []
+            
+            for method in methods:
+                if method in method_metrics:
+                    pf = method_metrics[method]['profit_factor']
+                    if pf != float('inf'):
+                        profit_factors.append(pf)
+                        method_names_clean.append(method.replace('_', ' ').title())
+            
+            if profit_factors:
+                bars = axes[1, 0].bar(method_names_clean, profit_factors, alpha=0.8, color=colors[:len(profit_factors)])
+                axes[1, 0].set_title('Profit Factor by Method', fontweight='bold')
+                axes[1, 0].set_ylabel('Profit Factor')
+                axes[1, 0].axhline(y=1, color='red', linestyle='--', alpha=0.8, label='Break-even')
+                axes[1, 0].legend()
+                
+                for bar, pf in zip(bars, profit_factors):
+                    axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05,
+                                   f'{pf:.2f}', ha='center', va='bottom', fontweight='bold')
+            
+            # 4. Risk-Adjusted Performance Radar
+            categories = ['Avg Return', 'Win Rate', 'Sharpe Ratio', 'Profit Factor']
+            
+            # Normalize metrics for radar chart
+            for method_idx, method in enumerate(methods):
+                if method in method_metrics:
+                    metrics = method_metrics[method]
+                    
+                    # Normalize values (0-1 scale)
+                    normalized_values = [
+                        max(0, min(1, (metrics['avg_return'] + 10) / 20)),  # Assuming -10% to +10% range
+                        metrics['win_rate'],
+                        max(0, min(1, (metrics['sharpe'] + 2) / 4)),  # Assuming -2 to +2 range
+                        max(0, min(1, metrics['profit_factor'] / 5)) if metrics['profit_factor'] != float('inf') else 1
+                    ]
+                    
+                    angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
+                    angles += angles[:1]  # Complete the circle
+                    normalized_values += normalized_values[:1]  # Complete the circle
+                    
+                    axes[1, 1].plot(angles, normalized_values, 'o-', linewidth=2, 
+                                  label=method.replace('_', ' ').title(), color=colors[method_idx])
+                    axes[1, 1].fill(angles, normalized_values, alpha=0.25, color=colors[method_idx])
+            
+            axes[1, 1].set_xticks(angles[:-1])
+            axes[1, 1].set_xticklabels(categories)
+            axes[1, 1].set_ylim(0, 1)
+            axes[1, 1].set_title('Risk-Adjusted Performance Profile', fontweight='bold')
+            axes[1, 1].legend(loc='upper right', bbox_to_anchor=(1.3, 1.0))
+            axes[1, 1].grid(True)
+            
+            plt.tight_layout()
+            
+            chart_path = self.charts_dir / f"{crypto_symbol}_risk_return_analysis.png"
+            plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            return chart_path
+            
+        except Exception as e:
+            logger.error(f"Failed to plot risk-return analysis: {e}")
+            return None
+    
+    def _plot_stop_loss_take_profit_analysis(self, results: Dict[str, Any], crypto_symbol: str) -> Optional[Path]:
+        """Plot stop loss and take profit analysis."""
+        try:
+            fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+            fig.suptitle(f'Stop Loss / Take Profit Analysis - {crypto_symbol.upper()}', fontsize=16, fontweight='bold')
+            
+            methods = ["full_agentic", "image_only", "sentiment_only"]
+            colors = ['#2E86C1', '#E74C3C', '#F39C12']
+            
+            # Analyze stop loss and take profit effectiveness
+            method_sl_tp_data = {}
+            
+            for method in methods:
+                sl_hits = 0
+                tp_hits = 0
+                total_trades = 0
+                sl_prevented_losses = []
+                tp_secured_profits = []
+                
+                for date, predictions in results.get("daily_predictions", {}).items():
+                    if method in predictions and predictions[method].get("success"):
+                        pred = predictions[method]
+                        if all(key in pred for key in ["target_price", "take_profit", "stop_loss"]):
+                            current_price = pred.get("historical_price", 0)
+                            next_day_price = pred.get("next_day_price")
+                            
+                            if next_day_price and current_price > 0:
+                                total_trades += 1
+                                predicted_direction = pred.get("predicted_direction", "DOWN")
+                                take_profit = pred.get("take_profit", current_price)
+                                stop_loss = pred.get("stop_loss", current_price)
+                                
+                                if predicted_direction == "UP":
+                                    # Long position
+                                    if next_day_price <= stop_loss:
+                                        sl_hits += 1
+                                        loss_prevented = ((current_price - next_day_price) / current_price) * 100
+                                        sl_prevented_losses.append(loss_prevented)
+                                    elif next_day_price >= take_profit:
+                                        tp_hits += 1
+                                        profit_secured = ((take_profit - current_price) / current_price) * 100
+                                        tp_secured_profits.append(profit_secured)
+                                else:
+                                    # Short position
+                                    if next_day_price >= stop_loss:
+                                        sl_hits += 1
+                                        loss_prevented = ((next_day_price - current_price) / current_price) * 100
+                                        sl_prevented_losses.append(loss_prevented)
+                                    elif next_day_price <= take_profit:
+                                        tp_hits += 1
+                                        profit_secured = ((current_price - take_profit) / current_price) * 100
+                                        tp_secured_profits.append(profit_secured)
+                
+                method_sl_tp_data[method] = {
+                    'sl_hits': sl_hits,
+                    'tp_hits': tp_hits,
+                    'total_trades': total_trades,
+                    'sl_rate': sl_hits / total_trades if total_trades > 0 else 0,
+                    'tp_rate': tp_hits / total_trades if total_trades > 0 else 0,
+                    'sl_prevented_losses': sl_prevented_losses,
+                    'tp_secured_profits': tp_secured_profits
+                }
+            
+            # 1. Stop Loss Hit Rates
+            sl_rates = [method_sl_tp_data.get(method, {}).get('sl_rate', 0) for method in methods]
+            method_names = [method.replace('_', ' ').title() for method in methods]
+            
+            bars = axes[0, 0].bar(method_names, sl_rates, alpha=0.8, color=colors)
+            axes[0, 0].set_title('Stop Loss Hit Rate', fontweight='bold')
+            axes[0, 0].set_ylabel('Stop Loss Hit Rate')
+            axes[0, 0].set_ylim(0, 1)
+            
+            for bar, rate in zip(bars, sl_rates):
+                axes[0, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                               f'{rate:.2%}', ha='center', va='bottom', fontweight='bold')
+            
+            # 2. Take Profit Hit Rates
+            tp_rates = [method_sl_tp_data.get(method, {}).get('tp_rate', 0) for method in methods]
+            
+            bars = axes[0, 1].bar(method_names, tp_rates, alpha=0.8, color=colors)
+            axes[0, 1].set_title('Take Profit Hit Rate', fontweight='bold')
+            axes[0, 1].set_ylabel('Take Profit Hit Rate')
+            axes[0, 1].set_ylim(0, 1)
+            
+            for bar, rate in zip(bars, tp_rates):
+                axes[0, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                               f'{rate:.2%}', ha='center', va='bottom', fontweight='bold')
+            
+            # 3. SL vs TP Effectiveness Comparison
+            x = np.arange(len(methods))
+            width = 0.35
+            
+            axes[0, 2].bar(x - width/2, sl_rates, width, label='Stop Loss Hit Rate', alpha=0.8, color='red')
+            axes[0, 2].bar(x + width/2, tp_rates, width, label='Take Profit Hit Rate', alpha=0.8, color='green')
+            
+            axes[0, 2].set_title('SL vs TP Hit Rates Comparison', fontweight='bold')
+            axes[0, 2].set_ylabel('Hit Rate')
+            axes[0, 2].set_xticks(x)
+            axes[0, 2].set_xticklabels(method_names)
+            axes[0, 2].legend()
+            axes[0, 2].set_ylim(0, 1)
+            
+            # 4. Average Loss Prevented by Stop Loss
+            avg_losses_prevented = []
+            for method in methods:
+                losses = method_sl_tp_data.get(method, {}).get('sl_prevented_losses', [])
+                avg_loss = sum(losses) / len(losses) if losses else 0
+                avg_losses_prevented.append(avg_loss)
+            
+            bars = axes[1, 0].bar(method_names, avg_losses_prevented, alpha=0.8, color='red')
+            axes[1, 0].set_title('Average Loss Prevented by SL', fontweight='bold')
+            axes[1, 0].set_ylabel('Average Loss Prevented (%)')
+            
+            for bar, loss in zip(bars, avg_losses_prevented):
+                if loss > 0:
+                    axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1,
+                                   f'{loss:.2f}%', ha='center', va='bottom', fontweight='bold')
+            
+            # 5. Average Profit Secured by Take Profit
+            avg_profits_secured = []
+            for method in methods:
+                profits = method_sl_tp_data.get(method, {}).get('tp_secured_profits', [])
+                avg_profit = sum(profits) / len(profits) if profits else 0
+                avg_profits_secured.append(avg_profit)
+            
+            bars = axes[1, 1].bar(method_names, avg_profits_secured, alpha=0.8, color='green')
+            axes[1, 1].set_title('Average Profit Secured by TP', fontweight='bold')
+            axes[1, 1].set_ylabel('Average Profit Secured (%)')
+            
+            for bar, profit in zip(bars, avg_profits_secured):
+                if profit > 0:
+                    axes[1, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1,
+                                   f'{profit:.2f}%', ha='center', va='bottom', fontweight='bold')
+            
+            # 6. Risk Management Effectiveness Score
+            # Combine SL and TP effectiveness with weights
+            risk_mgmt_scores = []
+            for i, method in enumerate(methods):
+                sl_rate = sl_rates[i]
+                tp_rate = tp_rates[i]
+                avg_loss_prevented = avg_losses_prevented[i]
+                avg_profit_secured = avg_profits_secured[i]
+                
+                # Calculate a composite risk management score
+                # Higher SL rate is generally bad (more losses), higher TP rate is good
+                # But prevented losses and secured profits are good
+                score = (tp_rate * 40) + (avg_profit_secured * 2) + (avg_loss_prevented * 1.5) - (sl_rate * 20)
+                risk_mgmt_scores.append(max(0, score))  # Ensure non-negative
+            
+            bars = axes[1, 2].bar(method_names, risk_mgmt_scores, alpha=0.8, color=colors)
+            axes[1, 2].set_title('Risk Management Effectiveness Score', fontweight='bold')
+            axes[1, 2].set_ylabel('Effectiveness Score')
+            
+            for bar, score in zip(bars, risk_mgmt_scores):
+                axes[1, 2].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
+                               f'{score:.1f}', ha='center', va='bottom', fontweight='bold')
+            
+            plt.tight_layout()
+            
+            chart_path = self.charts_dir / f"{crypto_symbol}_stop_loss_take_profit_analysis.png"
+            plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+            plt.close()
+            
+            return chart_path
+            
+        except Exception as e:
+            logger.error(f"Failed to plot stop loss take profit analysis: {e}")
+            return None
+    
     def generate_thesis_report(self, results: Dict[str, Any], crypto_symbol: str) -> Path:
         """Generate comprehensive thesis report."""
         try:
@@ -616,16 +1304,17 @@ class ThesisAnalyzer:
             return None
     
     def _generate_markdown_report(self, analysis: Dict[str, Any], chart_paths: List[Path], crypto_symbol: str) -> str:
-        """Generate markdown thesis report."""
-        report = f"""# Thesis Analysis Report: {crypto_symbol.upper()}
+        """Generate comprehensive markdown thesis report with trading performance metrics."""
+        report = f"""# Comprehensive Thesis Analysis Report: {crypto_symbol.upper()}
 
-## Multi-Agent vs One-Shot LLM Prediction Comparison
+## Multi-Agent vs One-Shot LLM Prediction Comparison with Trading Performance Analysis
 
 **Generated on:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Executive Summary
 
-This report compares the performance of three cryptocurrency price prediction approaches:
+This report compares the performance of three cryptocurrency price prediction approaches with comprehensive trading performance analysis:
+
 1. **Full Agentic**: Multi-agent system using technical analysis, sentiment analysis, and data fusion
 2. **Image Only**: One-shot LLM analysis of technical charts only  
 3. **Sentiment Only**: One-shot LLM analysis of social sentiment only
@@ -636,22 +1325,48 @@ This report compares the performance of three cryptocurrency price prediction ap
 - **Overall Accuracy:** {analysis.get('overall_stats', {}).get('overall_accuracy', 0):.3f}
 - **Date Range:** {analysis.get('overall_stats', {}).get('date_range', {}).get('start', 'N/A')} to {analysis.get('overall_stats', {}).get('date_range', {}).get('end', 'N/A')}
 
-## Method Comparison
+## Method Comparison Analysis
 
 """
         
-        # Add method comparison details
+        # Add detailed method comparison with trading metrics
         method_comp = analysis.get('method_comparison', {})
         for method, stats in method_comp.items():
             if method != 'comparison_summary' and isinstance(stats, dict):
                 report += f"""### {method.replace('_', ' ').title()}
 
+**Basic Performance:**
 - **Success Rate:** {stats.get('success_rate', 0):.3f}
 - **Accuracy:** {stats.get('accuracy', 0):.3f}
 - **Total Attempts:** {stats.get('total_attempts', 0)}
 - **Successful Predictions:** {stats.get('successful_predictions', 0)}
 
+**Trading Performance:**"""
+                
+                # Add trading performance if available
+                trading_perf = stats.get('trading_performance', {})
+                if trading_perf and not trading_perf.get('no_trading_data'):
+                    report += f"""
+- **Portfolio Return:** {stats.get('portfolio_return', 0):.2f}%
+- **Win Rate:** {trading_perf.get('win_rate', 0):.2%}
+- **Total Trades:** {trading_perf.get('total_trades', 0)}
+- **Average Return per Trade:** {trading_perf.get('avg_return_per_trade', 0):.2f}%
+- **Best Trade:** {trading_perf.get('best_trade_pct', 0):.2f}%
+- **Worst Trade:** {trading_perf.get('worst_trade_pct', 0):.2f}%
+- **Sharpe Ratio:** {trading_perf.get('sharpe_ratio', 0):.3f}
+- **Maximum Drawdown:** {trading_perf.get('max_drawdown_pct', 0):.2f}%
+- **Profit Factor:** {trading_perf.get('profit_factor', 0):.2f}
+
+**Risk Management:**
+- **Stop Loss Hit Rate:** {trading_perf.get('stop_loss_hit_rate', 0):.2%}
+- **Take Profit Hit Rate:** {trading_perf.get('take_profit_hit_rate', 0):.2%}
+- **Target Hit Rate:** {trading_perf.get('target_hit_rate', 0):.2%}
+- **High Confidence Win Rate:** {trading_perf.get('high_confidence_win_rate', 0):.2%}
 """
+                else:
+                    report += "\n- **No trading data available for this method**\n"
+
+                report += "\n"
 
         # Add statistical significance
         if 'statistical_tests' in analysis:
@@ -661,36 +1376,141 @@ This report compares the performance of three cryptocurrency price prediction ap
                     significance = "**Significant**" if test_result['p_value'] < 0.05 else "Not Significant"
                     report += f"- **{test_name}:** p-value = {test_result['p_value']:.4f} ({significance})\n"
 
-        # Add charts
-        report += "\n## Visualizations\n\n"
+        # Add trading performance summary
+        report += """
+## Trading Performance Summary
+
+### Portfolio Performance Comparison
+
+The trading performance analysis simulates actual trading based on the predictions with the following assumptions:
+- **Starting Capital:** $10,000
+- **Position Sizing:** Variable (Small: 25%, Medium: 50%, Large: 100% of capital)
+- **Risk Management:** Stop loss and take profit levels as predicted by each method
+- **Transaction Costs:** Not included (would reduce actual returns)
+
+### Key Trading Metrics Explained
+
+- **Win Rate:** Percentage of profitable trades
+- **Profit Factor:** Ratio of gross profit to gross loss (>1.0 indicates profitability)
+- **Sharpe Ratio:** Risk-adjusted return measure (higher is better)
+- **Maximum Drawdown:** Largest peak-to-trough decline in portfolio value
+- **Stop Loss Hit Rate:** How often stop losses were triggered (lower generally better)
+- **Take Profit Hit Rate:** How often take profit targets were reached (higher generally better)
+
+"""
+
+        # Add charts section
+        report += "\n## Comprehensive Visualizations\n\n"
+        
+        chart_categories = {
+            "accuracy_comparison": "Accuracy Comparison Analysis",
+            "confidence_accuracy": "Confidence vs Accuracy Analysis", 
+            "temporal_analysis": "Temporal Performance Patterns",
+            "confusion_matrices": "Prediction Confusion Matrices",
+            "performance_distribution": "Performance Distribution Analysis",
+            "trading_performance": "Trading Performance Metrics",
+            "portfolio_performance": "Portfolio Performance Over Time",
+            "risk_return_analysis": "Risk-Return Analysis",
+            "stop_loss_take_profit_analysis": "Stop Loss / Take Profit Analysis"
+        }
+        
         for chart_path in chart_paths:
             if chart_path and chart_path.exists():
-                chart_name = chart_path.stem.replace(f"{crypto_symbol}_", "").replace("_", " ").title()
-                report += f"### {chart_name}\n\n![{chart_name}]({chart_path.name})\n\n"
+                chart_filename = chart_path.name
+                # Try to categorize the chart
+                chart_category = "Analysis Chart"
+                for key, category in chart_categories.items():
+                    if key in chart_filename:
+                        chart_category = category
+                        break
+                
+                report += f"### {chart_category}\n\n![{chart_category}]({chart_filename})\n\n"
 
-        # Add conclusions
-        report += """## Conclusions
+        # Add comprehensive conclusions
+        report += """## Comprehensive Analysis & Conclusions
 
 ### Key Findings
 
-1. **Method Performance**: [Add analysis of which method performed best]
-2. **Confidence Correlation**: [Add analysis of confidence vs accuracy]
-3. **Temporal Patterns**: [Add analysis of performance over time]
+#### Prediction Accuracy
+1. **Method Performance Ranking:** [Analyze which method had highest accuracy]
+2. **Confidence Correlation:** [Analyze relationship between confidence levels and accuracy]
+3. **Temporal Stability:** [Analyze performance consistency over time]
 
-### Implications for Thesis
+#### Trading Performance
+1. **Profitability Ranking:** [Analyze which method generated highest returns]
+2. **Risk-Adjusted Performance:** [Compare Sharpe ratios and drawdowns]
+3. **Risk Management Effectiveness:** [Analyze stop loss and take profit performance]
 
-This analysis provides evidence for [add conclusions about multi-agent vs one-shot approaches]
+#### Multi-Agent vs One-Shot Comparison
+1. **Complexity vs Performance:** [Compare complex multi-agent vs simple one-shot approaches]
+2. **Resource Efficiency:** [Consider computational cost vs performance gains]
+3. **Practical Implementation:** [Assess real-world viability of each approach]
 
-### Future Research
+### Trading Insights
 
-1. Extended time periods
-2. Additional cryptocurrencies  
-3. Market condition analysis
-4. Cost-benefit analysis
+#### Position Sizing Impact
+- **Small Positions (25%):** Lower risk but also lower returns
+- **Medium Positions (50%):** Balanced risk-return profile
+- **Large Positions (100%):** Higher returns but increased volatility
+
+#### Risk Management Analysis
+- **Stop Loss Effectiveness:** [Analyze how well stop losses protected capital]
+- **Take Profit Optimization:** [Assess target achievement rates]
+- **Confidence-Based Sizing:** [Evaluate if confidence levels correlated with performance]
+
+### Implications for Cryptocurrency Trading
+
+#### Practical Applications
+1. **Signal Generation:** [Assess viability for automated trading signals]
+2. **Risk Management:** [Evaluate stop loss and take profit strategies]
+3. **Portfolio Integration:** [Consider how to incorporate predictions into broader strategy]
+
+#### Limitations and Considerations
+1. **Market Conditions:** [Analyze performance across different market regimes]
+2. **Slippage and Costs:** [Consider real-world trading friction]
+3. **Scalability:** [Assess performance with different position sizes]
+
+### Future Research Directions
+
+#### Methodology Improvements
+1. **Extended Time Periods:** Longer backtesting periods for more robust statistics
+2. **Multiple Asset Classes:** Test across different cryptocurrencies and market caps
+3. **Market Regime Analysis:** Performance during bull/bear markets and high/low volatility
+4. **Transaction Cost Integration:** Include realistic trading costs and slippage
+
+#### Advanced Analytics
+1. **Machine Learning Enhancement:** Incorporate ML for prediction post-processing
+2. **Dynamic Position Sizing:** Adaptive position sizing based on market conditions
+3. **Multi-Timeframe Analysis:** Incorporate multiple prediction horizons
+4. **Ensemble Methods:** Combine multiple prediction approaches
+
+#### Risk Management Optimization
+1. **Dynamic Stop Loss/Take Profit:** Adaptive risk management levels
+2. **Correlation Analysis:** Account for correlation with other assets
+3. **Volatility Adjustment:** Risk management based on current market volatility
+4. **Drawdown Protection:** Enhanced capital preservation strategies
+
+### Final Recommendations
+
+#### For Academic Research
+- Focus on statistical significance testing with larger sample sizes
+- Incorporate economic significance alongside statistical significance
+- Consider regime-dependent analysis
+- Validate findings across multiple cryptocurrencies
+
+#### For Practical Implementation
+- Start with paper trading to validate real-world performance
+- Implement conservative position sizing initially
+- Monitor performance across different market conditions
+- Consider hybrid approaches combining multiple methods
 
 ---
 
-*This report was generated automatically by the CryptoAgentForecaster thesis analysis system.*
+*This comprehensive analysis was generated automatically by the CryptoAgentForecaster thesis analysis system, incorporating both traditional accuracy metrics and practical trading performance evaluation.*
+
+## Disclaimer
+
+This analysis is for research and educational purposes only. Cryptocurrency trading involves substantial risk of loss. Past performance does not guarantee future results. Always conduct your own research and consider consulting with financial professionals before making investment decisions.
 """
         
         return report 

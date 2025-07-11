@@ -322,21 +322,14 @@ class CommandHandler:
                 end_dt = datetime(2024, 12, 25)
                 end_date = end_dt.strftime("%Y-%m-%d")
             
-            # Validate that the date range makes sense for real historical data
+            # Parse and validate date format
             start_dt = datetime.strptime(start_date, "%Y-%m-%d")
             end_dt = datetime.strptime(end_date, "%Y-%m-%d")
             
-            # Check if dates are too far in the past (before reliable CoinGecko data)
-            if start_dt.year < 2020:
-                start_dt = datetime(2024, 1, 1)
-                start_date = start_dt.strftime("%Y-%m-%d")
-                self.output.print(f"⚠️  Start date adjusted to {start_date} (ensuring reliable historical data)")
-            
-            # Check if dates are in the future or too recent (might not have next-day data)
-            if end_dt > datetime(2024, 12, 31):
-                end_dt = datetime(2024, 12, 25)
-                end_date = end_dt.strftime("%Y-%m-%d")
-                self.output.print(f"⚠️  End date adjusted to {end_date} (ensuring real historical data availability)")
+            # Basic sanity check - end date should be after start date
+            if end_dt <= start_dt:
+                self.output.display_error("End date must be after start date")
+                return False
             
             # Parse methods
             if methods.lower() == "all":

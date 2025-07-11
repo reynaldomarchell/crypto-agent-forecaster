@@ -35,28 +35,33 @@ class FusionPrompts:
     6. When signals are mixed or unclear, choose the direction supported by the most reliable signals
     
     === REQUIRED OUTPUT ===
-    Predict the price direction for {cryptocurrency} and provide:
+    Predict the price direction for {cryptocurrency} using this EXACT format:
     
-    1. **Directional Forecast**: UP or DOWN (choose one - no neutral allowed)
-    2. **Confidence Score**: Low, Medium, or High
-    3. **Reasoning**: Step-by-step explanation of how you weighed the evidence
-    4. **Key Factors**: Most influential factors in your decision
-    5. **Risk Assessment**: Potential risks to your forecast
-    6. **Numerical Confidence**: 0.0 to 1.0 score
-    
-    Respond in the following JSON format:
-    {{
-        "forecast": "UP/DOWN",
-        "confidence": "Low/Medium/High", 
-        "confidence_score": 0.0,
-        "reasoning": "Detailed step-by-step reasoning",
-        "key_factors": ["factor1", "factor2", "factor3"],
-        "technical_weight": 0.0,
-        "sentiment_weight": 0.0,
-        "risk_factors": ["risk1", "risk2"],
-        "time_horizon": "{time_horizon}",
-        "summary": "Brief forecast summary"
-    }}
+    **Direction**: [UP or DOWN]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: {time_horizon}
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    [Provide detailed step-by-step reasoning of how you weighed the evidence, including:
+    - Technical analysis weight and reasoning: {technical_weight}%
+    - Sentiment analysis weight and reasoning: {sentiment_weight}%
+    - Key factors that influenced your decision
+    - Risk assessment and mitigation strategies]
     """
     
     FS_REASONING_ADAPTED_PROMPT = """
@@ -98,21 +103,34 @@ class FusionPrompts:
     Make a binary decision: UP or DOWN for {cryptocurrency} over {time_horizon}.
     When signals are mixed, choose the direction supported by the most reliable data.
     
-    Respond in JSON format:
-    {{
-        "factual_analysis": "objective technical trend assessment",
-        "news_sentiment_analysis": "curated news mood assessment", 
-        "forum_sentiment_analysis": "4chan/biz sentiment with manipulation notes",
-        "weight_allocation": {{
-            "technical": 0.0,
-            "news": 0.0, 
-            "forum": 0.0
-        }},
-        "synthesis": "how the three streams were combined",
-        "forecast": "UP/DOWN",
-        "confidence": "Low/Medium/High",
-        "reasoning": "final reasoning for the forecast"
-    }}
+    Respond using this EXACT format:
+    
+    **Direction**: [UP or DOWN]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: {time_horizon}
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    Factual Analysis: [objective technical trend assessment]
+    News Sentiment: [curated news mood assessment]
+    Forum Sentiment: [4chan/biz sentiment with manipulation notes]
+    Weight Allocation: Technical {technical_weight}%, News {news_weight}%, Forum {forum_weight}%
+    Synthesis: [how the three streams were combined]
+    Final Reasoning: [final reasoning for the forecast]
     """
     
     CHAIN_OF_THOUGHT_FUSION = """
@@ -160,17 +178,33 @@ class FusionPrompts:
     - When signals are mixed, lean toward the more reliable source
     
     **Final Output:**
-    Based on this analysis, provide your forecast in JSON format:
-    {{
-        "step1_technical": "technical analysis interpretation",
-        "step2_sentiment": "sentiment analysis interpretation", 
-        "step3_comparison": "comparison of signals",
-        "step4_context": "market context considerations",
-        "step5_integration": "final integration reasoning",
-        "forecast": "UP/DOWN",
-        "confidence": "Low/Medium/High",
-        "primary_reasoning": "main factors driving the forecast"
-    }}
+    Based on this analysis, provide your forecast using this EXACT format:
+    
+    **Direction**: [UP or DOWN]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: [forecast horizon]
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    Step 1 - Technical: [technical analysis interpretation]
+    Step 2 - Sentiment: [sentiment analysis interpretation]
+    Step 3 - Comparison: [comparison of signals]
+    Step 4 - Context: [market context considerations]
+    Step 5 - Integration: [final integration reasoning and main factors driving the forecast]
     """
     
     CONFLICTING_SIGNALS_RESOLVER = """
@@ -201,18 +235,34 @@ class FusionPrompts:
     over {time_horizon}. You must choose either UP or DOWN - no neutral allowed.
     When truly uncertain, lean toward the more reliable signal source.
     
-    Provide your analysis in JSON format:
-    {{
-        "conflict_summary": "description of the conflicting signals",
-        "technical_strength": "assessment of technical signal strength",
-        "sentiment_strength": "assessment of sentiment signal strength",
-        "resolution_logic": "how you resolved the conflict",
-        "dominant_factor": "which signal type dominated and why",
-        "forecast": "UP/DOWN",
-        "confidence": "Low/Medium/High",
-        "rationale": "detailed rationale for the final decision",
-        "risks": ["key risks to this forecast"]
-    }}
+    Provide your analysis using this EXACT format:
+    
+    **Direction**: [UP or DOWN]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: [forecast horizon]
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    Conflict Summary: [description of the conflicting signals]
+    Technical Strength: [assessment of technical signal strength]
+    Sentiment Strength: [assessment of sentiment signal strength]
+    Resolution Logic: [how you resolved the conflict]
+    Dominant Factor: [which signal type dominated and why]
+    Detailed Rationale: [detailed rationale for the final decision]
     """
     
     CONFIDENCE_CALIBRATOR = """
@@ -255,16 +305,32 @@ class FusionPrompts:
     Assess the confidence level for this {forecast_direction} prediction 
     and provide detailed calibration reasoning.
     
-    Respond in JSON format:
-    {{
-        "confidence_level": "Low/Medium/High",
-        "confidence_score": 0.0,
-        "supporting_factors": ["factor1", "factor2"],
-        "risk_factors": ["risk1", "risk2"],
-        "signal_agreement_score": 0.0,
-        "calibration_reasoning": "detailed explanation",
-        "forecast_reliability": "assessment of prediction reliability"
-    }}
+    Respond using this EXACT format:
+    
+    **Direction**: [{forecast_direction}]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: {time_horizon}
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    Confidence Assessment: [detailed explanation of confidence calibration]
+    Supporting Factors: [factors supporting this confidence level]
+    Signal Agreement: [assessment of how well signals agree]
+    Forecast Reliability: [assessment of prediction reliability]
     """
     
     MULTI_TIMEFRAME_FUSION = """
@@ -287,21 +353,34 @@ class FusionPrompts:
     3. Resolve any timeframe conflicts
     4. Make final UP/DOWN decision (no neutral allowed)
     
-    Respond in JSON format:
-    {{
-        "timeframe_alignment": "Strong/Moderate/Weak",
-        "dominant_timeframe": "short/medium/long",
-        "trend_consistency": "description of trend alignment",
-        "conflict_resolution": "how timeframe conflicts were resolved",
-        "forecast": "UP/DOWN",
-        "confidence": "Low/Medium/High",
-        "timeframe_weights": {{
-            "short_term": 0.0,
-            "medium_term": 0.0,
-            "long_term": 0.0
-        }},
-        "reasoning": "multi-timeframe analysis reasoning"
-    }}
+    Respond using this EXACT format:
+    
+    **Direction**: [UP or DOWN]
+    **Confidence**: [High, Medium, or Low]
+    **Primary Target**: $[price level]
+    **Secondary Target**: $[price level] (if applicable)
+    **Stop Loss**: $[price level]
+    **Take Profit 1**: $[price level]
+    **Take Profit 2**: $[price level] (if applicable)
+    **Risk-Reward Ratio**: [ratio like 1:2 or 1:3]
+    **Position Size**: [Small, Medium, Large, or percentage like 5%]
+    **Time Horizon**: [forecast horizon]
+    **Key Catalysts**: 
+    - [catalyst 1]
+    - [catalyst 2]
+    - [catalyst 3]
+    **Risk Factors**:
+    - [risk factor 1]
+    - [risk factor 2] 
+    - [risk factor 3]
+
+    **Analysis Summary:**
+    Timeframe Alignment: [Strong/Moderate/Weak trend alignment]
+    Dominant Timeframe: [short/medium/long term driving the forecast]
+    Trend Consistency: [description of trend alignment across timeframes]
+    Conflict Resolution: [how timeframe conflicts were resolved]
+    Timeframe Weights: Short {short_weight}%, Medium {medium_weight}%, Long {long_weight}%
+    Multi-Timeframe Reasoning: [comprehensive multi-timeframe analysis reasoning]
     """
 
 def get_fusion_prompts():

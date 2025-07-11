@@ -13,7 +13,7 @@ from ..config import Config
 
 
 @tool("fourchan_biz_tool")
-def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20) -> str:
+def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: Optional[str] = None) -> str:
     """
     Fetches cryptocurrency discussions from 4chan's /biz/ board.
     
@@ -21,6 +21,7 @@ def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_t
         keywords: Keywords to search for in thread titles and posts
         max_threads: Maximum number of threads to fetch (default: 5)
         max_posts_per_thread: Maximum posts per thread (default: 20)
+        historical_date: Optional date for backtesting mode (returns empty for historical dates)
     
     Returns:
         JSON string containing filtered posts and metadata
@@ -98,6 +99,23 @@ def fourchan_biz_tool(keywords: List[str], max_threads: int = 5, max_posts_per_t
         return thread_data['posts'], last_request_time
     
     # Main execution
+    # Handle historical backtesting mode
+    if historical_date:
+        from datetime import datetime
+        print(f"Historical mode: 4chan has no historical data for {historical_date}")
+        return json.dumps({
+            "total_posts": 0,
+            "threads_processed": 0,
+            "keywords": keywords,
+            "posts": [],
+            "metadata": {
+                "historical_mode": True,
+                "historical_date": historical_date,
+                "note": "4chan /biz/ board only provides live data, no historical archives available",
+                "collection_timestamp": time.time()
+            }
+        })
+    
     print(f"Fetching 4chan /biz/ data for keywords: {keywords}")
     
     last_request_time = 0.0
@@ -194,9 +212,9 @@ class FourChanBizTool:
         Input should include keywords related to cryptocurrencies.
         """
     
-    def _run(self, keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20) -> str:
+    def _run(self, keywords: List[str], max_threads: int = 5, max_posts_per_thread: int = 20, historical_date: Optional[str] = None) -> str:
         """Legacy interface for the tool."""
-        return fourchan_biz_tool.func(keywords, max_threads, max_posts_per_thread)
+        return fourchan_biz_tool.func(keywords, max_threads, max_posts_per_thread, historical_date)
 
 
 def create_fourchan_tool():
